@@ -5,6 +5,16 @@ public class Customer {
 	private String id;
 	private String cstmName;
 	private String cstmAdd;
+	private String cstmEmail;
+	private String cstmBirth;
+	private String cstmGender;
+	private String cstmRank;
+	private int cstmPoint;
+	private String cstmLastLogin;
+	private String cstmAgree;
+	private String createdate;
+	private String updatedate;
+	
 	public int getCstmNo() {
 		return cstmNo;
 	}
@@ -83,13 +93,4 @@ public class Customer {
 	public void setUpdatedate(String updatedate) {
 		this.updatedate = updatedate;
 	}
-	private String cstmEmail;
-	private String cstmBirth;
-	private String cstmGender;
-	private String cstmRank;
-	private int cstmPoint;
-	private String cstmLastLogin;
-	private String cstmAgree;
-	private String createdate;
-	private String updatedate;
 }
