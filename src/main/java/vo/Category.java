@@ -2,21 +2,26 @@ package vo;
 
 public class Category {
 	private int categoryNo;
-	private String categoryName;
+	private String categoryMainName;
+	private String categorySubName;
 	private String createdate;
-	private String updatedate;
-	
 	public int getCategoryNo() {
 		return categoryNo;
 	}
 	public void setCategoryNo(int categoryNo) {
 		this.categoryNo = categoryNo;
 	}
-	public String getCategoryName() {
-		return categoryName;
+	public String getCategoryMainName() {
+		return categoryMainName;
 	}
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
+	public void setCategoryMainName(String categoryMainName) {
+		this.categoryMainName = categoryMainName;
+	}
+	public String getCategorySubName() {
+		return categorySubName;
+	}
+	public void setCategorySubName(String categorySubName) {
+		this.categorySubName = categorySubName;
 	}
 	public String getCreatedate() {
 		return createdate;
@@ -30,5 +35,5 @@ public class Category {
 	public void setUpdatedate(String updatedate) {
 		this.updatedate = updatedate;
 	}
-	
+	private String updatedate;
 }

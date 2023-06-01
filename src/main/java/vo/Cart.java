@@ -4,7 +4,7 @@ public class Cart {
 	private int cartNo;
 	private int productNo;
 	private String id;
-	private String cartCnt;
+	private int cartCnt;
 	private String createdate;
 	private String updatedate;
 	
@@ -26,10 +26,10 @@ public class Cart {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getCartCnt() {
+	public int getCartCnt() {
 		return cartCnt;
 	}
-	public void setCartCnt(String cartCnt) {
+	public void setCartCnt(int cartCnt) {
 		this.cartCnt = cartCnt;
 	}
 	public String getCreatedate() {
