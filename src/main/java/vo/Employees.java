@@ -3,6 +3,7 @@ package vo;
 public class Employees {
 	private int empNo;
 	private String id;
+	private String pw;
 	private String empName;
 	private String empLevel;
 	public int getEmpNo() {
@@ -16,6 +17,12 @@ public class Employees {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getPw() {
+		return pw;
+	}
+	public void setPw(String pw) {
+		this.pw = pw;
 	}
 	public String getEmpName() {
 		return empName;
