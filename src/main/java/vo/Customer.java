@@ -3,6 +3,7 @@ package vo;
 public class Customer {
 	private int cstmNo;
 	private String id;
+	private String pw;
 	private String cstmName;
 	private String cstmAdd;
 	private String cstmEmail;
@@ -26,6 +27,12 @@ public class Customer {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getPw() {
+		return pw;
+	}
+	public void setPw(String pw) {
+		this.pw = pw;
 	}
 	public String getCstmName() {
 		return cstmName;

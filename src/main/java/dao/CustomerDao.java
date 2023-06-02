@@ -41,14 +41,14 @@ public class CustomerDao {
 	}
 	
 	// 자기 정보 수정
-	public int modifyMyPage(Customer customer) throws Exception {
+	public int modifyMyPage(String beforePw, Customer customer) throws Exception {
 		// 반환할 성공여부 변수 생성
 		int row = 0;
 		// DB 접속
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		// sql 전송 후 결과셋 반환받아 리스트에 저장
-		String sql = "UPDATE customer SET cstm_name = ?, cstm_add = ? , cstm_email = ? , cstm_birth = ? , cstm_gender = ? , updatedate = NOW()  WHERE customer_no = ?";
+		String sql = "UPDATE customer SET cstm_name = ?, cstm_add = ? , cstm_email = ? , cstm_birth = ? , cstm_gender = ? , updatedate = NOW()  WHERE cstm_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCstmName());
 		stmt.setString(2, customer.getCstmAdd());
@@ -58,6 +58,13 @@ public class CustomerDao {
 		stmt.setInt(6, customer.getCstmNo());
 		row = stmt.executeUpdate();
 		
+		IdDao idDao = new IdDao();
+		if(!beforePw.equals(customer.getPw())) { // 이전 비밀번호와 같지 않으면 비밀번호 변경
+			Id id = new Id();
+			id.setId(customer.getId());
+			id.setLastPw(customer.getPw());
+			idDao.modifyLastPw(id);
+		}
 		return row;
 	}
 	
@@ -68,23 +75,31 @@ public class CustomerDao {
 		// DB 접속
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		// sql 전송 후 결과셋 반환받아 리스트에 저장
-		String sql = "INSERT INTO customer(id, cstm_name, cstm_add, cstm_email, cstm_birth, cstm_gender, cstm_rank, cstm_point, cstm_last_login, cstm_agree, createdate, updatedate ) VALUES(?,?,?,?,?,?,'1',0,NOW(),?,NOW(),NOW())";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, customer.getId());
-		stmt.setString(2, customer.getCstmName());
-		stmt.setString(3, customer.getCstmAdd());
-		stmt.setString(4, customer.getCstmEmail());
-		stmt.setString(5, customer.getCstmBirth());
-		stmt.setString(6, customer.getCstmGender());
-		stmt.setString(7, customer.getCstmAgree());
-		row = stmt.executeUpdate();
+		// id 중복 검사 후 id_list에 추가
+		IdDao idDao = new IdDao();
+		Id id = new Id();
+		id.setId(customer.getId());
+		id.setLastPw(customer.getPw());
+		int check = idDao.addIdList(id); // 1 = id_list에 추가 성공
+		if(check == 1) {
+			// id_list에 추가 완료 후 customer에 추가
+			String sql = "INSERT INTO customer(id, cstm_name, cstm_add, cstm_email, cstm_birth, cstm_gender, cstm_rank, cstm_point, cstm_last_login, cstm_agree, createdate, updatedate ) VALUES(?,?,?,?,?,?,'1',0,NOW(),?,NOW(),NOW())";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, customer.getId());
+			stmt.setString(2, customer.getCstmName());
+			stmt.setString(3, customer.getCstmAdd());
+			stmt.setString(4, customer.getCstmEmail());
+			stmt.setString(5, customer.getCstmBirth());
+			stmt.setString(6, customer.getCstmGender());
+			stmt.setString(7, customer.getCstmAgree());
+			row = stmt.executeUpdate();
+		 }
 		
 		return row;
 	}	
 	
 	// 회원탈퇴
-	public int removeCustomer(int cstmNo) throws Exception {
+	public int removeCustomer(Customer customer) throws Exception {
 		// sql 실행시 영향받은 행의 수 
 		int row = 0;
 		// db 접속
@@ -93,8 +108,12 @@ public class CustomerDao {
 		// sql 전송 후 영향받은 행의 수 반환받아 저장
 		String sql ="DELETE FROM customer WHERE cstm_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, cstmNo);
+		stmt.setInt(1, customer.getCstmNo());
 		row = stmt.executeUpdate();
+		
+		// id_list에서 비활성상태로 변경
+		IdDao idDao = new IdDao(); 
+		idDao.modifyIdActive(customer.getId());
 		
 		return row;
 	}
@@ -121,13 +140,37 @@ public class CustomerDao {
 		if(rs2.next()) {
 			myPoint -= rs2.getInt(1);
 		}
-		
+
 		return myPoint;
 	}
+	
 	// rank 설정 (구매확정 이후에 총 주문금액 확인 후 rank설정)
+	public String modifyRank(String id) {
+		String rank = "";
+		
+		
+		return rank;
+	}
 	
 	// 로그인 시 cstm_last_login 갱신
-
-	
-
+	public int modifyLastLogin(String id) throws Exception {
+		// 반환할 변수 선언
+		int row = 0;
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		String sql = "UPDATE customer SET cstm_last_login = NOW(), updatedate = NOW()  WHERE id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
+		row = stmt.executeUpdate();
+		// 디버깅
+		if(row == 1 ) {
+			System.out.println("최근 로그인 일자 갱신 성공");
+		}else {
+			System.out.println("최근 로그인 일자 갱신 실패");
+		}
+		
+		return row;
+	}
 }
