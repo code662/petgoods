@@ -26,6 +26,7 @@ public class EmployeesDao {
 			 employees.setEmpLevel(rs.getString("empLevel"));
 			 employees.setUpdatedate(rs.getString("updatedate"));
 			 employees.setCreatedate(rs.getString("createdate"));
+			 list.add(employees);
 		 }
 		 return list;
 	} 
@@ -38,7 +39,7 @@ public class EmployeesDao {
 		 DBUtil dbUtil = new DBUtil();
 		 Connection conn = dbUtil.getConnection();
 		 //sql 전송 후 결과 셋 반환받아 리스트에 저장
-		 PreparedStatement stmt = conn.prepareStatement("SELECT emp_no empNo, id, emp_name empName, emp_level empLevel, updatedate, createdate FROM employees WHERE empNo=?");
+		 PreparedStatement stmt = conn.prepareStatement("SELECT emp_no empNo, id, emp_name empName, emp_level empLevel, updatedate, createdate FROM employees WHERE emp_no=?");
 		 stmt.setInt(1, empNo);
 		 ResultSet rs = stmt.executeQuery();
 		 if(rs.next()) {
