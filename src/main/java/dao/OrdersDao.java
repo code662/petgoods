@@ -96,7 +96,8 @@ public class OrdersDao {
 		stmt.setString(2, orders.getId());
 		stmt.setString(3, orders.getCreatedate());
 		row = stmt.executeUpdate();
-		 
+		
+		
 		return row;
 	}
 	 
@@ -136,8 +137,23 @@ public class OrdersDao {
 		return row;
 	 } 
 		
-	
-	// 주문번호 조회
+	// 주문코드 (createdate(연/월/일/시/분/초) + orderNo(4자리)) 조회
+	 public String selectOrdersCode(int orderNo) throws Exception {
+		// 반환할 String fullOrdersNo 생성
+		String ordersCode = "";
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		String sql = "SELECT CONCAT(YEAR(createdate), LPAD(MONTH(createdate), 2, '0'), LPAD(DAY(createdate), 2, '0'), LPAD(HOUR(createdate), 2, '0'), LPAD(MINUTE(createdate), 2, '0'), LPAD(SECOND(createdate), 2, '0'), LPAD(order_no, 4, '0')) fullOrdersNo FROM orders WHERE order_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, orderNo);
+
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()) {
+			ordersCode = rs.getString(1);
+		}
+		
+		return ordersCode;
+	}
 }
-	 
-	 
