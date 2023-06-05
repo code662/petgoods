@@ -145,11 +145,49 @@ public class CustomerDao {
 	}
 	
 	// rank 설정 (구매확정 이후에 총 주문금액 확인 후 rank설정)
-	public String modifyRank(String id) {
+	public int modifyRank(String id) throws Exception {
+		// 반환할 변수 선언
 		String rank = "";
+		int row = 0;
+		// 총 주문금액 조회한거 들고와서 rank 설정
+		OrdersDao ordersDao = new OrdersDao();
+		int totalOrdersPrice = ordersDao.selectTotalOrdersPrice(id);
+		if(totalOrdersPrice<100000) {
+			rank = "BRONZE";
+		}else if(totalOrdersPrice<200000) {
+			rank = "SILVER";
+		}else {
+			rank = "GOLD";
+		}
+		// db 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// 주문 상태 변경
+		String sql = "UPDATE SET cstm_rank = ?, updatedate = NOW() FROM customer WHERE id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, rank);
+		stmt.setString(2, id);
+		row = stmt.executeUpdate();
 		
-		
-		return rank;
+		return row;
+	}
+	
+	// rank 조회
+	public String selectMyRank(String id) throws Exception {
+		// 반환할 변수 선언
+		String myRank = "";
+		// db 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 영향받은 행의 수 반환받아 저장
+		String sql ="SELECT cstm_rank RANK FROM customer WHERE id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			myRank = rs.getString(1);
+		}
+
+		return myRank;
 	}
 	
 	// 로그인 시 cstm_last_login 갱신
