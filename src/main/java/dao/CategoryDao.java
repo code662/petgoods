@@ -20,7 +20,7 @@ public class CategoryDao {
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			Category category = new Category();
-			category.setCategoryNo(rs.getInt("addressNo"));
+			category.setCategoryNo(rs.getInt("categoryNo"));
 			category.setCategoryMainName(rs.getString("categoryMainName"));
 			category.setCategorySubName(rs.getString("categorySubName"));
 			category.setCreatedate(rs.getString("createdate"));
@@ -45,7 +45,7 @@ public class CategoryDao {
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			Category category = new Category();
-			category.setCategoryNo(rs.getInt("addressNo"));
+			category.setCategoryNo(rs.getInt("categoryNo"));
 			category.setCategoryMainName(rs.getString("categoryMainName"));
 			category.setCategorySubName(rs.getString("categorySubName"));
 			category.setCreatedate(rs.getString("createdate"));
