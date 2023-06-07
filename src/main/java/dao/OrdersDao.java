@@ -8,7 +8,7 @@ import vo.*;
 public class OrdersDao {
 	// 전체 고객 주문 조회 (관리자 화면에서 조회)
 	public ArrayList<Orders> selectTotalOrders(int beginRow, int rowPerPage) throws Exception {
-		// 반환할 ArrayList<Order> 생성
+		// 반환할 ArrayList<Orders> 생성
 		ArrayList<Orders> list = new ArrayList<>();
 		// DB 접속
 		DBUtil dbUtil = new DBUtil();
@@ -51,6 +51,49 @@ public class OrdersDao {
 		 
 		 return row;
 	 }
+	
+	// 주문상태별 주문리스트 조회
+	public ArrayList<Orders> selectOrdersByOrderStatus(String orderStatus, int beginRow, int rowPerPage) throws Exception {
+		// 반환할 ArrayList<Orders> 생성
+		ArrayList<Orders> list = new ArrayList<>();
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		String sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE order_status=? LIMIT ?, ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, orderStatus);
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
+		
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			Orders orders = new Orders();
+			orders.setOrderNo(rs.getInt("orderNo"));
+			orders.setProductNo(rs.getInt("productNo"));
+			orders.setId(rs.getString("id"));
+			orders.setOrderStatus(rs.getString("orderStatus"));
+			orders.setOrderPrice(rs.getInt("orderPrice"));
+			orders.setCreatedate(rs.getString("createdate"));
+			orders.setUpdatedate(rs.getString("updatedate"));
+			list.add(orders);	
+		}
+
+		return list;
+	}
+	
+	// 고객아이디별 주문리스트 조회
+	/*
+	 * public ArrayList<Orders> selectOrdersById(String id, int beginRow, int
+	 * rowPerPage) throws Exception { // 반환할 ArrayList<Orders> 생성 ArrayList<Orders>
+	 * list = new ArrayList<>(); // DB 접속 DBUtil dbUtil = new DBUtil(); Connection
+	 * conn = dbUtil.getConnection(); String sql = ""; PreparedStatement stmt =
+	 * conn.prepareStatement(sql);
+	 * 
+	 * return list; }
+	 */
+	
+	// 날짜범위별 주문리스트 조회
 	
 	// 내 주문 조회 
 	 public ArrayList<Orders> selectMyOrders(String id, int beginRow, int rowPerPage) throws Exception {
