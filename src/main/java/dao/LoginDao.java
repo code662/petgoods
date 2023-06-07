@@ -95,4 +95,22 @@ public class LoginDao {
 		}
 		return check;
 	}
+	// 아이디 체크
+	public int checkId(String id, String pw) throws Exception {
+		int check = 0;
+		
+		//db접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		//sql 전송 후 결과 셋 반환받아 리스트에 저장
+		String sql ="SELECT COUNT(*) FROM id_list WHERE id = ? AND last_pw =  PASSWORD(?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
+		stmt.setString(2, pw);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			check = rs.getInt(1);
+		}
+		return check;
+	}
 }
