@@ -5,6 +5,8 @@ public class Category {
 	private String categoryMainName;
 	private String categorySubName;
 	private String createdate;
+	private String updatedate;
+	
 	public int getCategoryNo() {
 		return categoryNo;
 	}
@@ -35,5 +37,4 @@ public class Category {
 	public void setUpdatedate(String updatedate) {
 		this.updatedate = updatedate;
 	}
-	private String updatedate;
 }
