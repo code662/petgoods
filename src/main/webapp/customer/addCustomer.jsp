@@ -265,61 +265,61 @@ footer a {
 </head>
 <body>
 <div class="container" id="container">
-   <div class="form-container sign-up-container">
-      <form action="<%=request.getContextPath()%>/addCustomerAction.jsp" method="post">
-         <br>
-         <h1>회원가입</h1>
-         <br>
-         <div style="overflow:auto; width:280px; height:300px;">
-            <!-- 회원가입 입력 폼 --> 
-            <table>
-               <tr>
-                  <td><span>ID</span></td>
-                  <td colspan="2"><input type ="text" placeholder="Enter id"></td>
-               </tr>
-               <tr>
-                  <td><span>PW</span></td>
-                  <td colspan="2"><input type="password" placeholder="Enter Password"></td>
-               </tr>
-               <tr>
-                  <td><span>이름</span></td>
-                  <td colspan="2"><input type ="text" placeholder="Enter Name"></td>
-               </tr>
-               <tr>
-                  <td><span>주소</span></td>
-                  <td colspan="2"><input type ="text" placeholder="Enter Address"></td>
-               </tr>
-               <tr>
-                  <td><span>이메일</span></td>
-                  <td colspan="2"><input type="text" placeholder="Enter Email"></td>
-               </tr>
-               <tr>
-                  <td><span>생일</span></td>
-                  <td colspan="2"><input type ="date"></td>
-               </tr>
-               <tr>
-                  <td><span>성별</span></td>
-                  <td><input type="radio" name="gender" style="width: 20px;">남</td>
-                  <td><input type="radio" name="gender" style="width: 20px;">여</td>
-               </tr>
-            </table>
-            <br>
-            
-            <!-- 약관 동의 -->
+	<div class="form-container sign-up-container">
+		<form action="<%=request.getContextPath()%>/customer/addCustomerAction.jsp" method="post">
+			<br>
+			<h1>회원가입</h1>
+			<br>
+			<div style="overflow:auto; width:250px; height:300px;">
+				<!-- 회원가입 입력 폼 --> 
+				<table>
+					<tr>
+						<td><span>ID</span></td>
+						<td colspan="2"><input type ="text" placeholder="Enter id" name="id"></td>
+					</tr>
+					<tr>
+						<td><span>PW</span></td>
+						<td colspan="2"><input type="password" placeholder="Enter Password" name="pw"></td>
+					</tr>
+					<tr>
+						<td><span>이름</span></td>
+						<td colspan="2"><input type ="text" placeholder="Enter Name" name="cstmName"></td>
+					</tr>
+					<tr>
+						<td><span>주소</span></td>
+						<td colspan="2"><input type ="text" placeholder="Enter Address" name="cstmAdd"></td>
+					</tr>
+					<tr>
+						<td><span>이메일</span></td>
+						<td colspan="2"><input type="text" placeholder="Enter Email" name="cstmEmail"></td>
+					</tr>
+					<tr>
+						<td><span>생일</span></td>
+						<td colspan="2"><input type ="date" name="cstmBirth"></td>
+					</tr>
+					<tr>
+						<td><span>성별</span></td>
+						<td ><input type="radio" name="cstmGender" style="width: 20px;" value="M">남</td>
+						<td><input type="radio" name="cstmGender" style="width: 20px;" value="F">여</td>
+					</tr>
+				</table>
+				<br>
+				
+			<!-- 약관 동의 -->
             <label for="agree_all" style="display: flex; width: 100%; justify-content: space-between; margin-top: 10px;">
-               <input style="width: 20px" type="checkbox" name="agree_all" id="agree_all">
+               <input style="width: 20px" type="checkbox" name="agree_all" id="agree_all" value="Y">
                <span style="width: 95%; padding-top: 7px; text-align:left;"><strong> 약관 전체 동의</strong></span>
             </label>
             <label for="agree" style="display: flex; width: 100%; justify-content: space-between; margin-top: 10px;">
-               <input style="width: 20px" type="checkbox" name="agree" value="1" required="required">
+               <input style="width: 20px" type="checkbox" name="agree" id="agree1" required="required">
                <span style="width: 95%; padding-top: 7px; text-align:left;"> 본인은 만 14세 이상 입니다<strong>(필수)</strong></span>
             </label>
             <label for="agree" style="display: flex; width: 100%; justify-content: space-between; margin-top: 10px;">
-               <input style="width: 20px" type="checkbox" name="agree" value="2" required="required">
+               <input style="width: 20px" type="checkbox" name="agree" id="agree2" required="required">
                <span style="width: 95%; padding-top: 7px; text-align:left;"> 서비스 이용약관 동의<strong>(필수)</strong></span>
             </label>
             <label for="agree" style="display: flex; width: 100%; justify-content: space-between; margin-top: 10px;">
-               <input style="width: 20px" type="checkbox" name="agree" value="3" required="required">
+               <input style="width: 20px" type="checkbox" name="agree" id="agree3" required="required">
                <span style="width: 95%; padding-top: 7px; text-align:left;"> 개인정보 수집 및 이용 동의<strong>(필수)</strong></span>
             </label>
             <br>
@@ -328,53 +328,95 @@ footer a {
       </form>
    </div>
   
-   <div class="form-container sign-in-container">
-      <form action="<%=request.getContextPath()%>/loginAction.jsp" method="post">
-         <h1>로그인</h1>
-         <br>
-         <span>로그인 정보를 입력해주세요.</span>
-         <%
-               if(request.getParameter("msg") != null){
-            %>
-               <p style="color: red"><%=request.getParameter("msg") %></p>
-           <%
-              }
-           %>
-         <input type="text" placeholder="id" name="id" />
-         <input type="password" placeholder="Password" name="pw"/>
-         <a href="#">비밀번호를 잊으셨나요?</a>
-         <button>로그인</button>
-      </form>
-   </div>
-   
-   <div class="overlay-container">
-      <div class="overlay">
-         <div class="overlay-panel overlay-left">
-            <h1>Welcome Back!</h1>
-            <p>쇼핑을 하시려면 로그인 버튼을 눌러주세요!</p>
-            <button class="ghost" id="signIn">로그인</button>
-            </div>
-            <div class="overlay-panel overlay-right">
-            <h1>Hello, Friend!</h1>
-            <p>도그마켓과 함께 즐거운 쇼핑을 시작해봐요!</p>
-            <button class="ghost" id="signUp">회원가입</button>
-         </div>
-      </div>
-   </div>
+	<div class="form-container sign-in-container">
+		<form action="<%=request.getContextPath()%>/loginAction.jsp" method="post">
+			<h1>로그인</h1>
+			<br>
+			<span>로그인 정보를 입력해주세요.</span>
+			<%
+	      		if(request.getParameter("msg") != null){
+	      	%>
+	            <p style="color: red"><%=request.getParameter("msg") %></p>
+	     	<%
+	        	}
+	     	%>
+			<input type="text" placeholder="id" name="id" />
+			<input type="password" placeholder="Password" name="pw"/>
+			<a href="#">비밀번호를 잊으셨나요?</a>
+			<button>로그인</button>
+		</form>
+	</div>
+	
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1>Welcome Back!</h1>
+				<p>쇼핑을 하시려면 로그인 버튼을 눌러주세요!</p>
+				<button class="ghost" id="signIn">로그인</button>
+				</div>
+				<div class="overlay-panel overlay-right">
+				<h1>Hello, Friend!</h1>
+				<p>도그마켓과 함께 즐거운 쇼핑을 시작해봐요!</p>
+				<button class="ghost" id="signUp">회원가입</button>
+			</div>
+		</div>
+	</div>
 </div>
 </body>
 
 <!-- 약관 동의 java script -->
 <script type="text/javascript">
-   //동의 모두선택 / 해제
-   const agreeChkAll = document.querySelector('input[name=agree_all]');
-       agreeChkAll.addEventListener('change', (e) => {
+	//동의 모두선택 / 해제
+	const agreeChkAll = document.querySelector('input[name=agree_all]');
+	    agreeChkAll.addEventListener('change', (e) => {
+	    	let agreeChk = document.querySelectorAll('input[name=agree]');
+		    for(let i = 0; i < agreeChk.length; i++){
+		      agreeChk[i].checked = e.target.checked;
+		    }
+		});
+	    
+    const agreeChkOne = document.querySelector('input[id=agree1]');
+       agreeChkOne.addEventListener('change', (e) => {
           let agreeChk = document.querySelectorAll('input[name=agree]');
+          let agreeAll = document.querySelector('input[name=agree_all]');
+          let CheckAll = true;
           for(let i = 0; i < agreeChk.length; i++){
-            agreeChk[i].checked = e.target.checked;
+              if(!agreeChk[i].checked){
+                 CheckAll = false;
+                 break;
+              }
           }
+          agreeAll.checked = CheckAll;   
       });
        
+    const agreeChkTwo = document.querySelector('input[id=agree2]');
+       agreeChkTwo.addEventListener('change', (e) => {
+          let agreeChk = document.querySelectorAll('input[name=agree]');
+          let agreeAll = document.querySelector('input[name=agree_all]');
+          let CheckAll = true;
+          for(let i = 0; i < agreeChk.length; i++){
+              if(!agreeChk[i].checked){
+                 CheckAll = false;
+                 break;
+              }
+          }
+          agreeAll.checked = CheckAll;   
+      });
+       
+    const agreeChkThree = document.querySelector('input[id=agree3]');
+       agreeChkThree.addEventListener('change', (e) => {
+          let agreeChk = document.querySelectorAll('input[name=agree]');
+          let agreeAll = document.querySelector('input[name=agree_all]');
+          let CheckAll = true;
+          for(let i = 0; i < agreeChk.length; i++){
+              if(!agreeChk[i].checked){
+                 CheckAll = false;
+                 break;
+              }
+          }
+          agreeAll.checked = CheckAll;   
+      });
+    
     window.onload = function(){
         const signUpButton = document.getElementById('signUp');
         const signInButton = document.getElementById('signIn');
