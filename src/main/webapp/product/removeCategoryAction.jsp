@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ page import="dao.*" %>
+<%@ page import="vo.*" %>
+<%@ page import="java.net.*" %>
+    
+<%
+	// controller
 
-</body>
-</html>
+	// post 방식 인코딩 설정
+	request.setCharacterEncoding("UTF-8");	
+
+	System.out.println("==============removeCategoryAction.jsp==============");
+%>
