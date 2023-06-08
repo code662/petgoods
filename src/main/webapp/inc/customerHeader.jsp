@@ -1,27 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!-- Header -->
+<!-- 고객용 헤더 -->
 <header class="header-v2">
-	<!-- Header desktop -->
+	<!-- Header 데스크탑(전체화면) -->
 	<div class="container-menu-desktop trans-03">
 		<div class="wrap-menu-desktop">
 			<nav class="limiter-menu-desktop p-l-45">
 				
-				<!-- Logo desktop -->		
+				<!-- 로고 데스크탑 -->		
 				<a href="#" class="logo">
-					<img src="<%=request.getContextPath()%>/temp/images/icons/logo-01.png" alt="IMG-LOGO">
+					<img src="<%=request.getContextPath()%>/img/logo.png" alt="IMG-LOGO">
 				</a>
 
-				<!-- Menu desktop -->
+				<!-- 메뉴 데스크탑 -->
 				<div class="menu-desktop">
 					<ul class="main-menu">
-						<li class="active-menu">
+						<li>
 							<a href="<%=request.getContextPath()%>/temp/index.html">Home</a>
-							<ul class="sub-menu">
-								<li><a href="<%=request.getContextPath()%>/temp/index.html">Homepage 1</a></li>
-								<li><a href="<%=request.getContextPath()%>/temp/home-02.html">Homepage 2</a></li>
-								<li><a href="<%=request.getContextPath()%>/temp/home-03.html">Homepage 3</a></li>
-							</ul>
 						</li>
 
 						<li>
@@ -46,20 +41,21 @@
 					</ul>
 				</div>	
 
-				<!-- Icon header -->
+				<!-- 메뉴 옆 아이콘 -->
 				<div class="wrap-icon-header flex-w flex-r-m h-full">
+					<!-- 검색 아이콘 -->
 					<div class="flex-c-m h-full p-r-24">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 							<i class="zmdi zmdi-search"></i>
 						</div>
 					</div>
-						
+					<!-- 카트 아이콘 -->	
 					<div class="flex-c-m h-full p-l-18 p-r-25 bor5">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="2">
 							<i class="zmdi zmdi-shopping-cart"></i>
 						</div>
 					</div>
-						
+					<!-- 사이드바 아이콘 -->	
 					<div class="flex-c-m h-full p-lr-19">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-sidebar">
 							<i class="zmdi zmdi-menu"></i>
@@ -70,21 +66,22 @@
 		</div>	
 	</div>
 
-	<!-- Header Mobile -->
+	<!-- Header 모바일(브라우저 화면 줄였을 때) -->
 	<div class="wrap-header-mobile">
-		<!-- Logo moblie -->		
+		<!-- 로고 모바일 -->		
 		<div class="logo-mobile">
 			<a href="index.html"><img src="<%=request.getContextPath()%>/temp/images/icons/logo-01.png" alt="IMG-LOGO"></a>
 		</div>
 
-		<!-- Icon header -->
+		<!-- 아이콘 -->
 		<div class="wrap-icon-header flex-w flex-r-m h-full m-r-15">
+			<!-- 검색 아이콘 -->
 			<div class="flex-c-m h-full p-r-10">
 				<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 					<i class="zmdi zmdi-search"></i>
 				</div>
 			</div>
-
+				<!-- 카트 아이콘 -->
 			<div class="flex-c-m h-full p-lr-10 bor5">
 				<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="2">
 					<i class="zmdi zmdi-shopping-cart"></i>
@@ -92,7 +89,7 @@
 			</div>
 		</div>
 
-		<!-- Button show menu -->
+		<!-- 메뉴 버튼 -->
 		<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
 			<span class="hamburger-box">
 				<span class="hamburger-inner"></span>
@@ -101,7 +98,7 @@
 	</div>
 
 
-	<!-- Menu Mobile -->
+	<!-- 메뉴 모바일 -->
 	<div class="menu-mobile">
 		<ul class="main-menu-m">
 			<li>
