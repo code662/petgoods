@@ -33,7 +33,7 @@ public class IdDao {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
 			//id_list에 추가
-			String sql = "INSERT INTO id_list(id, last_pw, active, createdate) VALUES(?, ?, 'Y', NOW())";
+			String sql = "INSERT INTO id_list(id, last_pw, active, createdate) VALUES(?, PASSWORD(?), 'Y', NOW())";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, id.getId());
 			stmt.setString(2, id.getLastPw());
@@ -79,7 +79,7 @@ public class IdDao {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
 			//id_list에 비밀번호 수정
-			String sql = "UPDATE SET last_pw = ? FROM id_list WHERE id = ?";
+			String sql = "UPDATE SET last_pw = PASSWORD(?) FROM id_list WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, id.getLastPw());
 			stmt.setString(2, id.getId());

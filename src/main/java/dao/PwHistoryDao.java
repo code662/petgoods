@@ -17,7 +17,7 @@ public class PwHistoryDao {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
 			// pw_history에 추가
-			String sql = "INSERT INTO pw_history(id, pw, createdate) VALUES(?,?,NOW())";
+			String sql = "INSERT INTO pw_history(id, pw, createdate) VALUES(?,PASSWORD(?),NOW())";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, pwHistory.getId());
 			stmt.setString(2, pwHistory.getPw());
