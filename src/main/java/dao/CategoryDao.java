@@ -131,10 +131,10 @@ public class CategoryDao {
 	}
 
 	// 카테고리 입력, 수정 시 category_main_name, category_sub_name 쌍 중복검사
-	public int checkCategorySubName(String categoryMainName, String categorySubName) throws Exception {
+	public int checkCategoryDuplicate(String categoryMainName, String categorySubName) throws Exception {
 		// 메인 카테고리 내 서브 카테고리명 중복 체크 변수
 		int check = 0;
-		// DB 접속
+		// DB 연결
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		// SQL 전송 후 결과셋 반환받아 리스트에 저장
@@ -169,5 +169,23 @@ public class CategoryDao {
 		}
 
 		return category;
+	}
+	
+	// 메인-서브 카테고리 내 입력값(상품) 개수
+	public int productCnt(int categoryNo) throws Exception {
+		// 메인-서브 카테고리에 존재하는 상품 개수
+		int cnt = 0;
+		// DB 연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT COUNT(*) FROM product WHERE category_no =?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, categoryNo);
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()) {
+			cnt = rs.getInt(1);
+		}
+		
+		return cnt; // 0일 경우 해당 메인-서브 카테고리에 상품 없음
 	}
 }
