@@ -27,6 +27,10 @@
 	Category category = new Category();
 	category = cateDao.selectCategoryOne(categoryNo);
 	
+	// 해당 메인-서브 카테고리 내 존재하는 상품 개수 확인
+	int cnt = cateDao.productCnt(categoryNo);
+	System.out.println(cnt + " <-- cnt(removeCategory)");
+
 	System.out.println("==============removeCategory.jsp==============");
 %>
 <!DOCTYPE html>
@@ -36,6 +40,10 @@
 		<title>removeCategory</title>
 	</head>
 	<body>
+	<!-- cnt가 0 (메인-서브 카테고리 내 상품이 없는 경우)인 경우에만 입력폼 출력 -->
+	<%
+		if (cnt == 0) {
+	%>
 		<div>
 			<h1>카테고리 정보 삭제</h1>
 		</div>
@@ -65,5 +73,14 @@
 			</table>
 			<button type="submit">카테고리 삭제</button>
 		</form>
+	<%	
+		} else { // 값이 있는 경우 삭제 불가
+	%>	
+			<h4>상품이 존재하는 카테고리입니다. 삭제할 수 없습니다.</h4>
+			<h4><%=category.getCategoryMainName()%>-<%=category.getCategorySubName()%> 내 상품 개수: <%=cnt%></h4>
+			<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp">메인 카테고리로</a>
+	<%
+		}
+	%>
 	</body>
 </html>
