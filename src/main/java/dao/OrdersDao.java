@@ -124,7 +124,26 @@ public class OrdersDao {
 		
 		return list;
 	}
+	
+	 // 총 주문 조회 (내 주문 조회 페이징)
+	 public int selectMyOrdersCnt(String id) throws Exception {
+		 // 나의 총 주문내역 개수
+		 int cnt = 0;
+		 // DB 접속
+		 DBUtil dbUtil = new DBUtil();
+		 Connection conn = dbUtil.getConnection();
+		 String sql = "SELECT COUNT (*) FROM orders WHERE id=?";
+		 PreparedStatement stmt = conn.prepareStatement(sql);
+		 stmt.setString(1, id);
 		 
+		 ResultSet rs = stmt.executeQuery();
+		 if (rs.next()) {
+			 cnt = rs.getInt(1);
+		 }
+		 
+		 return cnt;
+	 }
+	 
 	// 주문 상태 변경 (주문취소, 결제완료, 배송완료, 구매확정)
 	public int modifyOrdersStatus(Orders orders) throws Exception{
 		// sql 실행시 영향받은 행의 수
