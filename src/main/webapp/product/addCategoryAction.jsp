@@ -34,7 +34,7 @@
 	CategoryDao cateDao = new CategoryDao();
 	
 	// 카테고리명 중복값 확인 
-	int check = cateDao.checkCategorySubName(categoryMainName, categorySubName);
+	int check = cateDao.checkCategoryDuplicate(categoryMainName, categorySubName);
 	System.out.println(check + " <-- check(addCategoryAction)");
 	if (check == 0) {
 		System.out.println("중복값 없음");
