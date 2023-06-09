@@ -35,7 +35,7 @@
 <jsp:include page="/inc/link.jsp"></jsp:include>
 </head>
 <body>
-	<jsp:include page="/inc/header.jsp"></jsp:include>
+	<jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
 	<jsp:include page="/inc/sidebar.jsp"></jsp:include>
 	<jsp:include page="/inc/cart.jsp"></jsp:include>
 
