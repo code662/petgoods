@@ -1,26 +1,25 @@
 package dao;
 
 import java.sql.*;
-import java.util.*;
 import util.*;
 import vo.*;
 
 public class CustomerDao {
 	// 자기 정보 조회
-	public ArrayList<Customer> selectMyPage(String id) throws Exception {
-		// 반환할 ArrayList<Customer> 생성
-		ArrayList<Customer> list = new ArrayList<>();
+	public Customer selectMyPage(String id) throws Exception {
+		// 반환할 Customer객체 생성
+		Customer customer = null;
 		// DB 접속
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		// sql 전송 후 결과셋 반환받아서 저장
 		String sql = "SELECT cstm_no cstmNo, id, cstm_name cstmName, cstm_add cstmAdd, cstm_email cstmEmail, cstm_birth cstmBirth, cstm_gender cstmGender, cstm_rank cstmRank, cstm_point cstmPoint, cstm_last_login cstmLastLogin, cstm_agree cstmAgree, createdate, updatedate FROM customer WHERE id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, id);
 		
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
-			Customer customer = new Customer();
+			customer = new Customer();
 			customer.setCstmNo(rs.getInt("cstmNo"));
 			customer.setId(rs.getString("id"));
 			customer.setCstmName(rs.getString("cstmName"));
@@ -34,10 +33,9 @@ public class CustomerDao {
 			customer.setCstmAgree(rs.getString("cstmAgree"));
 			customer.setCreatedate(rs.getString("createdate"));
 			customer.setUpdatedate(rs.getString("updatedate"));
-			list.add(customer);
 		}
 		
-		return list;
+		return customer;
 	}
 	
 	// 자기 정보 수정
