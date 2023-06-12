@@ -26,6 +26,7 @@ public class OrdersDao {
 			orders.setProductNo(rs.getInt("productNo"));
 			orders.setId(rs.getString("id"));
 			orders.setOrderStatus(rs.getString("orderStatus"));
+			orders.setOrderCnt(rs.getInt("orderCnt"));
 			orders.setOrderPrice(rs.getInt("orderPrice"));
 			orders.setCreatedate(rs.getString("createdate"));
 			orders.setUpdatedate(rs.getString("updatedate"));
@@ -74,6 +75,7 @@ public class OrdersDao {
 			orders.setId(rs.getString("id"));
 			orders.setOrderStatus(rs.getString("orderStatus"));
 			orders.setOrderPrice(rs.getInt("orderPrice"));
+			orders.setOrderCnt(rs.getInt("orderCnt"));
 			orders.setCreatedate(rs.getString("createdate"));
 			orders.setUpdatedate(rs.getString("updatedate"));
 			list.add(orders);	
@@ -117,6 +119,7 @@ public class OrdersDao {
 			orders.setId(rs.getString("id"));
 			orders.setOrderStatus(rs.getString("orderStatus"));
 			orders.setOrderPrice(rs.getInt("orderPrice"));
+			orders.setOrderCnt(rs.getInt("orderCnt"));
 			orders.setCreatedate(rs.getString("createdate"));
 			orders.setUpdatedate(rs.getString("updatedate"));
 			list.add(orders);	
@@ -152,13 +155,12 @@ public class OrdersDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		// 주문 상태 변경
-		String sql = "UPDATE SET orders_status = ? FROM orders WHERE id = ? AND createdate = ?";
+		String sql = "UPDATE orders SET order_status = ? WHERE id = ? AND createdate = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, orders.getOrderStatus());
 		stmt.setString(2, orders.getId());
 		stmt.setString(3, orders.getCreatedate());
 		row = stmt.executeUpdate();
-		
 		
 		return row;
 	}
@@ -181,7 +183,7 @@ public class OrdersDao {
 		return totalOrdersPrice;
 	}
 	
-	// 주문 추가
+	// 주문 추가 (결제완료)
 	public int addOrders(Orders orders) throws Exception {
 		// sql 실행시 영향받은 행의 수
 		int row = 0;
@@ -200,7 +202,7 @@ public class OrdersDao {
 	 } 
 		
 	// 주문코드 (createdate(연/월/일/시/분/초) + orderNo(4자리)) 조회
-	 public String selectOrdersCode(int orderNo) throws Exception {
+	public String selectOrdersCode(int orderNo) throws Exception {
 		// 반환할 String fullOrdersNo 생성
 		String ordersCode = "";
 		// DB 접속
@@ -218,4 +220,51 @@ public class OrdersDao {
 		
 		return ordersCode;
 	}
+	
+	// 상품이름 조회
+	public String selectProductName(int productNo) throws Exception {
+		// 반환할 String name 생성
+		String name = "";
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		String sql = "SELECT product_name FROM product p INNER JOIN orders o ON p.product_no = o.product_no WHERE o.product_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, productNo);
+		
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()) {
+			name = rs.getString(1);
+		}
+		
+		return name;
+	}
+	
+	// 주문 1건 상세정보
+	public Orders selectOrderOne(int orderNo) throws Exception {
+		Orders order = null;
+		// DB 연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE order_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, orderNo);
+		ResultSet rs = stmt.executeQuery();
+		order = new Orders();
+		while (rs.next()) {
+			order.setOrderNo(rs.getInt("orderNo"));
+			order.setProductNo(rs.getInt("productNo"));
+			order.setId(rs.getString("id"));
+			order.setOrderStatus(rs.getString("orderStatus"));
+			order.setOrderCnt(rs.getInt("orderCnt"));
+			order.setOrderPrice(rs.getInt("orderPrice"));
+			order.setCreatedate(rs.getString("createdate"));
+			order.setUpdatedate(rs.getString("updatedate"));
+		}
+		
+		return order;
+	}
+	
+	// 장바구니 추가
 }
