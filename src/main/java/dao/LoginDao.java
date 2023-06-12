@@ -14,47 +14,51 @@ public class LoginDao {
 		 DBUtil dbUtil = new DBUtil();
 		 Connection conn = dbUtil.getConnection();
 		 String sql = "";
-		 if(checkCustomer(id) == 1) {
-			//sql 전송 후 결과 셋 반환받아 리스트에 저장
-			 sql = "SELECT cstm_no cstmNo, id, cstm_name cstmName, cstm_add cstmAdd, cstm_email cstmEmail, cstm_birth cstmBirth, cstm_gender cstmGender, cstm_rank cstmRank, cstm_point cstmPoint, cstm_last_login cstmLastLogin, cstm_agree cstmAgree, createdate, updatedate FROM customer WHERE id = ?";
-			 PreparedStatement stmt = conn.prepareStatement(sql);
-			 stmt.setString(1, id);
-			 ResultSet rs = stmt.executeQuery();
-			 if(rs.next()) {
-				 Customer customer = new Customer();
-				 customer.setCstmNo(rs.getInt("cstmNo"));
-				 customer.setId(rs.getString("id"));
-				 customer.setCstmName(rs.getString("cstmName"));
-				 customer.setCstmAdd(rs.getString("cstmAdd"));
-				 customer.setCstmEmail(rs.getString("cstmEmail"));
-				 customer.setCstmBirth(rs.getString("cstmBirth"));
-				 customer.setCstmGender(rs.getString("cstmGender"));
-				 customer.setCstmRank(rs.getString("cstmRank"));
-				 customer.setCstmPoint(rs.getInt("cstmPoint"));
-				 customer.setCstmLastLogin(rs.getString("cstmLastLogin"));
-				 customer.setCstmAgree(rs.getString("cstmAgree"));
-				 customer.setUpdatedate(rs.getString("updatedate"));
-				 customer.setCreatedate(rs.getString("createdate"));
-				 map.put("login", customer);
-			 } 
-		 } else if(checkEmployees(id) == 1) {
-			//sql 전송 후 결과 셋 반환받아 리스트에 저장
-			 sql = "SELECT  emp_no empNo, id, emp_name empName, emp_level empLevel, createdate, updatedate FROM employees WHERE id = ?";
-			 PreparedStatement stmt = conn.prepareStatement(sql);
-			 stmt.setString(1, id);
-			 ResultSet rs = stmt.executeQuery();
-			 if(rs.next()) {
-				 Employees employees = new Employees();
-				 employees.setEmpNo(rs.getInt("empNo"));
-				 employees.setId(rs.getString("id"));
-				 employees.setEmpName(rs.getString("empName"));
-				 employees.setEmpLevel(rs.getString("empLevel"));
-				 employees.setUpdatedate(rs.getString("updatedate"));
-				 employees.setCreatedate(rs.getString("createdate"));
-				 map.put("login", employees);
-			 }
-		 }
-		 
+		 int check = checkId(id, pw);
+		 if(check == 1) {
+			 if(checkCustomer(id) == 1) {
+					//sql 전송 후 결과 셋 반환받아 리스트에 저장
+					 sql = "SELECT cstm_no cstmNo, id, cstm_name cstmName, cstm_add cstmAdd, cstm_email cstmEmail, cstm_birth cstmBirth, cstm_gender cstmGender, cstm_rank cstmRank, cstm_point cstmPoint, cstm_last_login cstmLastLogin, cstm_agree cstmAgree, createdate, updatedate FROM customer WHERE id = ?";
+					 PreparedStatement stmt = conn.prepareStatement(sql);
+					 stmt.setString(1, id);
+					 ResultSet rs = stmt.executeQuery();
+					 if(rs.next()) {
+						 Customer customer = new Customer();
+						 customer.setCstmNo(rs.getInt("cstmNo"));
+						 customer.setId(rs.getString("id"));
+						 customer.setCstmName(rs.getString("cstmName"));
+						 customer.setCstmAdd(rs.getString("cstmAdd"));
+						 customer.setCstmEmail(rs.getString("cstmEmail"));
+						 customer.setCstmBirth(rs.getString("cstmBirth"));
+						 customer.setCstmGender(rs.getString("cstmGender"));
+						 customer.setCstmRank(rs.getString("cstmRank"));
+						 customer.setCstmPoint(rs.getInt("cstmPoint"));
+						 customer.setCstmLastLogin(rs.getString("cstmLastLogin"));
+						 customer.setCstmAgree(rs.getString("cstmAgree"));
+						 customer.setUpdatedate(rs.getString("updatedate"));
+						 customer.setCreatedate(rs.getString("createdate"));
+						 customer.setPw(pw);
+						 map.put("login", customer);
+					 } 
+				 } else if(checkEmployees(id) == 1) {
+					//sql 전송 후 결과 셋 반환받아 리스트에 저장
+					 sql = "SELECT  emp_no empNo, id, emp_name empName, emp_level empLevel, createdate, updatedate FROM employees WHERE id = ?";
+					 PreparedStatement stmt = conn.prepareStatement(sql);
+					 stmt.setString(1, id);
+					 ResultSet rs = stmt.executeQuery();
+					 if(rs.next()) {
+						 Employees employees = new Employees();
+						 employees.setEmpNo(rs.getInt("empNo"));
+						 employees.setId(rs.getString("id"));
+						 employees.setEmpName(rs.getString("empName"));
+						 employees.setEmpLevel(rs.getString("empLevel"));
+						 employees.setUpdatedate(rs.getString("updatedate"));
+						 employees.setCreatedate(rs.getString("createdate"));
+						 employees.setPw(pw);
+						 map.put("login", employees);
+					 }
+				 } 
+		 }	 
 		 return map;
 	} 
 	

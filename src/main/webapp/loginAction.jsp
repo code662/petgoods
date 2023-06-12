@@ -36,7 +36,7 @@
 	Employees e = null;
 	
 	// 아이디 비번 체크
-	if(loginDao.checkId(id, pw) == 1){
+	if(map != null){
 		if(map.get("login") instanceof Customer) {
 			// 아이디가 customer 면 c 에 저장
 			c = (Customer)map.get("login");
