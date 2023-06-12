@@ -79,7 +79,7 @@ public class IdDao {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
 			//id_list에 비밀번호 수정
-			String sql = "UPDATE SET last_pw = PASSWORD(?) FROM id_list WHERE id = ?";
+			String sql = "UPDATE id_list SET last_pw = PASSWORD(?) WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, id.getLastPw());
 			stmt.setString(2, id.getId());

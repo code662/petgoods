@@ -39,30 +39,21 @@ public class CustomerDao {
 	}
 	
 	// 자기 정보 수정
-	public int modifyMyPage(String beforePw, Customer customer) throws Exception {
+	public int modifyMyPage(Customer customer) throws Exception {
 		// 반환할 성공여부 변수 생성
 		int row = 0;
 		// DB 접속
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		// sql 전송 후 결과셋 반환받아 리스트에 저장
-		String sql = "UPDATE customer SET cstm_name = ?, cstm_add = ? , cstm_email = ? , cstm_birth = ? , cstm_gender = ? , updatedate = NOW()  WHERE cstm_no = ?";
+		String sql = "UPDATE customer SET cstm_name = ?, cstm_add = ? , cstm_email = ? , updatedate = NOW()  WHERE cstm_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCstmName());
 		stmt.setString(2, customer.getCstmAdd());
 		stmt.setString(3, customer.getCstmEmail());
-		stmt.setString(4, customer.getCstmBirth());
-		stmt.setString(5, customer.getCstmGender());
-		stmt.setInt(6, customer.getCstmNo());
+		stmt.setInt(4, customer.getCstmNo());
 		row = stmt.executeUpdate();
 		
-		IdDao idDao = new IdDao();
-		if(!beforePw.equals(customer.getPw())) { // 이전 비밀번호와 같지 않으면 비밀번호 변경
-			Id id = new Id();
-			id.setId(customer.getId());
-			id.setLastPw(customer.getPw());
-			idDao.modifyLastPw(id);
-		}
 		return row;
 	}
 	
