@@ -5,9 +5,9 @@
 <%@ page import="dao.*" %> 
 
 <%
-	// 내가 주문한 리스트 (주문날짜 최신순) -> 완
-	// 결제완료일 때 주문취소 버튼 노출 -> 추가 예정
-	// 구매확정일 때 리뷰작성 버튼 노출 -> 추가 예정
+	// 내가 주문한 리스트 (주문날짜 최신순) 
+	// 결제완료일 때 주문취소 버튼 노출 
+	// 구매확정일 때 리뷰작성 버튼 노출 
 	
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
@@ -17,6 +17,8 @@
 	
 	/*
 		
+	// 세션 유효성 검사
+	
 	// 요청값(id) 유효성 검사 
 	if (request.getParameter("id") == null
 	|| request.getParameter("id").equals("")) {
@@ -102,29 +104,58 @@
 		<table border="1">
 			<tr>
 				<th>주문코드</th>
-				<th>상품번호(이름)</th>
+				<th>상품이름</th>
 				<th>주문상태</th>
 				<th>가격</th>
+				<th>수량</th>
 				<th>주문일자</th>
-				<th>사진?</th>
+				<th>이미지</th>
+				<th>기타옵션</th>
 			</tr>
 		<%
 			for (Orders o : list) {
+			// DB 내 주문번호 (orderNo)	
+			int orderNo = o.getOrderNo();
+				
 			// 주문코드 조회
 			String ordersCode = ordersDao.selectOrdersCode(o.getOrderNo());
+			
+			// 상품이름 조회
+			String productName = ordersDao.selectProductName(o.getProductNo());
 		%>
 			<tr>
 				<td><%=ordersCode%></td>
-				<td><%=o.getProductNo()%> -> 이름으로 바꾸기?</td>
+				<td><%=productName%></td>
 				<td><%=o.getOrderStatus()%></td>
 				<td><%=o.getOrderPrice()%></td>
+				<td><%=o.getOrderCnt()%></td>
 				<td><%=o.getCreatedate()%></td>
-				<td>추후 수정</td>
+				<td><%-- <img src="<%=request.getContextPath()%>/productImg/pet1.PNG" alt="이미지 설명"> --%></td>
+				
+			<%
+				
+				if (o.getOrderStatus().equals("결제완료")) { // 결제완료일 때 주문취소 버튼 노출
+			%>
+					<td><a href="<%=request.getContextPath()%>/order/removeMyOrder.jsp?orderNo=<%=orderNo%>">주문취소</a></td>
+			<%		
+				} else if (o.getOrderStatus().equals("구매확정")) { // 구매확정일 때 리뷰작성 버튼 노출
+			%>
+					<td><a href="<%=request.getContextPath()%>/customer/addReview.jsp">리뷰작성</a></td>
+			<% 	
+				} else {
+			%>
+					<td>없음</td>
+			<% 		
+				}
+			%>	
+				
 			</tr>
 		<%
 			}
 		%>
 		</table>
+		
+		
 		<%
 			// minPage가 1보다 클 때만 [이전] 탭 출력
 			if (minPage > 1) {
