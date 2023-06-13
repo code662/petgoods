@@ -53,7 +53,7 @@ public class ProductDao {
 		 DBUtil dbUtil = new DBUtil();
 		 Connection conn = dbUtil.getConnection();
 		 //sql 전송 후 결과 셋 반환받아 리스트에 저장
-		 String sql="SELECT product_no productNo, category_no categoryNo, product_name productName, product_stock productStock, product_price productPrice, product_status productStatus, product_info productInfo, updatedate, createdate FROM product p INNER JOIN category c ON p.category_no = c.category_no AND c.category_main_name = ? AND c.category_sub_name = ? LIMIT ?, ?";
+		 String sql="SELECT p.product_no productNo, p.category_no categoryNo, p.product_name productName, p.product_stock productStock, p.product_price productPrice, p.product_status productStatus, p.product_info productInfo, p.updatedate, p.createdate FROM product p INNER JOIN category c ON p.category_no = c.category_no AND c.category_main_name = ? AND c.category_sub_name = ? LIMIT ?, ?";
 		 if(main.equals("전체") && sub.equals("전체")) {
 				sql="SELECT product_no productNo, category_no categoryNo, product_name productName, product_stock productStock, product_price productPrice, product_status productStatus, product_info productInfo, updatedate, createdate FROM product LIMIT ?, ?";
 				PreparedStatement stmt = conn.prepareStatement(sql);
@@ -74,7 +74,7 @@ public class ProductDao {
 					 list.add(product);
 				 }
 			} else if(!main.equals("전체") && sub.equals("전체")){
-				sql="SELECT product_no productNo, category_no categoryNo, product_name productName, product_stock productStock, product_price productPrice, product_status productStatus, product_info productInfo, updatedate, createdate FROM product p INNER JOIN category c ON p.category_no = c.category_no AND c.category_main_name = ? LIMIT ?, ? ";
+				sql="SELECT p.product_no productNo, p.category_no categoryNo, p.product_name productName, p.product_stock productStock, p.product_price productPrice, p.product_status productStatus, p.product_info productInfo, p.updatedate, p.createdate FROM product p INNER JOIN category c ON c.category_main_name = ? AND p.category_no = c.category_no LIMIT ?, ? ";
 				PreparedStatement stmt = conn.prepareStatement(sql);
 				stmt.setString(1, main);
 				stmt.setInt(2, beginRow);
@@ -96,8 +96,9 @@ public class ProductDao {
 			} else {
 				PreparedStatement stmt = conn.prepareStatement(sql);
 				stmt.setString(1, main);
-				stmt.setInt(2, beginRow);
-				stmt.setInt(3, rowPerPage);
+				stmt.setString(2, sub);
+				stmt.setInt(3, beginRow);
+				stmt.setInt(4, rowPerPage);
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
 					Product product = new Product();
