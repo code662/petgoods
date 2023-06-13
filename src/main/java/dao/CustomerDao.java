@@ -83,6 +83,12 @@ public class CustomerDao {
 			stmt.setString(7, customer.getCstmAgree());
 			row = stmt.executeUpdate();
 		 }
+		// address에 배송지 추가
+		AddressDao addDao = new AddressDao();
+		Address address = new Address();
+		address.setId(customer.getId());
+		address.setAddress(customer.getCstmAdd());
+		addDao.addAddress(address);
 		
 		return row;
 	}	
