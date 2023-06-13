@@ -90,5 +90,8 @@
 	<a href="<%=request.getContextPath()%>/customer/myPage.jsp?cstmNo=<%=customer.getCstmNo()%>">
 		<button>취소</button>
 	</a>
+	<a href="<%=request.getContextPath()%>/customer/removeCustomer.jsp">
+		<button>회원탈퇴</button>
+	</a>
 </body>
 </html>

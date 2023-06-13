@@ -88,21 +88,21 @@ public class CustomerDao {
 	}	
 	
 	// 회원탈퇴
-	public int removeCustomer(Customer customer) throws Exception {
+	public int removeCustomer(String id) throws Exception {
 		// sql 실행시 영향받은 행의 수 
 		int row = 0;
 		// db 접속
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		// sql 전송 후 영향받은 행의 수 반환받아 저장
-		String sql ="DELETE FROM customer WHERE cstm_no = ?";
+		String sql ="DELETE FROM customer WHERE id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, customer.getCstmNo());
+		stmt.setString(1, id);
 		row = stmt.executeUpdate();
 		
 		// id_list에서 비활성상태로 변경
 		IdDao idDao = new IdDao(); 
-		idDao.modifyIdActive(customer.getId());
+		idDao.modifyIdActive(id);
 		
 		return row;
 	}
