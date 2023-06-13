@@ -22,11 +22,9 @@
 	}
 	
 	if(request.getParameter("cstmName") == null 
-			|| request.getParameter("cstmAdd") == null 
 			|| request.getParameter("cstmEmail") == null 
 			|| request.getParameter("currentPw") == null 
 			|| request.getParameter("cstmName").equals("")
-			|| request.getParameter("cstmAdd").equals("")
 			|| request.getParameter("cstmEmail").equals("")
 			|| request.getParameter("currentPw").equals("")){
 		msg = URLEncoder.encode("정보를 입력해주세요","utf-8");
@@ -43,7 +41,6 @@
 	String id = request.getParameter("id");
 	String currentPw = request.getParameter("currentPw");
 	String cstmName = request.getParameter("cstmName");
-	String cstmAdd =  request.getParameter("cstmAdd");
 	String cstmEmail = request.getParameter("cstmEmail");
 
 	
@@ -52,7 +49,6 @@
 	customer.setCstmNo(cstmNo);
 	customer.setId(id);
 	customer.setCstmName(cstmName);
-	customer.setCstmAdd(cstmAdd);
 	customer.setCstmEmail(cstmEmail);
 	
 	int row = 0;

@@ -4,7 +4,7 @@
 <%
 	// 로그인세션 테스트용
 	Customer ctest = new Customer();
-	ctest.setId("user1");
+	ctest.setId("user7");
 	ctest.setPw("1234");
 	session.setAttribute("loginId", ctest);
 	
@@ -61,7 +61,7 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-			<a href="<%=request.getContextPath()%>/customer/modifyPw.jsp?cstmNo=<%=customer.getCstmNo()%>">
+			<a href="<%=request.getContextPath()%>/customer/modifyPw.jsp">
 				비밀번호 변경
 			</a>
 		</td>
@@ -69,7 +69,7 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-			<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp?cstmNo=<%=customer.getCstmNo()%>">
+			<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp">
 				내주문조회
 			</a>
 		</td>
@@ -77,7 +77,7 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-			<a href="<%=request.getContextPath()%>/customer/addressList.jsp?cstmNo=<%=customer.getCstmNo()%>">
+			<a href="<%=request.getContextPath()%>/customer/addressList.jsp">
 				내배송지관리
 			</a>
 		</td>
@@ -85,7 +85,7 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-			<a href="<%=request.getContextPath()%>/customer/reviewList.jsp?cstmNo=<%=customer.getCstmNo()%>">
+			<a href="<%=request.getContextPath()%>/customer/reviewList.jsp">
 				내리뷰관리
 			</a>
 		</td>

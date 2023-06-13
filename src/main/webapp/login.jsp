@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<title>회원가입, 로그인</title>
 <Style>
 label {
   display: block;
@@ -266,7 +266,8 @@ footer a {
 <body>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
-		<form action="<%=request.getContextPath()%>/addCustomerAction.jsp" method="post">
+		<!-- 회원가입 -->
+		<form action="<%=request.getContextPath()%>/customer/addCustomerAction.jsp" method="post">
 			<br>
 			<h1>회원가입</h1>
 			<br>
@@ -275,51 +276,47 @@ footer a {
 				<table>
 					<tr>
 						<td><span>ID</span></td>
-						<td colspan="2"><input type ="text" placeholder="Enter id"></td>
+						<td colspan="2"><input type ="text" placeholder="Enter id" name="id"></td>
 					</tr>
 					<tr>
 						<td><span>PW</span></td>
-						<td colspan="2"><input type="password" placeholder="Enter Password"></td>
+						<td colspan="2"><input type="password" placeholder="Enter Password" name="pw"></td>
 					</tr>
 					<tr>
 						<td><span>이름</span></td>
-						<td colspan="2"><input type ="text" placeholder="Enter Name"></td>
-					</tr>
-					<tr>
-						<td><span>주소</span></td>
-						<td colspan="2"><input type ="text" placeholder="Enter Address"></td>
+						<td colspan="2"><input type ="text" placeholder="Enter Name" name="cstmName"></td>
 					</tr>
 					<tr>
 						<td><span>이메일</span></td>
-						<td colspan="2"><input type="text" placeholder="Enter Email"></td>
+						<td colspan="2"><input type="text" placeholder="Enter Email" name="cstmEmail"></td>
 					</tr>
 					<tr>
 						<td><span>생일</span></td>
-						<td colspan="2"><input type ="date"></td>
+						<td colspan="2"><input type ="date" name="cstmBirth"></td>
 					</tr>
 					<tr>
 						<td><span>성별</span></td>
-						<td ><input type="radio" name="gender" style="width: 20px;">남</td>
-						<td><input type="radio" name="gender" style="width: 20px;">여</td>
+						<td ><input type="radio" name="cstmGender" style="width: 20px;" value="M">남</td>
+						<td><input type="radio" name="cstmGender" style="width: 20px;" value="F">여</td>
 					</tr>
 				</table>
 				<br>
 				
 			<!-- 약관 동의 -->
             <label for="agree_all" style="display: flex; width: 100%; justify-content: space-between; margin-top: 10px;">
-               <input style="width: 20px" type="checkbox" name="agree_all" id="agree_all">
+               <input style="width: 20px" type="checkbox" name="agree_all" id="agree_all" value="Y">
                <span style="width: 95%; padding-top: 7px; text-align:left;"><strong> 약관 전체 동의</strong></span>
             </label>
             <label for="agree" style="display: flex; width: 100%; justify-content: space-between; margin-top: 10px;">
-               <input style="width: 20px" type="checkbox" name="agree" value="1" required="required">
+               <input style="width: 20px" type="checkbox" name="agree" id="agree1" required="required">
                <span style="width: 95%; padding-top: 7px; text-align:left;"> 본인은 만 14세 이상 입니다<strong>(필수)</strong></span>
             </label>
             <label for="agree" style="display: flex; width: 100%; justify-content: space-between; margin-top: 10px;">
-               <input style="width: 20px" type="checkbox" name="agree" value="2" required="required">
+               <input style="width: 20px" type="checkbox" name="agree" id="agree2" required="required">
                <span style="width: 95%; padding-top: 7px; text-align:left;"> 서비스 이용약관 동의<strong>(필수)</strong></span>
             </label>
             <label for="agree" style="display: flex; width: 100%; justify-content: space-between; margin-top: 10px;">
-               <input style="width: 20px" type="checkbox" name="agree" value="3" required="required">
+               <input style="width: 20px" type="checkbox" name="agree" id="agree3" required="required">
                <span style="width: 95%; padding-top: 7px; text-align:left;"> 개인정보 수집 및 이용 동의<strong>(필수)</strong></span>
             </label>
             <br>
@@ -327,7 +324,7 @@ footer a {
          </div>
       </form>
    </div>
-  
+  	<!-- 로그인 -->
 	<div class="form-container sign-in-container">
 		<form action="<%=request.getContextPath()%>/loginAction.jsp" method="post">
 			<h1>로그인</h1>
@@ -363,7 +360,6 @@ footer a {
 	</div>
 </div>
 </body>
-
 <!-- 약관 동의 java script -->
 <script type="text/javascript">
 	//동의 모두선택 / 해제
@@ -375,6 +371,48 @@ footer a {
 		    }
 		});
 	    
+    const agreeChkOne = document.querySelector('input[id=agree1]');
+       agreeChkOne.addEventListener('change', (e) => {
+          let agreeChk = document.querySelectorAll('input[name=agree]');
+          let agreeAll = document.querySelector('input[name=agree_all]');
+          let CheckAll = true;
+          for(let i = 0; i < agreeChk.length; i++){
+              if(!agreeChk[i].checked){
+                 CheckAll = false;
+                 break;
+              }
+          }
+          agreeAll.checked = CheckAll;   
+      });
+       
+    const agreeChkTwo = document.querySelector('input[id=agree2]');
+       agreeChkTwo.addEventListener('change', (e) => {
+          let agreeChk = document.querySelectorAll('input[name=agree]');
+          let agreeAll = document.querySelector('input[name=agree_all]');
+          let CheckAll = true;
+          for(let i = 0; i < agreeChk.length; i++){
+              if(!agreeChk[i].checked){
+                 CheckAll = false;
+                 break;
+              }
+          }
+          agreeAll.checked = CheckAll;   
+      });
+       
+    const agreeChkThree = document.querySelector('input[id=agree3]');
+       agreeChkThree.addEventListener('change', (e) => {
+          let agreeChk = document.querySelectorAll('input[name=agree]');
+          let agreeAll = document.querySelector('input[name=agree_all]');
+          let CheckAll = true;
+          for(let i = 0; i < agreeChk.length; i++){
+              if(!agreeChk[i].checked){
+                 CheckAll = false;
+                 break;
+              }
+          }
+          agreeAll.checked = CheckAll;   
+      });
+    
     window.onload = function(){
         const signUpButton = document.getElementById('signUp');
         const signInButton = document.getElementById('signIn');
@@ -389,5 +427,4 @@ footer a {
         });
      };
 </script>
-
 </html>

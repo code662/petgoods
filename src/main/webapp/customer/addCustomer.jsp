@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<title>회원가입, 로그인</title>
 <Style>
 label {
   display: block;
@@ -266,6 +266,7 @@ footer a {
 <body>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
+		<!-- 회원가입 -->
 		<form action="<%=request.getContextPath()%>/customer/addCustomerAction.jsp" method="post">
 			<br>
 			<h1>회원가입</h1>
@@ -284,10 +285,6 @@ footer a {
 					<tr>
 						<td><span>이름</span></td>
 						<td colspan="2"><input type ="text" placeholder="Enter Name" name="cstmName"></td>
-					</tr>
-					<tr>
-						<td><span>주소</span></td>
-						<td colspan="2"><input type ="text" placeholder="Enter Address" name="cstmAdd"></td>
 					</tr>
 					<tr>
 						<td><span>이메일</span></td>
@@ -327,7 +324,7 @@ footer a {
          </div>
       </form>
    </div>
-  
+  	<!-- 로그인 -->
 	<div class="form-container sign-in-container">
 		<form action="<%=request.getContextPath()%>/loginAction.jsp" method="post">
 			<h1>로그인</h1>
@@ -363,7 +360,6 @@ footer a {
 	</div>
 </div>
 </body>
-
 <!-- 약관 동의 java script -->
 <script type="text/javascript">
 	//동의 모두선택 / 해제
@@ -431,5 +427,4 @@ footer a {
         });
      };
 </script>
-
 </html>

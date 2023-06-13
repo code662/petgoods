@@ -14,7 +14,6 @@
 	if(request.getParameter("id") == null
 			|| request.getParameter("pw") == null
 			|| request.getParameter("cstmName") == null
-			|| request.getParameter("cstmAdd") == null
 			|| request.getParameter("cstmEmail") == null
 			|| request.getParameter("cstmBirth") == null
 			|| request.getParameter("cstmGender") == null
@@ -22,7 +21,6 @@
 			|| request.getParameter("id").equals("")
 			|| request.getParameter("pw").equals("")
 			|| request.getParameter("cstmName").equals("")
-			|| request.getParameter("cstmAdd").equals("")
 			|| request.getParameter("cstmEmail").equals("")
 			|| request.getParameter("cstmBirth").equals("")
 			|| request.getParameter("cstmGender").equals("")
@@ -30,21 +28,20 @@
 		response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp");
 		return;
 	}
-	
+
 	//요청값 변수에 저장
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");
 	String cstmName = request.getParameter("cstmName");
-	String cstmAdd = request.getParameter("cstmAdd");
 	String cstmEmail = request.getParameter("cstmEmail");
 	String cstmBirth = request.getParameter("cstmBirth");
 	String cstmGender = request.getParameter("cstmGender");
 	String cstmAgree = request.getParameter("agree_all");
+	
 	//디버깅
 	System.out.println(PURPLE + id + "<--id addCustomerAction" + RESET);
 	System.out.println(PURPLE + pw + "<--pw addCustomerAction" + RESET);
 	System.out.println(PURPLE + cstmName + "<--cstmName addCustomerAction" + RESET);
-	System.out.println(PURPLE + cstmAdd + "<--cstmAdd addCustomerAction" + RESET);
 	System.out.println(PURPLE + cstmEmail + "<--cstmEmail addCustomerAction" + RESET);
 	System.out.println(PURPLE + cstmBirth + "<--cstmBirth addCustomerAction" + RESET);
 	System.out.println(PURPLE + cstmGender + "<--cstmGender addCustomerAction" + RESET);
@@ -57,7 +54,6 @@
 	customer.setId(id);
 	customer.setPw(pw);
 	customer.setCstmName(cstmName);
-	customer.setCstmAdd(cstmAdd);
 	customer.setCstmEmail(cstmEmail);
 	customer.setCstmBirth(cstmBirth);
 	customer.setCstmGender(cstmGender);

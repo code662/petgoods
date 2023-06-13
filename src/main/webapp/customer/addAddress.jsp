@@ -6,15 +6,21 @@
 <title>새 배송지 추가</title>
 </head>
 <body>
-<form action="<%=request.getContextPath()%>/customer/addAddressAction.jsp" method="post">>
-	<input type="text" id="sample6_postcode" name="postcode" placeholder="우편번호">
-	<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-	<input type="text" id="sample6_address" name="address" placeholder="주소"><br>
-	<input type="text" id="sample6_detailAddress" name="detailAddress" placeholder="상세주소">
-	<input type="text" id="sample6_extraAddress" name="extraAddress" placeholder="참고항목">
+	<form action="<%=request.getContextPath()%>/customer/addAddressAction.jsp" method="post">
+		<input type="text" id="sample6_postcode" name="postcode" placeholder="우편번호">
+		<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+		<input type="text" id="sample6_address" name="address" placeholder="주소"><br>
+		<input type="text" id="sample6_detailAddress" name="detailAddress" placeholder="상세주소">
+		<input type="text" id="sample6_extraAddress" name="extraAddress" placeholder="참고항목">
+		
+		<button type="submit">추가</button>
+	</form>
+	<div>
+		<a href="<%=request.getContextPath()%>/customer/addressList.jsp">
+			<button>취소</button>
+		</a>
+	</div>
 	
-	<button type="submit">추가</button>
-</form>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 		var themeObj = {

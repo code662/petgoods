@@ -65,7 +65,7 @@
 		</table>
 		<button type="submit">변경하기</button>
 	</form>
-	<a href="<%=request.getContextPath()%>/customer/myPage.jsp?cstmNo=<%=customer.getCstmNo()%>">
+	<a href="<%=request.getContextPath()%>/customer/myPage.jsp">
 		<button>취소</button>
 	</a>
 </body>

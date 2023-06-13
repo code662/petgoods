@@ -68,12 +68,6 @@
 				</td>
 			</tr>
 			<tr>
-				<th>주소</th>
-				<td>
-					<input type="text" name="cstmAdd" value="<%=customer.getCstmAdd()%>"> 
-				</td>
-			</tr>
-			<tr>
 				<th>이메일</th>
 				<td>
 					<input type="text" name="cstmEmail" value="<%=customer.getCstmEmail()%>"> 
@@ -87,11 +81,15 @@
 			</tr>
 		</table>
 	</form>
-	<a href="<%=request.getContextPath()%>/customer/myPage.jsp?cstmNo=<%=customer.getCstmNo()%>">
-		<button>취소</button>
-	</a>
-	<a href="<%=request.getContextPath()%>/customer/removeCustomer.jsp">
-		<button>회원탈퇴</button>
-	</a>
+	<div>
+		<a href="<%=request.getContextPath()%>/customer/myPage.jsp?cstmNo=<%=customer.getCstmNo()%>">
+			<button>취소</button>
+		</a>
+	</div>
+	<div>
+		<a href="<%=request.getContextPath()%>/customer/removeCustomer.jsp">
+			<button>회원탈퇴</button>
+		</a>
+	</div>
 </body>
 </html>

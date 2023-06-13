@@ -13,6 +13,7 @@
 	Customer c = (Customer)session.getAttribute("loginId");
 	String id = c.getId(); 
 	
+	// 배송지 목록 조회
 	AddressDao ad = new AddressDao();
 	ArrayList<Address> list = ad.selectAddress(id);
 %>
@@ -47,12 +48,12 @@
 				<tr>
 					<td><%=a.getAddress()%></td>
 					<td>
-						<a href="<%=request.getContextPath()%>/customer/modifyAddress.jsp">
+						<a href="<%=request.getContextPath()%>/customer/modifyAddress.jsp?addressNo=<%=a.getAddressNo() %>">
 							<button>수정</button>
 						</a>
 					</td>
 					<td>
-						<a href="<%=request.getContextPath()%>/customer/removeAddressAction.jsp">
+						<a href="<%=request.getContextPath()%>/customer/removeAddressAction.jsp?addressNo=<%=a.getAddressNo() %>">
 							<button>삭제</button>
 						</a>
 					</td>
@@ -61,5 +62,10 @@
 			}
 		%>
 	</table>
+	<div>
+		<a href="<%=request.getContextPath()%>/customer/myPage.jsp">
+			<button>취소</button>
+		</a>
+	</div>
 </body>
 </html>
