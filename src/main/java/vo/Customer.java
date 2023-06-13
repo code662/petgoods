@@ -5,7 +5,6 @@ public class Customer {
 	private String id;
 	private String pw;
 	private String cstmName;
-	private String cstmAdd;
 	private String cstmEmail;
 	private String cstmBirth;
 	private String cstmGender;
@@ -39,12 +38,6 @@ public class Customer {
 	}
 	public void setCstmName(String cstmName) {
 		this.cstmName = cstmName;
-	}
-	public String getCstmAdd() {
-		return cstmAdd;
-	}
-	public void setCstmAdd(String cstmAdd) {
-		this.cstmAdd = cstmAdd;
 	}
 	public String getCstmEmail() {
 		return cstmEmail;

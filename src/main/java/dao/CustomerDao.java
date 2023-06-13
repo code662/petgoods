@@ -13,7 +13,7 @@ public class CustomerDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		// sql 전송 후 결과셋 반환받아서 저장
-		String sql = "SELECT cstm_no cstmNo, id, cstm_name cstmName, cstm_add cstmAdd, cstm_email cstmEmail, cstm_birth cstmBirth, cstm_gender cstmGender, cstm_rank cstmRank, cstm_point cstmPoint, cstm_last_login cstmLastLogin, cstm_agree cstmAgree, createdate, updatedate FROM customer WHERE id = ?";
+		String sql = "SELECT cstm_no cstmNo, id, cstm_name cstmName, cstm_email cstmEmail, cstm_birth cstmBirth, cstm_gender cstmGender, cstm_rank cstmRank, cstm_point cstmPoint, cstm_last_login cstmLastLogin, cstm_agree cstmAgree, createdate, updatedate FROM customer WHERE id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, id);
 		
@@ -23,7 +23,6 @@ public class CustomerDao {
 			customer.setCstmNo(rs.getInt("cstmNo"));
 			customer.setId(rs.getString("id"));
 			customer.setCstmName(rs.getString("cstmName"));
-			customer.setCstmAdd(rs.getString("cstmAdd"));
 			customer.setCstmEmail(rs.getString("cstmEmail"));
 			customer.setCstmBirth(rs.getString("cstmBirth"));
 			customer.setCstmGender(rs.getString("cstmGender"));
@@ -46,12 +45,11 @@ public class CustomerDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		// sql 전송 후 결과셋 반환받아 리스트에 저장
-		String sql = "UPDATE customer SET cstm_name = ?, cstm_add = ? , cstm_email = ? , updatedate = NOW()  WHERE cstm_no = ?";
+		String sql = "UPDATE customer SET cstm_name = ?, cstm_email = ? , updatedate = NOW()  WHERE cstm_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCstmName());
-		stmt.setString(2, customer.getCstmAdd());
-		stmt.setString(3, customer.getCstmEmail());
-		stmt.setInt(4, customer.getCstmNo());
+		stmt.setString(2, customer.getCstmEmail());
+		stmt.setInt(3, customer.getCstmNo());
 		row = stmt.executeUpdate();
 		
 		return row;
@@ -72,23 +70,16 @@ public class CustomerDao {
 		int check = idDao.addIdList(id); // 1 = id_list에 추가 성공
 		if(check == 1) {
 			// id_list에 추가 완료 후 customer에 추가
-			String sql = "INSERT INTO customer(id, cstm_name, cstm_add, cstm_email, cstm_birth, cstm_gender, cstm_rank, cstm_point, cstm_last_login, cstm_agree, createdate, updatedate ) VALUES(?,?,?,?,?,?,'1',0,NOW(),?,NOW(),NOW())";
+			String sql = "INSERT INTO customer(id, cstm_name, cstm_email, cstm_birth, cstm_gender, cstm_rank, cstm_point, cstm_last_login, cstm_agree, createdate, updatedate ) VALUES(?,?,?,?,?,'1',0,NOW(),?,NOW(),NOW())";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, customer.getId());
 			stmt.setString(2, customer.getCstmName());
-			stmt.setString(3, customer.getCstmAdd());
-			stmt.setString(4, customer.getCstmEmail());
-			stmt.setString(5, customer.getCstmBirth());
-			stmt.setString(6, customer.getCstmGender());
-			stmt.setString(7, customer.getCstmAgree());
+			stmt.setString(3, customer.getCstmEmail());
+			stmt.setString(4, customer.getCstmBirth());
+			stmt.setString(5, customer.getCstmGender());
+			stmt.setString(6, customer.getCstmAgree());
 			row = stmt.executeUpdate();
 		 }
-		// address에 배송지 추가
-		AddressDao addDao = new AddressDao();
-		Address address = new Address();
-		address.setId(customer.getId());
-		address.setAddress(customer.getCstmAdd());
-		addDao.addAddress(address);
 		
 		return row;
 	}	
@@ -158,7 +149,7 @@ public class CustomerDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		// 주문 상태 변경
-		String sql = "UPDATE SET cstm_rank = ?, updatedate = NOW() FROM customer WHERE id = ?";
+		String sql = "UPDATE customer SET cstm_rank = ?, updatedate = NOW() WHERE id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, rank);
 		stmt.setString(2, id);
