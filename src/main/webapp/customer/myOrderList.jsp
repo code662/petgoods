@@ -18,6 +18,16 @@
 	/*
 		
 	// 세션 유효성 검사
+	// 로그인 상태이면 로그인된 사용자의 id값을 새 id 변수에 지정
+ 	String msg = "";
+	String id = "";
+ 	if (session.getAttribute("loginId") != null) {
+ 		Customer customer = (Customer) session.getAttribute("loginId");
+ 		id = customer.getId();
+ 		System.out.println(id + " <-- id(cartList)");
+ 	}
+	
+
 	
 	// 요청값(id) 유효성 검사 
 	if (request.getParameter("id") == null
