@@ -32,10 +32,8 @@
 	// 카테고리 리스트
 	ArrayList<Category> categoryMainList = cDao.selectMainCategory();
 	// 상품 리스트
-	ArrayList<Product> ProductList = pDao.selectProductList(beginRow, rowPerPage, mainCategory, subCategory);
-	
-	
-	
+	ArrayList<Product> productList = pDao.selectProductList(beginRow, rowPerPage, mainCategory, subCategory);
+		
 %>
 <!DOCTYPE html>
 <html>
@@ -304,35 +302,26 @@
 			</div>
 			<div class="row isotope-grid">
 			<%
-				for(Product p : ProductList){
+				for(Product p : productList){
 			%>
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategoryMainName()%> <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategorySubName()%>">
+				<div id="p<%=p.getProductNo()%>" class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategoryMainName()%> <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategorySubName()%>">
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
-							<img src="<%=request.getContextPath()%>/pimg/<%=pDao.productImgName(p.getProductNo()) %>" alt="IMG-PRODUCT">
-
-							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-								Quick View
+							<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<img src="<%=request.getContextPath()%>/pimg/<%=pDao.productImgName(p.getProductNo())%>" alt="IMG-PRODUCT">
 							</a>
 						</div>
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="<%=request.getContextPath()%>/product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									<%=p.getProductName()%>
 								</a>
 
 								<span class="stext-105 cl3">
-									<%=p.getProductPrice()%>
+									<%=p.getProductPrice()%>원
 								</span>
-							</div>
-
-							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="<%=request.getContextPath()%>/temp/images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="<%=request.getContextPath()%>/temp/images/icons/icon-heart-02.png" alt="ICON">
-								</a>
 							</div>
 						</div>
 					</div>
@@ -341,23 +330,25 @@
 				}
 			%>
 			</div>
+				<!-- Load more -->
+				<div class="flex-c-m flex-w w-full p-t-45" id="loadMore">
 			<%
 				if (rowPerPage < productCnt) {
 			%>
-				<!-- Load more -->
-				<div class="flex-c-m flex-w w-full p-t-45" id="loadMore">
-					<a id="loadMoreBtn" href="<%=request.getContextPath()%>/product/productList.jsp?rowPerPage=<%=rowPerPage+16%>&mainCategory=<%=mainCategory%>&subCategory=<%=subCategory%>" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+					<a href="<%=request.getContextPath()%>/product/productList.jsp?rowPerPage=<%=rowPerPage+8%>&mainCategory=<%=mainCategory%>&subCategory=<%=subCategory%>&loadMore=true" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04" onclick="$('html, body').animate({scrollTop: $('#loadMore').offset().top}, 500)">
 						Load More
 					</a>
-					<form action="<%=request.getContextPath()%>/product/productList.jsp" id="loadMoreBtn">
-					<input name="rowPerPage" type="hidden" value="<%=rowPerPage+16%>">
-					<input name="mainCategory" type="hidden" value="<%=mainCategory%>">
-					<input name="subCategory" type="hidden" value="<%=subCategory%>">
-					<button class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04"> 
-						Load More
-					</button>
-				</form>
+			<%		
+				}
+			%>
 				</div>
+			<%
+				if(request.getParameter("loadMore") != null) {
+			%> 
+					<script>
+						const scrollTop = $('#p<%=rowPerPage-8%>').offset().top-100;
+						$('html, body').animate({ scrollTop: scrollTop }, 800);
+					</script>
 			<%		
 				}
 			%>
@@ -365,7 +356,6 @@
 	</div>
 	<jsp:include page="/inc/footer.jsp"></jsp:include>
 	<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
-	<jsp:include page="/inc/quickView.jsp"></jsp:include>
 	<jsp:include page="/inc/script.jsp"></jsp:include>
 </body>
 </html>
