@@ -12,23 +12,17 @@
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 	
-	// 마이페이지에서 id값 넘어와야 함 -> 추후 수정할 것 (임시로 id = user1 설정)
-	String id = "user1";
-	
-	/*
-		
-	// 세션 유효성 검사
+	// 세션 유효성 검사 추가
 	// 로그인 상태이면 로그인된 사용자의 id값을 새 id 변수에 지정
  	String msg = "";
 	String id = "";
  	if (session.getAttribute("loginId") != null) {
  		Customer customer = (Customer) session.getAttribute("loginId");
  		id = customer.getId();
- 		System.out.println(id + " <-- id(cartList)");
+ 		System.out.println(id + " <-- id(myOrderList)");
  	}
 	
-
-	
+	/*
 	// 요청값(id) 유효성 검사 
 	if (request.getParameter("id") == null
 	|| request.getParameter("id").equals("")) {
@@ -36,11 +30,12 @@
 		return;
 	}
 	
-	String id = request.getParameter("id");
-	System.out.println(id + " <-- id(myOrderList)");
-		
+	// 마이페이지에서 id값 넘어와야 함 -> 추후 수정할 것 (임시로 id = user1 설정)
+	// String id = "user1";
+	
+	
 	*/
-
+	
 	// OrdersDao 클래스 객체 생성 -> SQL 메소드 이용
 	OrdersDao ordersDao = new OrdersDao();
 	
@@ -132,6 +127,9 @@
 			
 			// 상품이름 조회
 			String productName = ordersDao.selectProductName(o.getProductNo());
+			
+			// 상품 이미지 조회
+			String productImg = ordersDao.selectImg(o.getProductNo());
 		%>
 			<tr>
 				<td><%=ordersCode%></td>
@@ -140,7 +138,7 @@
 				<td><%=o.getOrderPrice()%></td>
 				<td><%=o.getOrderCnt()%></td>
 				<td><%=o.getCreatedate()%></td>
-				<td><%-- <img src="<%=request.getContextPath()%>/productImg/pet1.PNG" alt="이미지 설명"> --%></td>
+				<td><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"></td>
 				
 			<%
 				
@@ -150,7 +148,7 @@
 			<%		
 				} else if (o.getOrderStatus().equals("구매확정")) { // 구매확정일 때 리뷰작성 버튼 노출
 			%>
-					<td><a href="<%=request.getContextPath()%>/customer/addReview.jsp">리뷰작성</a></td>
+					<td><a href="<%=request.getContextPath()%>/customer/addReview.jsp?orderNo=<%=orderNo%>">리뷰작성</a></td>
 			<% 	
 				} else {
 			%>
@@ -164,7 +162,6 @@
 			}
 		%>
 		</table>
-		
 		
 		<%
 			// minPage가 1보다 클 때만 [이전] 탭 출력
