@@ -129,7 +129,7 @@
 			String productName = ordersDao.selectProductName(o.getProductNo());
 			
 			// 상품 이미지 조회
-			String productImg = ordersDao.selectImg(o.getProductNo());
+			String productImg = ordersDao.selectImg(o.getProductNo()); 
 		%>
 			<tr>
 				<td><%=ordersCode%></td>

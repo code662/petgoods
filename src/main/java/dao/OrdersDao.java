@@ -241,6 +241,26 @@ public class OrdersDao {
 		return name;
 	}
 	
+	// 상품 이미지 조회
+	public String selectImg(int productNo) throws Exception {
+		// 반환할 객체 (이미지명)
+		String img = "";
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		String sql = "SELECT product_save_filename FROM product_img WHERE product_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, productNo);
+		
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()) {
+			img = rs.getString(1);
+		}
+		
+		return img;
+	}
+	
 	// 주문 1건 상세정보
 	public Orders selectOrderOne(int orderNo) throws Exception {
 		Orders order = null;
@@ -265,6 +285,4 @@ public class OrdersDao {
 		
 		return order;
 	}
-	
-	// 장바구니 추가
 }
