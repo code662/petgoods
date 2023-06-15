@@ -5,6 +5,9 @@
 <%@ page import = "vo.*"%>
 <%@ page import = "dao.*"%>
 <%
+	// post 방식 인코딩 설정
+	request.setCharacterEncoding("UTF-8");
+
 	//입력값 불러오기
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");
@@ -27,7 +30,9 @@
 		return;
 	}
 	
+	// model
 	LoginDao loginDao = new LoginDao();
+	CartDao cartDao = new CartDao();
 	
 	// map 에 id pw 값 저장
 	HashMap<String, Object> map = loginDao.selectLogin(id, pw);
@@ -40,12 +45,32 @@
 		if(map.get("login") instanceof Customer) {
 			// 아이디가 customer 면 c 에 저장
 			c = (Customer)map.get("login");
-			session.setAttribute("loginId", c);
+			session.setAttribute("loginId", c); 
+			// 세션에 장바구니에 저장된 값 있으면 addCartAction 처리 -> 추후 테스트
+			// 세션에서 장바구니 데이터 가져오기
+			ArrayList<Cart> sessionCart = (ArrayList<Cart>) session.getAttribute("sessionCart");
+			if (sessionCart != null && !sessionCart.isEmpty()) { // 세션 장바구니에 값이 있으면
+				Cart newCart = null;
+				// DB에 세션 장바구니 데이터 추가
+				for (Cart cart : sessionCart) {
+					newCart = new Cart();
+					newCart.setProductNo(cart.getProductNo());
+					newCart.setId(id);
+					
+					// 입력 메소드 실행
+					int row = cartDao.addMyCart(cart); 
+					System.out.println(row + "row(loginAction)"); // row가 1이면 추가 성공, 아니면 실패
+				}
+			}
+			
+			// DB에 데이터 추가 후 세션 장바구니 데이터 삭제
+			 session.removeAttribute("sessionCart");
 		} else if(map.get("login") instanceof Employees) {
-			// 아이디가 customer 면 e 에 저장
+			// 아이디가 employee 면 e 에 저장
 			e = (Employees)map.get("login");
 			session.setAttribute("loginId", e);
 		}
+		
 		//로그인 성공 시
 		response.sendRedirect(request.getContextPath()+"/home.jsp");
 		
