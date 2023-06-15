@@ -21,6 +21,8 @@
  		id = customer.getId();
  		System.out.println(id + " <-- id(myOrderList)");
  	}
+ 	
+ 	// id = "user1";
 	
 	/*
 	// 요청값(id) 유효성 검사 
@@ -150,13 +152,16 @@
 			%>
 					<td><a href="<%=request.getContextPath()%>/customer/addReview.jsp?orderNo=<%=orderNo%>">리뷰작성</a></td>
 			<% 	
+				} else if (o.getOrderStatus().equals("배송완료")) { // 배송완료일때 구매확정 버튼 노출	
+			%>
+					<td><a href="<%=request.getContextPath()%>/order/purchaseAction.jsp?orderNo=<%=orderNo%>&orderStatus=<%=o.getOrderStatus()%>&createdate=<%=o.getCreatedate()%>&orderPrice=<%=o.getOrderPrice()%>&orderCnt=<%=o.getOrderCnt()%>">구매확정</a></td>
+			<%
 				} else {
 			%>
 					<td>없음</td>
 			<% 		
 				}
 			%>	
-				
 			</tr>
 		<%
 			}
