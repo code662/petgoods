@@ -164,6 +164,25 @@ public class OrdersDao {
 		
 		return row;
 	}
+	
+	// 고객 id 조회 (관리자 페이지에서 주문상태 변경에 사용)
+	public String selectCstmId(int orderNo) throws Exception {
+		String id = "";
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// 고객 id
+		String sql = "SELECT id FROM orders WHERE order_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, orderNo);
+		
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()) {
+			id = rs.getString(1);
+		}
+		
+		return id;
+	}
 	 
 	// 총 주문 금액 조회 (회원등급 구하기 위함)
 	public int selectTotalOrdersPrice(String id) throws Exception {
@@ -183,21 +202,29 @@ public class OrdersDao {
 		return totalOrdersPrice;
 	}
 	
+	// 
+	
 	// 주문 추가 (결제완료)
 	public int addOrders(Orders orders) throws Exception {
 		// sql 실행시 영향받은 행의 수
 		int row = 0;
+		int key = 0;
 		// db 접속
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		String sql = "INSERT INTO orders(product_no, id, order_status, order_cnt, order_price, createdate, updatedate) VALUES(?, ?, '결제완료', ?, ?, NOW(), NOW())";
-		PreparedStatement stmt = conn.prepareStatement(sql);
+		PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); // 
 		stmt.setInt(1, orders.getProductNo());
 		stmt.setString(2, orders.getId());
 		stmt.setInt(3, orders.getOrderCnt());
 		stmt.setInt(4, orders.getOrderPrice());
-		row = stmt.executeUpdate();
-		 
+		ResultSet rs = stmt.getGeneratedKeys();
+		if (rs.next()) {
+			key = rs.getInt(1); 
+		}
+		
+		row = modifyProductStock(key);
+	
 		return row;
 	 } 
 		
@@ -284,5 +311,47 @@ public class OrdersDao {
 		}
 		
 		return order;
+	}
+	
+	// 재고량 조회
+	public int selectProductStock(int productNo) throws Exception {
+		// 반환할 재고량
+		int stock = 0;
+		// DB 연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT product_stock FROM product WHERE product_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, productNo);
+		
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()) {
+			stock = rs.getInt(1);
+		}
+		
+		return stock;
+	}
+	
+	// 재고량 변경
+	public int modifyProductStock(int orderNo) throws Exception {
+		// 변경된 재고량
+		int row = 0;
+		// DB 연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "UPDATE product p INNER JOIN orders o ON p.product_no = o.product_no SET p.product_stock = p.product_stock - o.order_cnt WHERE o.order_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, orderNo);
+		
+		row = stmt.executeUpdate();
+		
+		return row;
+		
+		/*
+		UPDATE customers
+		INNER JOIN orders ON customers.id = orders.customer_id
+		SET customers.address = 'New Address'
+		WHERE orders.total_amount > 100;
+		*/
 	}
 }
