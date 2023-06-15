@@ -162,7 +162,6 @@
 			}
 		%>
 		</table>
-		<a href="<%=request.getContextPath()%>/customer/myPage.jsp">뒤로가기</a>
 		
 		<%
 			// minPage가 1보다 클 때만 [이전] 탭 출력

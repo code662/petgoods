@@ -3,16 +3,23 @@
 <%@ page import="vo.*"%>
 <%@ page import="dao.*"%>
 <%@ page import="java.net.*"%>
-<%@ page import="java.util.*"%>
 
 <%
-	// 로그인 상태 / 로그인 아닌 상태 분기 -> 추후 테스트 필요
-	// 사진 클릭 시 X 팝업 -> 템플릿 적용 시 수정
-
 	// 장바구니 삭제 액션 파일 -> cartList.jsp에서 넘어오는 값 (삭제버튼 눌렀을 때)
 	
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
+	
+	// 입력값 유효성 확인
+	// cartList.jsp에서 cartNo 값이 넘어오지 않으면 carList.jsp로 다시 이동
+	if (request.getParameter("cartNo") == null) {
+		response.sendRedirect(request.getContextPath() + "/order/cartList.jsp");
+		return;
+	}
+	
+	// 넘어온 cartNo 값
+	int cartNo = Integer.parseInt(request.getParameter("cartNo"));
+	System.out.println(cartNo + " <-- cartNo(removeCartAction)");
 	
 	// model
 	CartDao cartDao = new CartDao();
@@ -24,17 +31,6 @@
  		Customer customer = (Customer) session.getAttribute("loginId");
  		String id = customer.getId();
  		System.out.println(id + " <-- id(removeCartAction)");
- 		
- 		// 입력값 유효성 확인
- 		// cartList.jsp에서 cartNo 값이 넘어오지 않으면 carList.jsp로 다시 이동
- 		if (request.getParameter("cartNo") == null) {
- 			response.sendRedirect(request.getContextPath() + "/order/cartList.jsp");
- 			return;
- 		}
- 		
- 		// 넘어온 cartNo 값
- 		int cartNo = Integer.parseInt(request.getParameter("cartNo"));
- 		System.out.println(cartNo + " <-- cartNo(removeCartAction)");
 
 		int row = cartDao.removeMyCart(cartNo);
 		System.out.println(row + " <-- removeCartAction");
@@ -53,34 +49,7 @@
 		
 		
 	} else { // 로그인 상태가 아니면 세션에 저장된 상품 삭제
- 		// 입력값 유효성 확인
- 		// cartList.jsp에서 cartNo 값이 넘어오지 않으면 carList.jsp로 다시 이동
- 		if (request.getParameter("productNo") == null) {
- 			response.sendRedirect(request.getContextPath() + "/order/cartList.jsp");
- 			return;
- 		}
- 		
- 		// 넘어온 productNo 값
- 		int productNo = Integer.parseInt(request.getParameter("productNo"));
- 		System.out.println(productNo + " <-- productNo(removeCartAction)");
- 		
- 		// 세션에서 장바구니 데이터 가져오기
-		/* 
-		Object sessionCartObj = session.getAttribute("sessionCart");
-		ArrayList<Cart> sessionCart = null;
-		if (sessionCartObj instanceof ArrayList<?>) {
-		    sessionCart = (ArrayList<Cart>) sessionCartObj;
-		} */
 		
- 		ArrayList<Cart> sessionCart = (ArrayList<Cart>) session.getAttribute("sessionCart"); // instanceof 유효성 검사?
- 		
- 		// 장바구니 데이터 삭제
- 		for (Cart c : sessionCart) {
- 			if (c.getProductNo() == productNo) {
- 				sessionCart.remove(c);
- 				break;
- 			}
- 		}
 	}
 	
 	System.out.println("==============removeCartAction.jsp==============");
