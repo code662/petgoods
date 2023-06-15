@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입, 로그인</title>
+<jsp:include page="/inc/link.jsp"></jsp:include>
 <Style>
 label {
   display: block;
@@ -261,9 +262,11 @@ footer a {
     text-decoration: none;
 }
 </Style>
-
 </head>
 <body>
+<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+<jsp:include page="/inc/cart.jsp"></jsp:include>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
 		<!-- 회원가입 -->
@@ -359,7 +362,6 @@ footer a {
 		</div>
 	</div>
 </div>
-</body>
 <!-- 약관 동의 java script -->
 <script type="text/javascript">
 	//동의 모두선택 / 해제
@@ -427,4 +429,6 @@ footer a {
         });
      };
 </script>
+<jsp:include page="/inc/script.jsp"></jsp:include>
+</body>
 </html>
