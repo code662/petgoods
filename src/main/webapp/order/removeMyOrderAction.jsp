@@ -12,12 +12,19 @@
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 	
+	// 세션 유효성 검사
+	// 로그인 상태이면 로그인된 사용자의 id값을 새 id 변수에 지정
+	String id = "";
+	if (session.getAttribute("loginId") != null) {
+		Customer customer = (Customer) session.getAttribute("loginId");
+		id = customer.getId();
+		System.out.println(id + " <-- id(removeMyOrder)");
+	}
+	
 	// 요청값(order) 유효성 검사
 	// orderNo, orderId, createdate 값 중 하나라도 null 또는 공백값이 있으면 내 주문 리스트로 이동 -> 지금은 user1의 주문 목록, 추후 유저별로 수정할 것
 	if (request.getParameter("orderNo") == null
 	|| request.getParameter("orderNo").equals("")
-	|| request.getParameter("orderId") == null
-	|| request.getParameter("orderId").equals("")
 	|| request.getParameter("createdate") == null
 	|| request.getParameter("createdate").equals("")) {
 		response.sendRedirect(request.getContextPath() + "/customer/myOrderList.jsp");
@@ -25,12 +32,10 @@
 	}
 	
 	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-	String orderId = request.getParameter("orderId");
 	String createdate = request.getParameter("createdate");
 	
 	// 디버깅
 	System.out.println(orderNo + " <-- orderNo(removeMyOrderAction)");
-	System.out.println(orderId + " <-- orderId(removeMyOrderAction)");
 	System.out.println(createdate + " <-- createdate(removeMyOrderAction)");
 	
 	// model
@@ -39,7 +44,7 @@
 	Orders order = new Orders();
 	order.setOrderNo(orderNo);
 	order.setOrderStatus("주문취소");
-	order.setId(orderId);
+	order.setId(id);
 	order.setCreatedate(createdate);
 	
 	// 주문 상태 변경
