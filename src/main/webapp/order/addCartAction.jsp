@@ -3,26 +3,33 @@
 <%@ page import="vo.*"%>
 <%@ page import="dao.*"%>
 <%@ page import="java.net.*"%>
+<%@ page import="java.util.*"%>
 <%
 	// 장바구니 추가 액션 파일 -> productOne.jsp에서 넘어오는 값
 	
 	// 로그인 상태인 경우 / 로그인되지 않은 상태인 경우 분기 (DB/세션)
-	// 로그인되지 않은 상태에서 장바구니 추가한 뒤 로그인 -> 세션의 데이터 DB로 이동
+	// 로그인되지 않은 상태에서 장바구니 추가한 뒤 로그인 -> 세션의 데이터를 DB로 이동
 
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 
-	// 입력값 유효성 확인	
+	// 입력값 유효성 확인	 -> 파일 생성되면 하기
 	// productOne.jsp에서 productNo 값이 넘어오지 않으면 productOne.jsp로 다시 이동
+	/*
 	if (request.getParameter("productNo") == null) {
 		response.sendRedirect(request.getContextPath() + "/product/productOne.jsp");
 		// productList.jsp로 가야할 것 같은데 나중에 보고 수정
 		return;
 	}
+	*/
 	
-	// 넘어온 productNo 값
-	int productNo = Integer.parseInt(request.getParameter("productNo"));
+	// 넘어온 productNo, cartCnt 값
+	// int productNo = Integer.parseInt(request.getParameter("productNo"));
+	// int cartCnt = Integer.parseInt(request.getParameter("cartCnt"));
+	int productNo = 0;
+	int cartCnt = 1;
 	System.out.println(productNo + " <-- productNo(addCartAction)");
+	System.out.println(cartCnt + " <-- cartCnt(addCartAction)");
 	
 	// model
 	CartDao cartDao = new CartDao();
@@ -68,8 +75,55 @@
 		return;
 	
 	} else { // 로그인 상태가 아니면 세션에 상품 추가
-		// 세션 객체 생성
+		// 세션 장바구니에 추가할 상품 정보: productOne.jsp에서 넘어오는 값 -> cart vo 내 productNo, cartCnt
+		// 세션에서 장바구니 데이터 가져오기
+		ArrayList<Cart> sessionCart = (ArrayList<Cart>) session.getAttribute("sessionCart");
 		
+		// 장바구니 데이터가 없으면 새로 생성하여 세션에 저장
+		if (sessionCart == null) {
+			sessionCart = new ArrayList<Cart>();
+			session.setAttribute("sessionCart", sessionCart);
+		}
+		
+		// 장바구니에 상품 추가
+		Cart cart = new Cart();
+		cart.setProductNo(productNo);
+		cart.setCartCnt(cartCnt);
+		sessionCart.add(cart);
+		
+		/*
+		
+		// session.setAttribute("y1", "session: gdj66");
+		// System.out.println(session.getAttribute("y1"));
+		// cart vo 사용 cart ArrayList 생성
+		// addcart -> 로그인 아닐 때 상품 정보를 arrayList,, -> session에 저장,,
+		
+		String productName = cartDao.selectImg(productNo); // 상품 이름
+		// int productNo // 상품 번호
+		// int cartCnt = 1; // 수량 
+		int productPrice = cartDao.selectProductPrice(productNo); // 상품 가격
+		
+		// 세션에서 장바구니 맵 객체 가져오기
+		HashMap<String, Integer> cart = (HashMap<String, Integer>) cartSession.getAttribute("cart");
+		
+		// 장바구니 맵 객체가 없는 경우 새로 생성하기
+		if (cart == null) {
+			cart = new HashMap<>();
+		}
+		
+		// 상품을 맵에 추가 또는 업데이트
+		if (cart.containsKey(productNo)) {
+			// 이미 상품이 장바구니에 있을 경우, 수량을 증가시킴
+			int quantity = cart.get(productNo);
+			quantity++;
+			cart.put(productNo, quantity);
+		} else {
+			// 장바구니에 상품을 추가할 경우, 수량은 1로 설정
+			cart.put(productNo, 1);
+		}
+		
+		// 세션에 장바구니 맵 객체 저장
+		cartSession.setAttribute("cart", cart); */
 	}
 
 	System.out.println("==============addCartAction.jsp==============");
