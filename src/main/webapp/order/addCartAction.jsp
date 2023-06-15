@@ -23,6 +23,7 @@
 	}
 	*/
 	
+	// 테스트용 임시 값
 	// 넘어온 productNo, cartCnt 값
 	// int productNo = Integer.parseInt(request.getParameter("productNo"));
 	// int cartCnt = Integer.parseInt(request.getParameter("cartCnt"));
@@ -36,10 +37,11 @@
 	
 	// 로그인 상태이면 cart 테이블에 상품 추가
 	String msg = "";
+	String id = "";
 	if (session.getAttribute("loginId") != null) {
 		// 현재 로그인 id	
  		Customer customer = (Customer) session.getAttribute("loginId");
- 		String id = customer.getId();
+ 		id = customer.getId();
  		System.out.println(id + " <-- id(addCartAction)");
 		// 상품명 중복 확인
 		int check = cartDao.checkCartDuplicate(productNo);
@@ -91,6 +93,10 @@
 		cart.setCartCnt(cartCnt);
 		sessionCart.add(cart);
 		
+		// 장바구니 추가 성공 여부 관계없이 해당 상품 상세 페이지로 이동
+		response.sendRedirect(request.getContextPath() + "/product/productOne.jsp?productNo=" + productNo);
+		return;
+	
 		/*
 		
 		// session.setAttribute("y1", "session: gdj66");
@@ -126,5 +132,5 @@
 		cartSession.setAttribute("cart", cart); */
 	}
 
-	System.out.println("==============addCartAction.jsp==============");
+	// System.out.println("==============addCartAction.jsp==============");
 %>
