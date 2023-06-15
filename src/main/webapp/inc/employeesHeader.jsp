@@ -8,53 +8,41 @@
 			<nav class="limiter-menu-desktop p-l-45">
 				
 				<!-- 로고 데스크탑 -->		
-				<a href="#" class="logo">
-					<img src="<%=request.getContextPath()%>/temp/images/icons/logo-01.png" alt="IMG-LOGO">
+				<a href="<%=request.getContextPath()%>/home.jsp" class="logo">
+					<img src="<%=request.getContextPath()%>/img/logo.png" alt="IMG-LOGO">
 				</a>
 
 				<!-- 메뉴 데스크탑 -->
 				<div class="menu-desktop">
 					<ul class="main-menu">
 						<li>
-							<a href="<%=request.getContextPath()%>/temp/index.html">Home</a>
+							<a href="<%=request.getContextPath()%>/home.jsp">Home</a>
 						</li>
 
 						<li>
-							<a href="<%=request.getContextPath()%>/temp/product.html">Shop</a>
-						</li>
-
-						<li class="label1" data-label1="hot">
-							<a href="<%=request.getContextPath()%>/temp/shoping-cart.html">Features</a>
+							<a href="<%=request.getContextPath()%>/product/productList.jsp">Product</a>
 						</li>
 
 						<li>
-							<a href="<%=request.getContextPath()%>/temp/blog.html">Blog</a>
+							<a href="<%=request.getContextPath()%>/employees/employeeList.jsp">Employees</a>
 						</li>
 
 						<li>
-							<a href="<%=request.getContextPath()%>/temp/about.html">About</a>
+							<a href="<%=request.getContextPath()%>/order/orderList.jsp">Order</a>
 						</li>
 
 						<li>
-							<a href="<%=request.getContextPath()%>/temp/contact.html">Contact</a>
+							<a href="<%=request.getContextPath()%>/qna/qusetionList.jsp">QnA</a>
+						</li>
+
+						<li>
+							<a href="<%=request.getContextPath()%>/">About</a>
 						</li>
 					</ul>
 				</div>	
 
 				<!-- 메뉴 옆 아이콘 -->
 				<div class="wrap-icon-header flex-w flex-r-m h-full">
-					<!-- 검색 아이콘 -->
-					<div class="flex-c-m h-full p-r-24">
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
-							<i class="zmdi zmdi-search"></i>
-						</div>
-					</div>
-					<!-- 카트 아이콘 -->	
-					<div class="flex-c-m h-full p-l-18 p-r-25 bor5">
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="2">
-							<i class="zmdi zmdi-shopping-cart"></i>
-						</div>
-					</div>
 					<!-- 사이드바 아이콘 -->	
 					<div class="flex-c-m h-full p-lr-19">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-sidebar">
@@ -70,23 +58,7 @@
 	<div class="wrap-header-mobile">
 		<!-- 로고 모바일 -->		
 		<div class="logo-mobile">
-			<a href="index.html"><img src="<%=request.getContextPath()%>/temp/images/icons/logo-01.png" alt="IMG-LOGO"></a>
-		</div>
-
-		<!-- 아이콘 -->
-		<div class="wrap-icon-header flex-w flex-r-m h-full m-r-15">
-			<!-- 검색 아이콘 -->
-			<div class="flex-c-m h-full p-r-10">
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
-					<i class="zmdi zmdi-search"></i>
-				</div>
-			</div>
-				<!-- 카트 아이콘 -->
-			<div class="flex-c-m h-full p-lr-10 bor5">
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="2">
-					<i class="zmdi zmdi-shopping-cart"></i>
-				</div>
-			</div>
+			<a href="<%=request.getContextPath()%>/home.jsp"><img src="<%=request.getContextPath()%>/img/logo.png" alt="IMG-LOGO"></a>
 		</div>
 
 		<!-- 메뉴 버튼 -->
@@ -102,35 +74,27 @@
 	<div class="menu-mobile">
 		<ul class="main-menu-m">
 			<li>
-				<a href="<%=request.getContextPath()%>/temp/index.html">Home</a>
-				<ul class="sub-menu-m">
-					<li><a href="index.html">Homepage 1</a></li>
-					<li><a href="home-02.html">Homepage 2</a></li>
-					<li><a href="home-03.html">Homepage 3</a></li>
-				</ul>
-				<span class="arrow-main-menu-m">
-					<i class="fa fa-angle-right" aria-hidden="true"></i>
-				</span>
+				<a href="<%=request.getContextPath()%>/home.jsp">Home</a>
 			</li>
 
 			<li>
-				<a href="<%=request.getContextPath()%>/temp/product.html">Shop</a>
+				<a href="<%=request.getContextPath()%>/product/productList.jsp">Product</a>
 			</li>
 
 			<li>
-				<a href="<%=request.getContextPath()%>/temp/shoping-cart.html" class="label1 rs1" data-label1="hot">Features</a>
+				<a href="<%=request.getContextPath()%>/employees/employeeList.jsp">Employees</a>
 			</li>
 
 			<li>
-				<a href="<%=request.getContextPath()%>/temp/blog.html">Blog</a>
+				<a href="<%=request.getContextPath()%>/order/orderList.jsp">Order</a>
 			</li>
 
 			<li>
-				<a href="<%=request.getContextPath()%>/temp/about.html">About</a>
+				<a href="<%=request.getContextPath()%>/qna/qusetionList.jsp">QnA</a>
 			</li>
 
 			<li>
-				<a href="<%=request.getContextPath()%>/temp/contact.html">Contact</a>
+				<a href="<%=request.getContextPath()%>/">About</a>
 			</li>
 		</ul>
 	</div>
