@@ -104,6 +104,85 @@ public class CustomerDao {
 		return row;
 	}
 	
+	// 포인트 추가
+	// 주문 목록에서 구매확정 클릭 시 적립 -> orderNo에 해당하는 구매금액(orderPrice * orderCnt)의 1% (등급에 따라 5%, 10% 변경)
+	public int addPlusPoint(Orders order) throws Exception {
+		int row = 0;
+		String rank = selectMyRank(order.getId());
+		System.out.println(rank);
+		int point = order.getOrderPrice() * order.getOrderCnt();
+		if (rank.equals("BRONZE")) {
+			point = (int) (point * 0.01);
+		} else if (rank.equals("SILVER")) {
+			point = (int) (point * 0.05);
+		} else {
+			point = (int) (point * 0.1);
+		}
+		System.out.println(point);
+		
+		System.out.println(order.getOrderNo());
+			
+		// DB 연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "INSERT INTO point_history(order_no, point_pm, point, createdate) VALUES(?, '+', ?, NOW())";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, order.getOrderNo());
+		stmt.setInt(2, point);
+		System.out.println(stmt);
+		row = stmt.executeUpdate();
+		
+		if (row == 1) {
+			row = modifyMyPoint(order.getId());
+		}
+		
+		return row;
+	}
+	
+	// 포인트 추가 2
+	// point_history에 더해진 금액을 customer 테이블의 cstm_point에도 저장
+	// public int addPlusPoint()
+	
+	// 포인트 사용
+	// 주문 시 사용
+	public int addMinusPoint(Orders order, int point) throws Exception {
+		int row = 0;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "INSERT INTO point_history(order_no, point_pm, point, createdate) VALUES(?, '-', ?, NOW())";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, order.getOrderNo());
+		stmt.setInt(2, point);
+		System.out.println(stmt);
+		row = stmt.executeUpdate();
+		
+		if (row == 1) {
+			row = modifyMyPoint(order.getId());
+		}
+		
+		return row;
+	}
+	
+	
+	// 내 포인트 설정
+	public int modifyMyPoint(String id) throws Exception {
+		int row = 0;
+		int point = selectMyPoint(id);
+		
+		// DB 연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		String sql = "UPDATE customer SET cstm_point = ? WHERE id = ? ";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, point);
+		stmt.setString(2, id);
+		System.out.println(stmt);
+		row = stmt.executeUpdate();
+		
+		return row;
+	}
+
 	// 내 포인트 조회
 	public int selectMyPoint(String id) throws Exception {
 		// 반환할 변수 선언
@@ -112,12 +191,15 @@ public class CustomerDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		// sql 전송 후 영향받은 행의 수 반환받아 저장
-		String sql ="SELECT SUM(point) FROM point_history ph INNER JOIN (SELECT order_no FROM orders WHERE id ='test') o ON ph.order_no = o.order_no WHERE point_pm = '+'";
+		String sql ="SELECT SUM(point) FROM point_history ph INNER JOIN (SELECT order_no FROM orders o1 WHERE o1.id = ?) o2 ON ph.order_no = o2.order_no WHERE point_pm = '+'";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
 		ResultSet rs = stmt.executeQuery();
 		
-		String sql2 ="SELECT SUM(point) FROM point_history ph INNER JOIN (SELECT order_no FROM orders WHERE id ='test') o ON ph.order_no = o.order_no WHERE point_pm = '-'";
+		String sql2 ="SELECT SUM(point) FROM point_history ph INNER JOIN (SELECT order_no FROM orders o1 WHERE o1.id = ?) o2 ON ph.order_no = o2.order_no WHERE point_pm = '-'";
 		PreparedStatement stmt2 = conn.prepareStatement(sql2);
+		stmt2.setString(1, id);
+		System.out.println(stmt);
 		ResultSet rs2 = stmt2.executeQuery();
 		
 		if(rs.next()) {
@@ -168,6 +250,7 @@ public class CustomerDao {
 		// sql 전송 후 영향받은 행의 수 반환받아 저장
 		String sql ="SELECT cstm_rank RANK FROM customer WHERE id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {
 			myRank = rs.getString(1);
