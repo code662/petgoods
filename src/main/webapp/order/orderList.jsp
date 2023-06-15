@@ -125,13 +125,13 @@
 	}
 	
 	// DB연결
-   Class.forName("org.mariadb.jdbc.Driver");
-   String driver = "jdbc:mariadb://127.0.0.1:3306/employees";
-   String dbUser = "root";
-   String dbPw = "java1234";
-   Connection conn = DriverManager.getConnection(driver, dbUser, dbPw);
+    Class.forName("org.mariadb.jdbc.Driver");
+    String driver = "jdbc:mariadb://127.0.0.1:3306/employees";
+    String dbUser = "root";
+    String dbPw = "java1234";
+    Connection conn = DriverManager.getConnection(driver, dbUser, dbPw);
    
-   String sql = "";
+    String sql = "";
 	PreparedStatement stmt = conn.prepareStatement(sql);
 	
 	// ArrayList<Orders> list 생성 후 값 추가
@@ -170,10 +170,6 @@
 				<option value="배송완료">배송완료</option>
 				<option value="구매확정">구매확정</option>
 			</select>		
-		
-		
-		
-		
 			<button type="submit">검색</button>
 		</form>
 		<table border="1">
@@ -182,7 +178,9 @@
 				<th>상품번호</th>
 				<th>ID</th>
 				<th>주문상태</th>
+				<th>주문수량</th>
 				<th>가격</th>
+				<th>합계금액</th>
 				<th>주문일자</th>
 				<th>수정일자</th>
 			</tr>
@@ -193,8 +191,22 @@
 				<td><%=o.getOrderNo()%></td>
 				<td><%=o.getProductNo()%></td>
 				<td><%=o.getId()%></td>
+				
+		<%
+			if (o.getOrderStatus().equals("결제완료")) { // 주문상태가 결제완료인 경우 링크 클릭하면 배송완료로 상태 변경
+		%>	
+		  		<td><a href="<%=request.getContextPath()%>/order/modifyOrderStatusAction.jsp?orderNo=<%=o.getOrderNo()%>&createdate=<%=o.getCreatedate()%>">결제완료</a></td>
+		<%
+			} else {
+		
+		%>
 				<td><%=o.getOrderStatus()%></td>
-				<td><%=o.getOrderPrice()%></td>
+		<%
+			}
+		%>		
+				<td><%=o.getOrderCnt()%></td>
+				<td><%=o.getOrderPrice()%>원</td>
+				<td><%=o.getOrderPrice() * o.getOrderCnt()%>원</td>
 				<td><%=o.getCreatedate()%></td>
 				<td><%=o.getUpdatedate()%></td>
 			</tr>
