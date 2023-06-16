@@ -130,5 +130,9 @@
 			</div>
 		</div>
 	</form>
+<jsp:include page="/inc/footer.jsp"></jsp:include>
+<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
+<jsp:include page="/inc/quickView.jsp"></jsp:include>
+<jsp:include page="/inc/script.jsp"></jsp:include>
 </body>
 </html>

@@ -26,10 +26,13 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 변경</title>
+<jsp:include page="/inc/link.jsp"></jsp:include>
 </head>
 <body>
-	<h1>비밀번호 변경</h1>
-		
+<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+<jsp:include page="/inc/cart.jsp"></jsp:include>
+
 	<!-- 리다이렉션 메시지 -->
 	<div>
 	<%
@@ -42,31 +45,40 @@
 	</div>
 	
 	<!-- 비밀번호 변경 폼 : 현재 비밀번호 확인 및 변경 비밀번호 입력 -->
-	<form action="<%=request.getContextPath()%>/customer/modifyPwAction.jsp" method="post">
-		<table>
-			<tr>
-				<th>현재 비밀번호</th>
-				<td>
-					<input type="password" name="currentPw">
-				</td>
-			</tr>
-			<tr>
-				<th>변경 비밀번호</th>
-				<td>
-					<input type="password" name="changePw">
-				</td>
-			</tr>
-			<tr>
-				<th>변경 비밀번호 확인</th>
-				<td>
-					<input type="password" name="confirmPw">
-				</td>
-			</tr>
-		</table>
-		<button type="submit">변경하기</button>
-	</form>
-	<a href="<%=request.getContextPath()%>/customer/myPage.jsp">
-		<button>취소</button>
-	</a>
+	<section class="bg0 p-t-104 p-b-116">
+		<div class="container">
+			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md cen">
+				<form action="<%=request.getContextPath()%>/customer/modifyPwAction.jsp" method="post">
+					<h4 class="mtext-111 cl2 txt-center p-b-30">
+						비밀번호 변경
+					</h4>
+					<div class="bor8 m-b-20 how-pos4-parent">
+						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="password" name="currentPw" required="required" style="font-size:16px" placeholder="현재 비밀번호">
+					</div>
+					<div class="bor8 m-b-20 how-pos4-parent">
+						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="password" name="changePw" required="required" style="font-size:16px" placeholder="변경 비밀번호">
+					</div>
+					<div class="bor8 m-b-20 how-pos4-parent">
+						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="password" name="confirmPw" required="required" style="font-size:16px" placeholder="변경 비밀번호 확인">
+					</div>
+					<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+						Submit
+					</button>
+				</form>
+				<br>
+				<div class="flex-w dis-inline-block cen">
+					<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers cen">
+						<a href="<%=request.getContextPath()%>/customer/myPage.jsp" style="color: #333333">
+							취소
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+<jsp:include page="/inc/footer.jsp"></jsp:include>
+<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
+<jsp:include page="/inc/quickView.jsp"></jsp:include>
+<jsp:include page="/inc/script.jsp"></jsp:include>
 </body>
 </html>
