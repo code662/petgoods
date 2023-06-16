@@ -3162,6 +3162,10 @@ input.num-product::-webkit-inner-spin-button {
   opacity: 1;
 }
 
+.cen {
+   margin: 0 auto;
+}
+
 
 
 
