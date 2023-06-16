@@ -79,7 +79,6 @@
 						 let cartNo = $(this).
 					}
 			}
-			
 				
 			});
 		</script>
@@ -99,50 +98,76 @@
 		<%
 				}
 		%>
-				<table border="1">
-					<tr>
-					   <!--  <th>번호</th> -->
-						<th>상품이름</th>
-						<th>가격</th>
-						<th>수량</th>
-						<th>총 금액</th>
-						<th>수량 변경</th>
-						<th>삭제</th>
-					</tr>
-		<%
-				for (Cart c : list) {
-				// 상품 이름 조회
-				String productName = cartDao.selectProductName(c.getProductNo());
-				// 상품 가격 조회
-				int productPrice = cartDao.selectProductPrice(c.getProductNo());
-				// 상품 이미지 조회
-				String productImg = cartDao.selectImg(c.getProductNo());
-				
-				/* int cartCnt = 0;
-				if (cartCnt >= 0) {
-					cartCnt = Integer.parseInt(request.getParameter("cartCnt"));
-				} */
-		
-		%>
-					<tr>
-						<%-- <td><%=c.getCartNo()%></td> --%>
-						<td><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"><%=productName%></td>
-						<td><%=productPrice%></td>
-						<td><%=c.getCartCnt()%></td>
-						<td><%=productPrice * c.getCartCnt()%></td>
-						<td>
-							<input type="number" class="cartCnt" value="">
-							<%-- <a href="#" class="modifyLink" data-productNo="<%=c.getCartNo()%>">수량 수정</a> --%>
-							<a href="<%=request.getContextPath()%>/order/modifyCartAction.jsp?cartNo=<%=c.getCartNo()%>&cartCnt=" class="modifyLink">수량 수정</a>
-						</td>
-						<td><a href="<%=request.getContextPath()%>/order/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>">삭제버튼</a></td>
-					</tr>
-		<%
-		 		// 위 <input> 태그 하드코딩 부분 템플릿 적용 시 수정할 것 
-				}
-		%>
-				</table>
-				<a href="<%=request.getContextPath()%>/order/addOrder.jsp">결제하기</a>
+				<form action="<%=request.getContextPath()%>/order/addOrder.jsp" method="post" id="cartList">
+					<table border="1">
+						<tr>
+						   <!--  <th>번호</th> -->
+							<th>이미지</th>
+							<th>상품이름</th>
+							<th>가격</th>
+							<!-- <th>수량</th> -->
+							<th>총 금액</th>
+							<th>수량</th>
+							<th>삭제</th>
+						</tr>
+			<%
+					int totalPrice = 0;
+					for (Cart c : list) {
+					// 상품 이름 조회
+					String productName = cartDao.selectProductName(c.getProductNo());
+					// 상품 가격 조회
+					int productPrice = cartDao.selectProductPrice(c.getProductNo());
+					// 상품 이미지 조회
+					String productImg = cartDao.selectImg(c.getProductNo());
+					
+					totalPrice += productPrice * c.getCartCnt();
+					
+					/* int cartCnt = 0;
+					if (cartCnt >= 0) {
+						cartCnt = Integer.parseInt(request.getParameter("cartCnt"));
+					} */
+			
+			%>
+						<tr>
+							<%-- <td><%=c.getCartNo()%></td> --%>
+							
+							<td>
+								<input type="hidden" name="cartNo" value="<%=c.getCartNo()%>">
+								<input type="hidden" name="productImg" value="<%=productImg%>">
+								<img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100">
+							</td>
+							<td>
+								<%=productName%>
+							</td>
+							<td>
+								<input type="hidden" name="productPrice" value="<%=productPrice%>">
+								<%=productPrice%>원
+							</td>
+						<%-- 	<td>
+								<input type="hidden" name="orderCnt" value="<%=c.getCartCnt()%>">
+								<%=c.getCartCnt()%>
+							</td> --%>
+							<td>
+								<input type="hidden" name="productPrice" value="<%=productPrice * c.getCartCnt()%>">
+								<%=productPrice * c.getCartCnt()%>원
+							</td>
+							<td>
+								<input type="number" name="cartCnt" value="<%=c.getCartCnt()%>">
+								<!-- ?cartNo=<%=c.getCartNo()%>&cartCnt=   -->
+							</td>
+							<td><a href="<%=request.getContextPath()%>/order/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>">삭제버튼</a></td>
+						</tr>
+			<%
+			 		// 위 <input> 태그 하드코딩 부분 템플릿 적용 시 수정할 것 
+					}
+			%>
+					</table>
+					<div>
+						총 합계 금액: <%=totalPrice%>원
+					</div>
+					<button onclick="$('#cartList').submit()">주문하기</button>
+					<button type="submit" formaction="<%=request.getContextPath()%>/order/modifyCartAction.jsp">수량 수정</button> <!-- formaction: <form> 태그 내 액션 파일명과 값과 관계없이 formaction 태그 내에   -->
+				</form>
 		
 		<%
 			} else { // 로그인 상태가 아니면 세션에서 데이터 조회
@@ -158,7 +183,7 @@
 						<th>가격</th>
 						<th>수량</th>
 						<th>총 금액</th>
-						<th>수량 변경</th>
+						<!-- <th>수량 변경</th> -->
 						<th>삭제</th>
 					</tr>
 		<%
@@ -178,7 +203,7 @@
 						<td><%=productPrice%></td>
 						<td><%=c.getCartCnt()%></td>
 						<td><%=productPrice * c.getCartCnt()%></td>
-						<td><input type="number" id="cartCnt" value=""><a href="<%=request.getContextPath()%>/order/modifyCartAction.jsp?productNo=<%=c.getProductNo()%>&cartCnt=4">수량 수정</a></td>
+						<%-- <td><input type="number" id="cartCnt" value=""><a href="<%=request.getContextPath()%>/order/modifyCartAction.jsp?productNo=<%=c.getProductNo()%>&cartCnt=4">수량 수정</a></td> --%>
 						<td><a href="<%=request.getContextPath()%>/order/removeCartAction.jsp?productNo=<%=c.getProductNo()%>">삭제버튼</a></td>
 					</tr>
 		<%
