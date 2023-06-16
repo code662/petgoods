@@ -28,7 +28,7 @@
 						</li>
 						
 						<li>
-							<a href="<%=request.getContextPath()%>/">About</a>
+							<a href="<%=request.getContextPath()%>/about.jsp">About</a>
 						</li>
 					</ul>
 				</div>	
