@@ -17,20 +17,51 @@
 <head>
 <meta charset="UTF-8">
 <title>배송지 수정</title>
+<jsp:include page="/inc/link.jsp"></jsp:include>
 </head>
 <body>
-<form action="<%=request.getContextPath()%>/customer/modifyAddressAction.jsp?addressNo=<%=addressNo %>" method="post">
-		<input type="text" id="sample6_postcode" name="postcode" placeholder="우편번호">
-		<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-		<input type="text" id="sample6_address" name="address" placeholder="주소"><br>
-		<input type="text" id="sample6_detailAddress" name="detailAddress" placeholder="상세주소">
-		<input type="text" id="sample6_extraAddress" name="extraAddress" placeholder="참고항목">
-		
-		<button type="submit">수정</button>
-	</form>
-	<a href="<%=request.getContextPath()%>/customer/addressList.jsp">
-		<button>취소</button>
-	</a>
+<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+<jsp:include page="/inc/cart.jsp"></jsp:include>
+
+<section class="bg0 p-t-104 p-b-116">
+		<div class="container">
+			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md cen">
+				<form action="<%=request.getContextPath()%>/customer/modifyAddressAction.jsp?addressNo=<%=addressNo %>" method="post">
+					<h4 class="mtext-111 cl2 txt-center p-b-30">
+						배송지 수정
+					</h4>
+					<div class="bor8 m-b-20 how-pos4-parent">
+						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="text" id="sample6_postcode" name="postcode" placeholder="우편번호" style="font-size:16px">
+					</div>
+					<div class="bor8 m-b-20 how-pos4-parent">
+						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" style="font-size:16px">
+					</div>
+					<div class="bor8 m-b-20 how-pos4-parent">
+						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="text" id="sample6_address" name="address" placeholder="주소" style="font-size:16px">
+					</div>
+					<div class="bor8 m-b-20 how-pos4-parent">
+						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="text" id="sample6_detailAddress" name="detailAddress" placeholder="상세주소" style="font-size:16px">
+					</div>
+					<div class="bor8 m-b-20 how-pos4-parent">
+						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="text" id="sample6_extraAddress" name="extraAddress" placeholder="참고항목" style="font-size:16px">
+					</div>
+					<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+						Submit
+					</button>
+				</form>
+				<br>
+				<div class="flex-w dis-inline-block cen">
+					<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers cen">
+						<a href="<%=request.getContextPath()%>/customer/addressList.jsp" style="color: #333333">
+							취소
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 		var themeObj = {
@@ -93,5 +124,9 @@
 	        }).open();
 	    }
 	</script>
+<jsp:include page="/inc/footer.jsp"></jsp:include>
+<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
+<jsp:include page="/inc/quickView.jsp"></jsp:include>
+<jsp:include page="/inc/script.jsp"></jsp:include>
 </body>
 </html>
