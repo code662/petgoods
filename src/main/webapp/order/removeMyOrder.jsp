@@ -44,6 +44,7 @@
 		<div>
 			<h1>주문취소</h1>
 		</div>
+		주문취소 하시겠습니까?
 		<form action="<%=request.getContextPath()%>/order/removeMyOrderAction.jsp" method="post">
 			<input type="hidden" name="orderNo" value="<%=order.getOrderNo()%>">
 			<input type="hidden" name="orderId" value="<%=order.getId()%>">
