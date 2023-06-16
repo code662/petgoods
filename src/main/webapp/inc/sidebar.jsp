@@ -63,7 +63,7 @@
 			<!-- 사이드바 이미지 -->
 			<div class="sidebar-gallery w-full p-tb-30">
 				<span class="mtext-101 cl5">
-					<img src="<%=request.getContextPath()%>/img/logo.png" width="150" height="50">
+					<img src="<%=request.getContextPath()%>/img/logo.png" width="150" height="auto">
 				</span>
 
 				<div class="flex-w flex-sb p-t-36 gallery-lb">

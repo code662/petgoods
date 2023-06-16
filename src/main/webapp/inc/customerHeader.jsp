@@ -9,7 +9,7 @@
 				
 				<!-- 로고 데스크탑 -->		
 				<a href="<%=request.getContextPath()%>/home.jsp" class="logo">
-					<img src="<%=request.getContextPath()%>/img/logo.png" alt="IMG-LOGO">
+					<img src="<%=request.getContextPath()%>/img/logo.png" alt="IMG-LOGO" width="200" height="auto">
 				</a>
 
 				<!-- 메뉴 데스크탑 -->
