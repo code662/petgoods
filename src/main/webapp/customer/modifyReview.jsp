@@ -39,42 +39,80 @@
 <head>
 <meta charset="UTF-8">
 <title>리뷰수정</title>
+<jsp:include page="/inc/link.jsp"></jsp:include>
 </head>
 <body>
-	<form action="<%=request.getContextPath()%>/customer/modifyReviewAction.jsp" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="reviewNo" value="<%=review.getReviewNo() %>">
-		<table>
-			<tr>
-				<th>주문번호</th>
-				<td>
-					<input type="text" name="orderNo" value="<%=review.getOrderNo() %>" style="border:none" readonly="readonly"> 
-				</td>
-			</tr>
-			<tr>
-				<th>제목</th>
-				<td>
-					<input type="text" name="reviewTitle" value="<%=review.getReviewTitle() %>"> 
-				</td>
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td>
-					<textarea rows="3" cols="50" name="reviewContent"><%=review.getReviewContent() %></textarea>
-				</td>
-			</tr>
-			<tr>
-				<th>파일</th>
-				<td>
-					<input type="file" name="reviewImg" required="required"> 
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<button type="submit">리뷰수정</button>
-				</td>
-				<!-- <td></td> -->
-			</tr>
-		</table>
-	</form>
+<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+<jsp:include page="/inc/cart.jsp"></jsp:include>
+
+	<!-- 리뷰 수정 -->
+	<section class="bg0 p-t-104 p-b-116">
+		<div class="container">
+			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md cen">
+				<form class="w-full" action="<%=request.getContextPath()%>/customer/modifyReviewAction.jsp" method="post" enctype="multipart/form-data">
+					<h4 class="mtext-111 cl2 txt-center p-b-30">
+						리뷰 수정
+					</h4>
+					
+					<!-- 리다이렉션 메시지 -->
+					<div>
+					<%
+					   if(request.getParameter("msg") != null){
+					%>
+							<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg") %></p>
+					<%
+					   }
+					%>
+					<br>
+					</div>
+					
+					<input type="hidden" name="reviewNo" value="<%=review.getReviewNo() %>">
+					<p class="stext-102 cl6">
+						당신의 소중한 리뷰는 다른 고객들이 좋은 상품을 선택하는데 큰 도움이 됩니다.
+					</p>
+					<br>
+					<div class="row p-b-25">
+						<div class="col-sm-3 p-b-5">
+							<label class="stext-102 cl3" style="margin-bottom: 0">Order No.</label>
+							<input class="size-111 bor8 stext-103 cl2 p-lr-20" type="text" name="orderNo" value="<%=review.getOrderNo() %>" readonly="readonly" style="border:none; font-size:16px;">
+						</div>
+						<div class="col-sm-9 p-b-5">
+							<label class="stext-102 cl3" >File</label>
+							<input class="size-111 bor8 stext-102 cl2 p-lr-20" type="file" name="reviewImg" required="required" style="border:none;">
+						</div>
+						<div class="col-12 p-b-5">
+							<span class="stext-102 cl3 m-r-16">
+								Review Title
+							</span>
+							<span class="fs-18 cl11 pointer">
+								<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="text" name="reviewTitle" value="<%=review.getReviewTitle() %>" style="font-size:16px;"> 
+							</span>
+						</div>
+						<div class="col-12 p-b-5">
+							<label class="stext-102 cl3">Your review</label>
+							<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" name="reviewContent" style="font-size:16px"><%=review.getReviewContent() %></textarea>
+						</div>
+					</div>
+	
+					<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+						Submit
+					</button>
+				</form>
+				<br>
+				<div class="flex-w dis-inline-block cen">
+					<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers cen">
+						<a href="<%=request.getContextPath()%>/customer/myPage.jsp" style="color: #333333">
+							취소
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+<jsp:include page="/inc/footer.jsp"></jsp:include>
+<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
+<jsp:include page="/inc/quickView.jsp"></jsp:include>
+<jsp:include page="/inc/script.jsp"></jsp:include>
 </body>
 </html>
