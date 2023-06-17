@@ -32,11 +32,21 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>mainCategoryList</title>
+		<jsp:include page="/inc/link.jsp"></jsp:include>
 	</head>
 	<body>
-		<div>
-			<h1>카테고리 리스트(메인)</h1>
-		</div>
+		<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+		<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+		<jsp:include page="/inc/cart.jsp"></jsp:include>
+		
+	   <form class="bg0 p-t-75 p-b-85">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 col-lg-11 col-xl-11 m-lr-auto m-b-50">
+						<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+							<h4 class="mtext-111 cl2 p-b-30">
+								카테고리 리스트(메인)
+							</h4>
 		<%
 			if (request.getParameter("msg") != null) {
 		%>
@@ -44,15 +54,20 @@
 		<%
 			}
 		%>
-		<div>
-			<a href="<%=request.getContextPath()%>/product/addCategory.jsp">새 카테고리 입력</a>
-		</div>
-		
-		<table border="1">
-			<tr>
-				<th>카테고리 번호</th>
-				<th>메인 카테고리명</th>
-				<th>서브 카테고리명</th>
+		<table>
+		   	<colgroup>
+		     	<col width="5%">
+		     	<col width="10%">
+		     	<col width="*">
+		     	<col width="15%">
+		     	<col width="15%">
+		     	<col width="5%">
+		     	<col width="5%">
+	   		 </colgroup>
+   		 	<tr class="bor12" height="40">
+				<th>NO.</th>
+				<th>메인 카테고리</th>
+				<th>서브 카테고리</th>
 				<th>생성일자</th>
 				<th>수정일자</th>
 				<th>수정</th>
@@ -61,21 +76,51 @@
 		<%
 			for (Category c : list) {
 		%>
-				<tr>
-					<td><%=c.getCategoryNo()%></td>
-		<%
-					String categoryMainName = URLEncoder.encode(c.getCategoryMainName(), "UTF-8"); 
-		%>
-					<td><a href="<%=request.getContextPath()%>/product/subCategoryList.jsp?categoryMainName=<%=categoryMainName%>"><%=c.getCategoryMainName()%></a></td>
-					<td><%=c.getCategorySubName()%></td>
-					<td><%=c.getCreatedate()%></td>
-					<td><%=c.getUpdatedate()%></td>
-					<td><a href="<%=request.getContextPath()%>/product/modifyCategory.jsp?categoryNo=<%=c.getCategoryNo()%>">수정</a></td>
-					<td><a href="<%=request.getContextPath()%>/product/removeCategory.jsp?categoryNo=<%=c.getCategoryNo()%>">삭제</a></td>
-				</tr>
+			<!-- <div class="flex-w flex-t bor12 p-b-13" -->
+			<%
+				String categoryMainName = URLEncoder.encode(c.getCategoryMainName(), "UTF-8"); 
+			%>
+					
+					<tr class="bor12">
+						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategoryNo()%></td>
+						<td class="stext-112 cl8" style="font-size:17px;">
+							<a href="<%=request.getContextPath()%>/product/subCategoryList.jsp?categoryMainName=<%=categoryMainName%>"><%=c.getCategoryMainName()%></a>
+						</td>
+						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategorySubName()%></td>
+						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCreatedate().substring(0, 10)%></td>
+						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getUpdatedate().substring(0, 10)%></td>
+						<td class="stext-112 cl8" style="font-size:17px;">
+							<a href="<%=request.getContextPath()%>/product/modifyCategory.jsp?categoryNo=<%=c.getCategoryNo()%>">
+								수정
+							</a>
+						</td>
+						<td class="stext-112 cl8" style="font-size:17px;">
+							<a href="<%=request.getContextPath()%>/product/removeCategory.jsp?categoryNo=<%=c.getCategoryNo()%>">
+								삭제
+							</a>
+						</td>
+					</tr>
 		<%
 			}
 		%>
-		</table>
+			</table> 
+			<br>
+			<div class="flex-w dis-inline-block">
+				<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+					<a href="<%=request.getContextPath()%>/product/addCategory.jsp" style="color: #333333">
+						새 카테고리 입력
+					</a>
+				</div>
+			</div>
+		
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
+		<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
+		<jsp:include page="/inc/quickView.jsp"></jsp:include>
+		<jsp:include page="/inc/script.jsp"></jsp:include>
 	</body>
 </html>
