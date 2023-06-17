@@ -1,7 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-	System.out.println("배송지추가");
-%>
 <!DOCTYPE html>
 <html>
 <head>

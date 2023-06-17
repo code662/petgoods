@@ -14,11 +14,9 @@
 	if(request.getParameter("postcode") == null 
 			|| request.getParameter("address") == null 
 			|| request.getParameter("detailAddress") == null 
-			|| request.getParameter("extraAddress") == null 
 			|| request.getParameter("postcode").equals("")
 			|| request.getParameter("address").equals("")
-			|| request.getParameter("detailAddress").equals("")
-			|| request.getParameter("extraAddress").equals("")) {
+			|| request.getParameter("detailAddress").equals("")) {
 		response.sendRedirect(request.getContextPath()+"/customer/addAddress.jsp");
 		return;
 	}

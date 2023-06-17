@@ -14,12 +14,10 @@
 	if(request.getParameter("postcode") == null 
 			|| request.getParameter("address") == null 
 			|| request.getParameter("detailAddress") == null 
-			|| request.getParameter("extraAddress") == null 
 			|| request.getParameter("addressNo") == null
 			|| request.getParameter("postcode").equals("")
 			|| request.getParameter("address").equals("")
 			|| request.getParameter("detailAddress").equals("")
-			|| request.getParameter("extraAddress").equals("")
 			|| request.getParameter("addressNo").equals("")) {
 		response.sendRedirect(request.getContextPath()+"/customer/modifyAddress.jsp");
 		return;
