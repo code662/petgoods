@@ -40,17 +40,6 @@
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
 <jsp:include page="/inc/cart.jsp"></jsp:include>
 
-	<!-- 리다이렉션 메시지 --> 
-	<div>
-	<%
-		if(request.getParameter("msg") != null){
-	%>
-			<%=request.getParameter("msg")%>
-	<%
-		}
-	%>
-	</div>
-	
 	<!-- 수정 폼 -->
 	<section class="bg0 p-t-104 p-b-116">
 		<div class="container">
@@ -59,6 +48,19 @@
 					<h4 class="mtext-111 cl2 txt-center p-b-30">
 						내 정보 수정
 					</h4>
+					
+					<!-- 리다이렉션 메시지 -->
+					<div>
+					<%
+					   if(request.getParameter("msg") != null){
+					%>
+							<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg") %></p>
+					<%
+					   }
+					%>
+					<br>
+					</div>
+						
 					<div class="bor8 m-b-20 how-pos4-parent" style="border:none">
 						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="id" value="<%=customer.getId() %>" style="font-size:16px" readonly="readonly">
 					</div>

@@ -4,6 +4,7 @@
 <%@ page import="vo.*" %>
 <%@ page import="dao.*" %>
 <%@ page import="java.io.*" %>
+<%@ page import="java.net.*" %>
 <%
 	// Ansi코드 //콘솔창에서 글자배경색지정
 	final String RESET = "\u001B[0m";	
@@ -94,6 +95,13 @@
 			//수정된 파일의 정보로 db를 수정
 			int reviewImgRow = rd.modifyReviewImg(ri);
 		}
+	}
+	
+	String msg = null;
+	if(row == 1){
+		msg = URLEncoder.encode("리뷰가 수정되었습니다","utf-8");
+		response.sendRedirect(request.getContextPath()+"/customer/reviewList.jsp?msg="+msg);
+		return;
 	}
 	response.sendRedirect(request.getContextPath()+"/customer/reviewList.jsp");
 %>

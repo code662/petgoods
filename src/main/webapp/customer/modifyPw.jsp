@@ -33,17 +33,6 @@
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
 <jsp:include page="/inc/cart.jsp"></jsp:include>
 
-	<!-- 리다이렉션 메시지 -->
-	<div>
-	<%
-		if(request.getParameter("msg") != null){
-	%>
-			<%=request.getParameter("msg")%>
-	<%
-		}
-	%>
-	</div>
-	
 	<!-- 비밀번호 변경 폼 : 현재 비밀번호 확인 및 변경 비밀번호 입력 -->
 	<section class="bg0 p-t-104 p-b-116">
 		<div class="container">
@@ -52,6 +41,19 @@
 					<h4 class="mtext-111 cl2 txt-center p-b-30">
 						비밀번호 변경
 					</h4>
+					
+					<!-- 리다이렉션 메시지 -->
+					<div>
+					<%
+					   if(request.getParameter("msg") != null){
+					%>
+							<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg") %></p>
+					<%
+					   }
+					%>
+					<br>
+					</div>
+						
 					<div class="bor8 m-b-20 how-pos4-parent">
 						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="password" name="currentPw" required="required" style="font-size:16px" placeholder="현재 비밀번호">
 					</div>

@@ -29,16 +29,6 @@
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
 <jsp:include page="/inc/cart.jsp"></jsp:include>
 
-   <!-- 리다이렉션 메시지 --> 
-   <div>
-   <%
-      if(request.getParameter("msg") != null){
-   %>
-         <%=request.getParameter("msg")%>
-   <%
-      }
-   %>
-   </div>
     <!-- 배송지 리스트 -->
     <form class="bg0 p-t-75 p-b-85">
 		<div class="container">
@@ -48,6 +38,19 @@
 						<h4 class="mtext-111 cl2 p-b-30">
 							배송지 관리
 						</h4>
+						
+						<!-- 리다이렉션 메시지 --> 
+						<div>
+						<%
+						   if(request.getParameter("msg") != null){
+						%>
+								<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg") %></p>
+						<%
+						   }
+						%>
+						<br>
+						</div>
+						
 						<%
 							for(Address a : list) {
 					    %>
@@ -60,17 +63,13 @@
 							<div class="size-208">
 								<div align="center">
 									<span class="stext-112 cl8" style="font-size:17px; ">
-										<a href="<%=request.getContextPath()%>/customer/modifyAddress.jsp?addressNo=<%=a.getAddressNo() %>">
+										<a href="<%=request.getContextPath()%>/customer/modifyAddress.jsp?addressNo=<%=a.getAddressNo() %>" style="color: #A6A6A6">
 											수정
 										</a>
 									</span>
-									&nbsp;
-									&nbsp;
-									&nbsp;
-									&nbsp;
-									&nbsp;
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									<span class="stext-112 cl8" style="font-size:17px;">
-										<a href="<%=request.getContextPath()%>/customer/removeAddressAction.jsp?addressNo=<%=a.getAddressNo() %>">
+										<a href="<%=request.getContextPath()%>/customer/removeAddressAction.jsp?addressNo=<%=a.getAddressNo() %>" style="color: #A6A6A6">
 											삭제
 										</a>
 									</span>

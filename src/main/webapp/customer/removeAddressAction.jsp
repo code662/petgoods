@@ -34,5 +34,11 @@
 	//디버깅
 	System.out.println(PURPLE + row + " <--row removeAddressAction" + RESET );
 	
+	if(row == 1){
+		msg = URLEncoder.encode("배송지가 삭제되었습니다","utf-8");
+		response.sendRedirect(request.getContextPath()+"/customer/addressList.jsp?msg="+msg);
+		return;
+	}
+	
 	response.sendRedirect(request.getContextPath()+"/customer/addressList.jsp");
 %>

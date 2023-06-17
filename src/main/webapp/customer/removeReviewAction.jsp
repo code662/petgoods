@@ -48,5 +48,11 @@
 	// 디버깅
 	System.out.println(PURPLE + row + " <--row removeReviewAction" + RESET );
 	
+	if (row == 1){
+		msg = URLEncoder.encode("리뷰가 삭제되었습니다", "utf-8");
+		response.sendRedirect(request.getContextPath()+"/customer/reviewList.jsp?msg="+msg);
+		return;
+	}
+	
 	response.sendRedirect(request.getContextPath()+"/customer/reviewList.jsp");
 %>

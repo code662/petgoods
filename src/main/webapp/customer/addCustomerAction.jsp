@@ -66,5 +66,5 @@
 		response.sendRedirect(request.getContextPath()+"/login.jsp?msg="+msg);
 		return;
 	}
-	response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp");
+	response.sendRedirect(request.getContextPath()+"/login.jsp");
 %>
