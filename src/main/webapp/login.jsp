@@ -75,7 +75,7 @@
 			<%
 	      		if(request.getParameter("msg") != null){
 	      	%>
-	            <p style="color: red"><%=request.getParameter("msg") %></p>
+	            <p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg") %></p>
 	     	<%
 	        	}
 	     	%>
