@@ -96,11 +96,22 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>myOrderList</title>
+		<jsp:include page="/inc/link.jsp"></jsp:include>
 	</head>
 	<body>
-		<div>
-			<h1>나의 주문 리스트</h1>
-		</div>
+		<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+		<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+		<jsp:include page="/inc/cart.jsp"></jsp:include>
+		
+		 <form class="bg0 p-t-75 p-b-85">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 col-lg-11 col-xl-11 m-lr-auto m-b-50">
+						<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+							<h4 class="mtext-111 cl2 p-b-30">
+								나의 주문 리스트
+							</h4>
+
 		<%
 			if (request.getParameter("msg") != null) {
 		%>
@@ -108,8 +119,18 @@
 		<%
 			}
 		%>
-		<table border="1">
-			<tr>
+		<table>
+ 			<colgroup>
+		     	<col width="*">
+		     	<col width="10%">
+		     	<col width="15%">
+		     	<col width="15%">
+		     	<col width="5%">
+		     	<col width="15%">
+		     	<col width="10%">
+		     	<col width="10%">
+	   		 </colgroup>
+			<tr class="bor12">
 				<th>주문코드</th>
 				<th>상품이름</th>
 				<th>주문상태</th>
@@ -133,7 +154,7 @@
 			// 상품 이미지 조회
 			String productImg = ordersDao.selectImg(o.getProductNo());
 		%>
-			<tr>
+			<tr class="bor12">
 				<td><%=ordersCode%></td>
 				<td><%=productName%></td>
 				<td><%=o.getOrderStatus()%></td>
@@ -167,7 +188,17 @@
 			}
 		%>
 		</table>
-		<a href="<%=request.getContextPath()%>/customer/myPage.jsp">뒤로가기</a>
+		
+		<br>
+		<div class="flex-w dis-inline-block">
+			<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+				<a href="<%=request.getContextPath()%>/customer/myPage.jsp" style="color: #333333">
+					뒤로가기
+				</a>
+			</div>
+		</div>
+	
+		
 		
 		<%
 			// minPage가 1보다 클 때만 [이전] 탭 출력
@@ -196,5 +227,15 @@
 		<% 
 			}
 		%>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
+		<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
+		<jsp:include page="/inc/quickView.jsp"></jsp:include>
+		<jsp:include page="/inc/script.jsp"></jsp:include>
 	</body>
 </html>
