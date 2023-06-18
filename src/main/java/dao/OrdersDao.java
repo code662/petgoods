@@ -18,9 +18,9 @@ public class OrdersDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, beginRow);
 		stmt.setInt(2, rowPerPage);
-		
+
 		ResultSet rs = stmt.executeQuery();
-		while(rs.next()) {
+		while (rs.next()) {
 			Orders orders = new Orders();
 			orders.setOrderNo(rs.getInt("orderNo"));
 			orders.setProductNo(rs.getInt("productNo"));
@@ -30,12 +30,12 @@ public class OrdersDao {
 			orders.setOrderPrice(rs.getInt("orderPrice"));
 			orders.setCreatedate(rs.getString("createdate"));
 			orders.setUpdatedate(rs.getString("updatedate"));
-			list.add(orders);	
+			list.add(orders);
 		}
-		
+
 		return list;
 	}
-	
+
 	// 총 주문 건수 (관리자 화면 페이징)
 	public int selectOrdersCnt() throws Exception {
 		// 반환할 전체 행의 수
@@ -49,12 +49,13 @@ public class OrdersDao {
 		if (rs.next()) {
 			row = rs.getInt(1);
 		}
-		 
-		 return row;
-	 }
-	
+
+		return row;
+	}
+
 	// 주문상태별 주문리스트 조회
-	public ArrayList<Orders> selectOrdersByOrderStatus(String orderStatus, int beginRow, int rowPerPage) throws Exception {
+	public ArrayList<Orders> selectOrdersByOrderStatus(String orderStatus, int beginRow, int rowPerPage)
+			throws Exception {
 		// 반환할 ArrayList<Orders> 생성
 		ArrayList<Orders> list = new ArrayList<>();
 		// DB 접속
@@ -66,9 +67,9 @@ public class OrdersDao {
 		stmt.setString(1, orderStatus);
 		stmt.setInt(2, beginRow);
 		stmt.setInt(3, rowPerPage);
-		
+
 		ResultSet rs = stmt.executeQuery();
-		while(rs.next()) {
+		while (rs.next()) {
 			Orders orders = new Orders();
 			orders.setOrderNo(rs.getInt("orderNo"));
 			orders.setProductNo(rs.getInt("productNo"));
@@ -78,27 +79,187 @@ public class OrdersDao {
 			orders.setOrderCnt(rs.getInt("orderCnt"));
 			orders.setCreatedate(rs.getString("createdate"));
 			orders.setUpdatedate(rs.getString("updatedate"));
-			list.add(orders);	
+			list.add(orders);
 		}
 
 		return list;
 	}
-	
-	// 고객아이디별 주문리스트 조회
-	/*
-	 * public ArrayList<Orders> selectOrdersById(String id, int beginRow, int
-	 * rowPerPage) throws Exception { // 반환할 ArrayList<Orders> 생성 ArrayList<Orders>
-	 * list = new ArrayList<>(); // DB 접속 DBUtil dbUtil = new DBUtil(); Connection
-	 * conn = dbUtil.getConnection(); String sql = ""; PreparedStatement stmt =
-	 * conn.prepareStatement(sql);
-	 * 
-	 * return list; }
-	 */
-	
-	// 날짜범위별 주문리스트 조회
-	
-	// 내 주문 조회 
-	 public ArrayList<Orders> selectMyOrders(String id, int beginRow, int rowPerPage) throws Exception {
+
+	// 고객아이디별 + 주문상태별 주문리스트 조회
+	public ArrayList<Orders> selectOrdersByIdStatus(int[] intCkMonth,String searchId, String orderStatus, int beginRow, int rowPerPage) throws Exception {
+		// 반환할 ArrayList<Orders> 생성
+		ArrayList<Orders> list = new ArrayList<>();
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = null;
+		PreparedStatement stmt = null;
+		// 경우의 수에 따라 쿼리문 분기 
+		// 1) 입력값 없음
+		// 2) id검색값만 존재 
+		// 3) 주문상태만 존재 
+		// 4) 월값만 존재
+		// 5) id검색값, 주문상태만 존재
+		// 6) id검색값, 월값만 존재
+		// 7) 주문상태, 월값만 존재
+		// 8) 모든 값 존재
+		
+		if (intCkMonth == null && searchId.equals("") && orderStatus.equals("")) { // 입력값 없음
+			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders ORDER BY createdate DESC LIMIT ? ,?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);
+		} else if (intCkMonth == null && orderStatus.equals("")) { // id검색값만 존재
+			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE id LIKE ? ORDER BY createdate DESC LIMIT ? ,?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%" + searchId + "%");
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, rowPerPage); 
+		} else if (intCkMonth == null && searchId.equals("")) { // 주문상태만 존재
+			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE order_status = ? ORDER BY createdate DESC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, orderStatus);
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, rowPerPage); 
+		} else if (searchId.equals("") && orderStatus.equals("")) { // 월값만 존재
+			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE MONTH(createdate) IN (?";
+			// 쿼리의 ? 개수 설정
+			for (int i = 1; i < intCkMonth.length; i += 1) {
+				sql += ", ?";
+			}
+			sql += ") ORDER BY createdate DESC LIMIT ?, ?";
+			
+			stmt = conn.prepareStatement(sql);
+			// 쿼리에 ? 값 설정
+			for (int i = 0; i < intCkMonth.length; i += 1) {
+				stmt.setInt(i + 1, intCkMonth[i]);
+			}
+			stmt.setInt(intCkMonth.length + 1, beginRow);
+			stmt.setInt(intCkMonth.length + 2, rowPerPage);
+		} else if (intCkMonth == null) { // id검색값, 주문상태만 존재
+			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE order_status = ? AND id LIKE ? ORDER BY createdate DESC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, orderStatus);
+			stmt.setString(2, "%" + searchId + "%");
+			stmt.setInt(3, beginRow);
+			stmt.setInt(4, rowPerPage);
+		} else if (orderStatus.equals("")) { // id검색값, 월값만 존재
+			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE MONTH(createdate) IN (?";
+			// 쿼리의 ? 개수 설정
+			for (int i = 1; i < intCkMonth.length; i += 1) {
+				sql += ", ?";
+			}
+			sql += ") AND id LIKE ? ORDER BY createdate DESC LIMIT ?, ?";
+			
+			stmt = conn.prepareStatement(sql);
+			// 쿼리에 ? 값 설정
+			for (int i = 0; i < intCkMonth.length; i += 1) {
+				stmt.setInt(i + 1, intCkMonth[i]);
+			}
+			stmt.setString(intCkMonth.length + 1, "%" + searchId + "%");
+			stmt.setInt(intCkMonth.length + 2, beginRow);
+			stmt.setInt(intCkMonth.length + 3, rowPerPage);
+		
+		} else if (searchId.equals("")) { // 주문상태, 월값만 존재
+			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE MONTH(createdate) IN (?";
+			// 쿼리의 ? 개수 설정
+			for (int i  = 1; i < intCkMonth.length; i += 1) {
+				sql += ", ?";
+			}
+			sql += ") AND order_status = ? ORDER BY createdate DESC LIMIT ?, ?";
+			
+			stmt = conn.prepareStatement(sql);
+			// 쿼리에 ? 값 설정
+			for (int i = 0; i < intCkMonth.length; i += 1) {
+				stmt.setInt(i + 1, intCkMonth[i]);
+			}
+			stmt.setString(intCkMonth.length + 1, orderStatus);
+			stmt.setInt(intCkMonth.length + 2, beginRow);
+			stmt.setInt(intCkMonth.length + 3, rowPerPage);
+			
+		} else { // 모든 값 존재
+			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE MONTH(createdate) IN (?";
+			// 쿼리의 ? 개수 설정
+			for (int i  = 1; i < intCkMonth.length; i += 1) {
+				sql += ", ?";
+			}
+			sql += ") AND order_status = ? AND id LIKE ? ORDER BY createdate DESC LIMIT ?, ?";
+			
+			stmt = conn.prepareStatement(sql);
+			// 쿼리에 ? 값 설정
+			for (int i = 0; i < intCkMonth.length; i += 1) {
+				stmt.setInt(i + 1, intCkMonth[i]);
+			}
+			stmt.setString(intCkMonth.length + 1, orderStatus);
+			stmt.setString(intCkMonth.length + 2, "%" + searchId + "%");
+			stmt.setInt(intCkMonth.length + 3, beginRow);
+			stmt.setInt(intCkMonth.length + 4, rowPerPage);
+		}
+		
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			Orders orders = new Orders();
+			orders.setOrderNo(rs.getInt("orderNo"));
+			orders.setProductNo(rs.getInt("productNo"));
+			orders.setId(rs.getString("id"));
+			orders.setOrderStatus(rs.getString("orderStatus"));
+			orders.setOrderPrice(rs.getInt("orderPrice"));
+			orders.setOrderCnt(rs.getInt("orderCnt"));
+			orders.setCreatedate(rs.getString("createdate"));
+			orders.setUpdatedate(rs.getString("updatedate"));
+			list.add(orders);
+		}
+		
+		return list;
+
+		/*
+		if (!searchId.equals("") && orderStatus.equals("")) { // id검색값만 존재
+			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE id LIKE ? ORDER BY createdate DESC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%" + searchId + "%");
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, rowPerPage); 
+		} else if (searchId.equals("") && !orderStatus.equals("")) { // 주문상태만 존재
+			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE order_status = ? ORDER BY createdate DESC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, orderStatus);
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, rowPerPage); 
+		} else if (!searchId.equals("") && !orderStatus.equals("")) { // id, 주문상태 모두 존재
+			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE order_status = ? AND id LIKE ? ORDER BY createdate DESC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, orderStatus);
+			stmt.setString(2, "%" + searchId + "%");
+			stmt.setInt(3, beginRow);
+			stmt.setInt(4, rowPerPage);
+		} else { // 별도 입력값이 없음
+			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders ORDER BY createdate DESC LIMIT ? ,?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);
+		}
+		
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			Orders orders = new Orders();
+			orders.setOrderNo(rs.getInt("orderNo"));
+			orders.setProductNo(rs.getInt("productNo"));
+			orders.setId(rs.getString("id"));
+			orders.setOrderStatus(rs.getString("orderStatus"));
+			orders.setOrderPrice(rs.getInt("orderPrice"));
+			orders.setOrderCnt(rs.getInt("orderCnt"));
+			orders.setCreatedate(rs.getString("createdate"));
+			orders.setUpdatedate(rs.getString("updatedate"));
+			list.add(orders);
+		}
+		
+		return list;
+		*/
+		
+	}
+
+	// 내 주문 조회
+	public ArrayList<Orders> selectMyOrders(String id, int beginRow, int rowPerPage) throws Exception {
 		// 반환할 ArrayList<Order> 생성
 		ArrayList<Orders> list = new ArrayList<>();
 		// DB 접속
@@ -110,9 +271,9 @@ public class OrdersDao {
 		stmt.setString(1, id);
 		stmt.setInt(2, beginRow);
 		stmt.setInt(3, rowPerPage);
-		
+
 		ResultSet rs = stmt.executeQuery();
-		while(rs.next()) {
+		while (rs.next()) {
 			Orders orders = new Orders();
 			orders.setOrderNo(rs.getInt("orderNo"));
 			orders.setProductNo(rs.getInt("productNo"));
@@ -122,33 +283,33 @@ public class OrdersDao {
 			orders.setOrderCnt(rs.getInt("orderCnt"));
 			orders.setCreatedate(rs.getString("createdate"));
 			orders.setUpdatedate(rs.getString("updatedate"));
-			list.add(orders);	
+			list.add(orders);
 		}
-		
+
 		return list;
 	}
-	
-	 // 총 주문 조회 (내 주문 조회 페이징)
-	 public int selectMyOrdersCnt(String id) throws Exception {
-		 // 나의 총 주문내역 개수
-		 int cnt = 0;
-		 // DB 접속
-		 DBUtil dbUtil = new DBUtil();
-		 Connection conn = dbUtil.getConnection();
-		 String sql = "SELECT COUNT (*) FROM orders WHERE id=?";
-		 PreparedStatement stmt = conn.prepareStatement(sql);
-		 stmt.setString(1, id);
-		 
-		 ResultSet rs = stmt.executeQuery();
-		 if (rs.next()) {
-			 cnt = rs.getInt(1);
-		 }
-		 
-		 return cnt;
-	 }
-	 
+
+	// 총 주문 조회 (내 주문 조회 페이징)
+	public int selectMyOrdersCnt(String id) throws Exception {
+		// 나의 총 주문내역 개수
+		int cnt = 0;
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT COUNT (*) FROM orders WHERE id=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
+
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()) {
+			cnt = rs.getInt(1);
+		}
+
+		return cnt;
+	}
+
 	// 주문 상태 변경 (주문취소, 결제완료, 배송완료, 구매확정)
-	public int modifyOrdersStatus(Orders orders) throws Exception{
+	public int modifyOrdersStatus(Orders orders) throws Exception {
 		// sql 실행시 영향받은 행의 수
 		int row = 0;
 		// db 접속
@@ -161,10 +322,10 @@ public class OrdersDao {
 		stmt.setString(2, orders.getId());
 		stmt.setString(3, orders.getCreatedate());
 		row = stmt.executeUpdate();
-		
+
 		return row;
 	}
-	
+
 	// 고객 id 조회 (관리자 페이지에서 주문상태 변경에 사용)
 	public String selectCstmId(int orderNo) throws Exception {
 		String id = "";
@@ -175,15 +336,15 @@ public class OrdersDao {
 		String sql = "SELECT id FROM orders WHERE order_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, orderNo);
-		
+
 		ResultSet rs = stmt.executeQuery();
 		if (rs.next()) {
 			id = rs.getString(1);
 		}
-		
+
 		return id;
 	}
-	 
+
 	// 총 주문 금액 조회 (회원등급 구하기 위함)
 	public int selectTotalOrdersPrice(String id) throws Exception {
 		int totalOrdersPrice = 0;
@@ -198,12 +359,12 @@ public class OrdersDao {
 		if (rs.next()) {
 			totalOrdersPrice = rs.getInt(1);
 		}
-		
+
 		return totalOrdersPrice;
 	}
-	
-	// 
-	
+
+	//
+
 	// 주문 추가 (결제완료)
 	public int addOrders(Orders orders) throws Exception {
 		// sql 실행시 영향받은 행의 수
@@ -213,21 +374,21 @@ public class OrdersDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		String sql = "INSERT INTO orders(product_no, id, order_status, order_cnt, order_price, createdate, updatedate) VALUES(?, ?, '결제완료', ?, ?, NOW(), NOW())";
-		PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); // 
+		PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); //
 		stmt.setInt(1, orders.getProductNo());
 		stmt.setString(2, orders.getId());
 		stmt.setInt(3, orders.getOrderCnt());
 		stmt.setInt(4, orders.getOrderPrice());
 		ResultSet rs = stmt.getGeneratedKeys();
 		if (rs.next()) {
-			key = rs.getInt(1); 
+			key = rs.getInt(1);
 		}
-		
+
 		row = modifyProductStock(key);
-	
+
 		return row;
-	 } 
-		
+	}
+
 	// 주문코드 (createdate(연/월/일/시/분/초) + orderNo(4자리)) 조회
 	public String selectOrdersCode(int orderNo) throws Exception {
 		// 반환할 String fullOrdersNo 생성
@@ -244,10 +405,10 @@ public class OrdersDao {
 		if (rs.next()) {
 			ordersCode = rs.getString(1);
 		}
-		
+
 		return ordersCode;
 	}
-	
+
 	// 상품이름 조회
 	public String selectProductName(int productNo) throws Exception {
 		// 반환할 String name 생성
@@ -259,15 +420,15 @@ public class OrdersDao {
 		String sql = "SELECT product_name FROM product p INNER JOIN orders o ON p.product_no = o.product_no WHERE o.product_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, productNo);
-		
+
 		ResultSet rs = stmt.executeQuery();
 		if (rs.next()) {
 			name = rs.getString(1);
 		}
-		
+
 		return name;
 	}
-	
+
 	// 상품 이미지 조회
 	public String selectImg(int productNo) throws Exception {
 		// 반환할 객체 (이미지명)
@@ -279,15 +440,15 @@ public class OrdersDao {
 		String sql = "SELECT product_save_filename FROM product_img WHERE product_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, productNo);
-		
+
 		ResultSet rs = stmt.executeQuery();
 		if (rs.next()) {
 			img = rs.getString(1);
 		}
-		
+
 		return img;
 	}
-	
+
 	// 주문 1건 상세정보
 	public Orders selectOrderOne(int orderNo) throws Exception {
 		Orders order = null;
@@ -309,10 +470,10 @@ public class OrdersDao {
 			order.setCreatedate(rs.getString("createdate"));
 			order.setUpdatedate(rs.getString("updatedate"));
 		}
-		
+
 		return order;
 	}
-	
+
 	// 재고량 조회
 	public int selectProductStock(int productNo) throws Exception {
 		// 반환할 재고량
@@ -323,15 +484,15 @@ public class OrdersDao {
 		String sql = "SELECT product_stock FROM product WHERE product_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, productNo);
-		
+
 		ResultSet rs = stmt.executeQuery();
 		if (rs.next()) {
 			stock = rs.getInt(1);
 		}
-		
+
 		return stock;
 	}
-	
+
 	// 재고량 변경
 	public int modifyProductStock(int orderNo) throws Exception {
 		// 변경된 재고량
@@ -342,16 +503,14 @@ public class OrdersDao {
 		String sql = "UPDATE product p INNER JOIN orders o ON p.product_no = o.product_no SET p.product_stock = p.product_stock - o.order_cnt WHERE o.order_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, orderNo);
-		
+
 		row = stmt.executeUpdate();
-		
+
 		return row;
-		
+
 		/*
-		UPDATE customers
-		INNER JOIN orders ON customers.id = orders.customer_id
-		SET customers.address = 'New Address'
-		WHERE orders.total_amount > 100;
-		*/
+		 * UPDATE customers INNER JOIN orders ON customers.id = orders.customer_id SET
+		 * customers.address = 'New Address' WHERE orders.total_amount > 100;
+		 */
 	}
 }
