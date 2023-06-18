@@ -4,79 +4,48 @@
 <%@ page import="java.util.*" %>
 <%@ page import="vo.*" %>
 <%@ page import="dao.*" %>   
+<%@ page import="java.net.*"%> 
 <%
+	// css 이슈
 	// 전체 고객 주문 리스트 (관리자 로그인 상태에서 볼 수 있는 리스트)
 	// 필터 : 아이디, 상태, 날짜 (기본정렬 주문일자 최신순)
 	// 아이디 검색 / 주문상태 선택 / 날짜 범위 선택
-	// 필터 부분 추후 Dao로 옮기기
 	
 	// 주문상태 수정 -> 옵션 : 결제완료 / 취소 / 배송완료 / 구매확정 -> modifyOrderStatusAction.jsp 파일에서 실행
 
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 	
-	/* // 필터(ID, 주문상태, 날짜 범위) 파라미터값
-	System.out.println("searchWord param: " + request.getParameter("searchWord") + " <-- orderList");
-	System.out.println("orderStatus param: " + request.getParameter("orderStatus") + " <-- orderList");
-	System.out.println("beginYear param: " + request.getParameter("beginYear") + " <-- orderList");
-	System.out.println("endYear param: " + request.getParameter("endYear") + " <-- orderList"); */
-
-	// 넘어온 ckMonth 값 String 배열에 저장
-	String[] ckMonth = request.getParameterValues("ckMonth"); // 다중값 매개변수 저장
+	// 요청값 디버깅
+	// 체크박스 선택된 월값
+	// request.getParamterValues(): 여러 값을 받아옴
+	String[] ckMonth = request.getParameterValues("ckMonth");
+	System.out.println(request.getParameterValues("ckMonth") + " <-- ckMonth");
 	
-	// ckMonth값들을 정수로 변환해서 담을 배열 생성
 	int[] intCkMonth = null;
-	
-	// checkbox에 반영하기 위한 배열 -> 각 월 값들이 포함되어 있는지 확인 여부 저장
-	boolean[] isChecked = new boolean[13];
-	
-	// 넘어온 값 체크
-	if (request.getParameterValues("ckMonth") != null) {
-		for (String s : request.getParameterValues("ckMonth")) {
-			System.out.println(s + "ckMonth(orderList)");
-		}
-	}
-	
-	// ckMonth에 넘어온 값이 있으면 변환하여 정수 배열에 추가
-	if (ckMonth != null) {
-		intCkMonth = new int[ckMonth.length];
-		for (int i = 0; i < intCkMonth.length; i++) {
+	if (ckMonth != null) { // 넘어온 값이 있으면
+		intCkMonth = new int[ckMonth.length]; // String 배열의 길이와 같은 길이의 배열 생성
+		for (int i = 0; i < intCkMonth.length; i += 1) { // String 배열 길이만큼 값을 추가
 			intCkMonth[i] = Integer.parseInt(ckMonth[i]);
-			// 넘어온 값에 해당하는 인덱스 번호에 true 입력
-			isChecked[intCkMonth[i]] = true;
 		}
 	}
 	
-	// ID 검색값 초기화 -> null 아닌 값이 넘어올 경우 저장
-	String searchWord = "";
-	if (request.getParameter("searchWord") != null) {
-		searchWord = request.getParameter("searchWord");
+	// 검색한 id
+	String searchId = "";
+	if (request.getParameter("searchId") != null) {
+		searchId = request.getParameter("searchId");
 	}
 	
-	// 주문상태 선택값 초기화 -> null 아닌 값이 넘어올 경우 저장
+	
+	// 주문상태 선택 
 	String orderStatus = "";
 	if (request.getParameter("orderStatus") != null) {
-		searchWord = request.getParameter("orderStatus");
+		orderStatus = request.getParameter("orderStatus");
 	}
 	
-	// 최소 년도: 임의의 값 설정 (2020)
-	int beginYear = 2020;
-	if (request.getParameter("beginYear") != null) {
-		beginYear = Integer.parseInt(request.getParameter("beginYear"));
-	}
-	
-	// 최대 년도: 임의의 값 설정 (2023)
-	int endYear = 2023;
-	if (request.getParameter("beginYear") != null) {
-		beginYear = Integer.parseInt(request.getParameter("beginYear"));
-	}
-	
-	// 디버깅
-	System.out.println(searchWord + " <-- searchWord(orderList)");
+	System.out.println(searchId + " <-- searchId(orderList)");
 	System.out.println(orderStatus + " <-- orderStatus(orderList)");
-	System.out.println(beginYear + " <-- beginYear(orderList)");
-	System.out.println(endYear + " <-- endYear(orderList)");
-
+	
 	// OrdersDao 클래스 객체 생성 -> SQL 메소드 이용
 	OrdersDao ordersDao = new OrdersDao();
 
@@ -124,19 +93,9 @@
 		maxPage = lastPage;
 	}
 	
-	// DB연결
-    Class.forName("org.mariadb.jdbc.Driver");
-    String driver = "jdbc:mariadb://127.0.0.1:3306/employees";
-    String dbUser = "root";
-    String dbPw = "java1234";
-    Connection conn = DriverManager.getConnection(driver, dbUser, dbPw);
-   
-    String sql = "";
-	PreparedStatement stmt = conn.prepareStatement(sql);
-	
 	// ArrayList<Orders> list 생성 후 값 추가
 	ArrayList<Orders> list = new ArrayList<>();	
-	list = ordersDao.selectTotalOrders(beginRow, rowPerPage);
+	list = ordersDao.selectOrdersByIdStatus(intCkMonth, searchId, orderStatus, beginRow, rowPerPage);
 	
 	System.out.println("==============orderList.jsp==============");
 %>
@@ -145,11 +104,21 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>orderList</title>
+		<jsp:include page="/inc/link.jsp"></jsp:include>
 	</head>
 	<body>
-		<div>
-			<h1>전체 고객 주문 리스트</h1>
-		</div>
+		<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+		<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+		<jsp:include page="/inc/cart.jsp"></jsp:include>
+		
+		<form action="<%=request.getContextPath()%>/order/orderList.jsp" method="get" class="bg0 p-t-75 p-b-85">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 col-lg-11 col-xl-11 m-lr-auto m-b-50">
+						<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+							<h4 class="mtext-111 cl2 p-b-30">
+								전체 고객 주문 리스트
+							</h4>
 		<%
 			if (request.getParameter("msg") != null) {
 		%>
@@ -157,23 +126,58 @@
 		<%
 			}
 		%>
-		
-		<!-- 요청 폼 -->
-		<form action="<%=request.getContextPath()%>/order/orderList.jsp" method="get">
 			<label>ID 검색 : </label>
+			<input type="text" name="searchId" value="<%=searchId%>" placeholder="id 검색">
 			
 			<label>주문상태 : </label>
 			<select name="orderStatus">
-				<option value="">선택</option>
-				<option value="결제완료">결제완료</option>
-				<option value="주문취소">주문취소</option>
-				<option value="배송완료">배송완료</option>
-				<option value="구매확정">구매확정</option>
-			</select>		
+				<option value="" <%if(orderStatus.equals("")){ %>selected<%}%>>선택</option>
+				<option value="결제완료" <%if(orderStatus.equals("결제완료")){ %>selected<%}%>>결제완료</option>
+				<option value="주문취소" <%if(orderStatus.equals("주문취소")){ %>selected<%}%>>주문취소</option>
+				<option value="배송완료" <%if(orderStatus.equals("배송완료")){ %>selected<%}%>>배송완료</option>
+				<option value="구매확정" <%if(orderStatus.equals("구매확정")){ %>selected<%}%>>구매확정</option>
+			</select>	
+			<%
+				//체크검사
+				boolean[] checked = {false, false, false, false, false, false, false, false, false, false, false, false};
+				//for 문 보다는 foreach문을 활용
+				int[] months = {1,2,3,4,5,6,7,8,9,10,11,12};
+				for(int m : months) {
+					if(intCkMonth != null) {
+						// 체크한 월이면 true 대입
+						for(int i : intCkMonth) {
+							if(i == m) {
+								checked[i-1] = true;
+							}
+						}
+					}
+					// ture이면 체크
+					if (checked[m-1] == true) {
+				%> 
+					<input type="checkbox" name="ckMonth" value="<%=m%>" checked="checked"><%=m%>월
+				<%	
+					} else {
+				%>
+					<input type="checkbox" name="ckMonth" value="<%=m%>"> <%=m%>월
+				<%			
+						}		
+					}
+				%>
 			<button type="submit">검색</button>
-		</form>
-		<table border="1">
-			<tr>
+			
+		<table class="center">
+			<colgroup>
+		     	<col width="8%">
+		     	<col width="8%">
+		     	<col width="10%">
+		     	<col width="10%">
+		     	<col width="8%">
+		     	<col width="10%">
+		     	<col width="10%">
+		     	<col width="*%">
+		     	<col width="*%">
+	   		 </colgroup>
+			<tr class="bor12">
 				<th>주문번호</th>
 				<th>상품번호</th>
 				<th>ID</th>
@@ -187,28 +191,28 @@
 		<%
 			for (Orders o : list) {
 		%>
-			<tr>
-				<td><%=o.getOrderNo()%></td>
-				<td><%=o.getProductNo()%></td>
-				<td><%=o.getId()%></td>
+			<tr class="bor12">
+				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderNo()%></td>
+				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getProductNo()%></td>
+				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getId()%></td>
 				
 		<%
 			if (o.getOrderStatus().equals("결제완료")) { // 주문상태가 결제완료인 경우 링크 클릭하면 배송완료로 상태 변경
 		%>	
-		  		<td><a href="<%=request.getContextPath()%>/order/modifyOrderStatusAction.jsp?orderNo=<%=o.getOrderNo()%>&createdate=<%=o.getCreatedate()%>">결제완료</a></td>
+		  		<td class="stext-112 cl8" style="font-size:17px;"><a href="<%=request.getContextPath()%>/order/modifyOrderStatusAction.jsp?orderNo=<%=o.getOrderNo()%>&createdate=<%=o.getCreatedate()%>">결제완료</a></td>
 		<%
 			} else {
 		
 		%>
-				<td><%=o.getOrderStatus()%></td>
+				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderStatus()%></td>
 		<%
 			}
 		%>		
-				<td><%=o.getOrderCnt()%></td>
-				<td><%=o.getOrderPrice()%>원</td>
-				<td><%=o.getOrderPrice() * o.getOrderCnt()%>원</td>
-				<td><%=o.getCreatedate()%></td>
-				<td><%=o.getUpdatedate()%></td>
+				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderCnt()%></td>
+				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderPrice()%>원</td>
+				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderPrice() * o.getOrderCnt()%>원</td>
+				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getCreatedate()%></td>
+				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getUpdatedate()%></td>
 			</tr>
 		<%
 			}
@@ -244,5 +248,14 @@
 		<%
 			}
 		%>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
+		<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
+		<jsp:include page="/inc/quickView.jsp"></jsp:include>
+		<jsp:include page="/inc/script.jsp"></jsp:include> 
 	</body>
 </html>
