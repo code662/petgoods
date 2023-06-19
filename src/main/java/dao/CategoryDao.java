@@ -22,6 +22,30 @@ public class CategoryDao {
 	 * category.setUpdatedate(rs.getString("updatedate")); list.add(category); }
 	 * return list; }
 	 */
+	
+	// 전체 카테고리 조회
+	public ArrayList<Category> selectCategory() throws Exception {
+		// 반환할 ArrayList<Address> 생성
+		ArrayList<Category> list = new ArrayList<>();
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		String sql = "SELECT category_no categoryNo, category_main_name categoryMainName, category_sub_name categorySubName, createdate, updatedate FROM category";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			Category category = new Category();
+			category.setCategoryNo(rs.getInt("categoryNo"));
+			category.setCategoryMainName(rs.getString("categoryMainName"));
+			category.setCategorySubName(rs.getString("categorySubName"));
+			category.setCreatedate(rs.getString("createdate"));
+			category.setUpdatedate(rs.getString("updatedate"));
+			list.add(category);
+		}
+		return list;
+	}
 
 	// 메인 카테고리 조회 (메인, 메인에 속한 서브 카테고리 출력)
 	public ArrayList<Category> selectMainCategory() throws Exception {
