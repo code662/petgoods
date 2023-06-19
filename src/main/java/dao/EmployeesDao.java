@@ -32,15 +32,15 @@ public class EmployeesDao {
 	} 
 	
 	// 사원 상세정보 조회
-	 public Employees selectEmployeesOne(int empNo) throws Exception{
+	 public Employees selectEmployeesOne(String id) throws Exception{
 		 //반환할 Employees 객체 생성
 		 Employees employees = null;
 		 //db접속
 		 DBUtil dbUtil = new DBUtil();
 		 Connection conn = dbUtil.getConnection();
 		 //sql 전송 후 결과 셋 반환받아 리스트에 저장
-		 PreparedStatement stmt = conn.prepareStatement("SELECT emp_no empNo, id, emp_name empName, emp_level empLevel, updatedate, createdate FROM employees WHERE emp_no=?");
-		 stmt.setInt(1, empNo);
+		 PreparedStatement stmt = conn.prepareStatement("SELECT emp_no empNo, id, emp_name empName, emp_level empLevel, updatedate, createdate FROM employees WHERE id=?");
+		 stmt.setString(1, id);
 		 ResultSet rs = stmt.executeQuery();
 		 if(rs.next()) {
 			 employees = new Employees();
