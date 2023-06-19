@@ -10,6 +10,8 @@
 	CategoryDao cDao = new CategoryDao();
 	// 카테고리 리스트
 	ArrayList<Category> categoryMainList = cDao.selectMainCategory();
+	ArrayList<Category> categorySubList = cDao.selectCategory();
+	
 
 		
 %>
@@ -19,6 +21,27 @@
 <meta charset="UTF-8">
 <title>상품 추가</title>
 <jsp:include page="/inc/link.jsp"></jsp:include>
+<script>
+	let test = [];
+	<%
+		for(Category c : categorySubList) {
+	%>
+			test.push({'main':'<%=c.getCategoryMainName()%>', 'sub':'<%=c.getCategorySubName()%>'}); 
+	<%		
+		}
+	%>
+	$(document).ready(function(){
+		$('#main').on('change', function(){
+			$('#sub').empty();
+			$('#sub').append('<option value=null>===서브 카테고리===</option>');
+			$(test).each(function(index, item){
+				if(item.main == $('#main').val()){
+					$('#sub').append('<option value="'+item.sub+'">'+item.sub+'</option>');
+				}
+			});
+		});
+	});
+</script>
 </head>
 <body>
 <jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
@@ -34,7 +57,7 @@
 			</a>
 
 			<span class="stext-109 cl4">
-				QuestionList
+				addProduct
 			</span>
 		</div>
 	</div>
@@ -55,24 +78,39 @@
 	
 					<div class="size-209">
 						<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12">
-							<select class="js-select2" name="time">
+							<select class="js-select2" name="main" id="main">
 								<option>===메인 카테고리===</option>
-								<option>USA</option>
-								<option>UK</option>
+								<%
+									for(Category c : categoryMainList) {
+								%>
+										<option value="<%=c.getCategoryMainName()%>"><%=c.getCategoryMainName()%></option>
+								<%		
+									}
+								%>
 							</select>
 							<div class="dropDownSelect2"></div>
 						</div>
 						<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
-							<select class="js-select2" name="time">
-								<option>...서브 카테고리...</option>
-								<option>USA</option>
-								<option>UK</option>
+							<select class="js-select2" name="sub" id="sub">
+								<option>===서브 카테고리===</option>
 							</select>
 							<div class="dropDownSelect2"></div>
 						</div>
 					</div>
 				</div>
+				
+				<div class="flex-w flex-t bor12 p-t-15 p-b-30">
+					<div class="size-208 w-full-ssm">
+						<span class="stext-110 cl2">
+							상품이미지:
+						</span>
+					</div>
 	
+					<div class="size-209 p-r-18 p-r-0-sm w-full-ssm bor8 bg0">
+						<input class="stext-111 cl8 plh3 size-111 p-lr-15 p-tb-6" type="file" name="productImg" placeholder="상품 이미지">
+					</div>
+				</div>
+				
 				<div class="flex-w flex-t bor12 p-t-15 p-b-30">
 					<div class="size-208 w-full-ssm">
 						<span class="stext-110 cl2">
