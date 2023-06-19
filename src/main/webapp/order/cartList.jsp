@@ -16,7 +16,7 @@
     CartDao cDao = new CartDao();
     session.setAttribute("cartList", cartList);
  
-   	ArrayList<Cart> cList = (ArrayList<Cart>)session.getAttribute("cartList");
+   	ArrayList<Cart> cList = (ArrayList<Cart>) session.getAttribute("cartList");
    
 	// 상품 이름 조회
 	String productName1 = cDao.selectProductName(cart.getProductNo());
@@ -68,25 +68,101 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>cartList</title>
+		<jsp:include page="/inc/link.jsp"></jsp:include>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+		<script>
+			/* $(document).ready(function() {
+				$(document).on('change', '.selCart', function() {
+					if ($('.selCart').is(":checked")) {
+					    $('.selCartH').val('Y');
+					} else {
+					    $('.selCartH').val('N');
+					}
+				})
+			}); */
+			
+		/* 	$(document).ready(function(goBuy() {
+				const checkedCnt = document.querySelectorAll('.chk:Checked').length;
+				if (checkedCnt == 0) {
+					alert('선택한 상품이 없습니다.');
+					return;
+				}
+				
+				const checkBoxes = document.querySelectorAll('.chk:checked'); // 여러 개 가져옴 -> all
+			})
+			 */
+			 
+	/* 		$(document).ready(function(){
+				// 제목 행의 체크박스 체크 여부 확인
+				const checkedCnt = $('.selCart:Checked').length;
+				if (checkedCnt == 0) {
+				  alert('선택한 상품이 없습니다.');
+				  return;
+				}
+
+				const checkedBoxes = $('.selCart:checked');
+				let totalPrice = 0;
+				//let itemCodes = '';
+				let cartCnts = '';
+				let cartNos = '';
+
+				checkedBoxes.each(function () {
+				  const checkBox = $(this);
+
+				  const price = checkBox.closest('tr').children().eq(5).text();
+				  totalPrice += parseInt(price);
+
+				 // const itemCode = checkBox.val();
+				  //itemCodes += itemCode + ',';
+
+				  const cartCnt = checkBox.closest('tr').children().eq(4).text();
+				  cartCnts += cartCnt + ',';
+
+				  const cartNo = checkBox.data('cartNo');
+				  alert(cartNo);
+				});
+
+				$('#totalPrice').val(totalPrice);
+				// $('#itemCode').val(itemCodes.slice(0, -1));
+				$('#cartCnt').val(cartCnts.slice(0, -1));
+				$('#cartNo').val(cartNos.slice(0, -1));
+
+				$('form[action="/order/addOrder.jsp"]').submit();
+				
+			}); */
+		</script>
 		<script>
 			// 로그인 상태일 때
 			if (session.getAttribute("loginID") != null) {
 				$(document).ready(function() {
 					$(".modifyLink").click(function(e)) {
-						 e.preventDefault();
-						 
+						 e.preventDefault();			 
 						 let cartNo = $(this).
 					}
-			}
-				
+				}
 			});
 		</script>
 	</head>
 	<body>
-		<div>
-			<h1>장바구니</h1>
+		<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+		<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+		<jsp:include page="/inc/cart.jsp"></jsp:include>
+		
+		
+	   <form class="bg0 p-t-75 p-b-85">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 col-lg-11 col-xl-11 m-lr-auto m-b-50">
+					<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+						<h4 class="mtext-111 cl2 p-b-30">
+							장바구니 (템플릿 수정)
+						</h4>		
+					</div>
+				</div>
+			</div>
 		</div>
+		</form>
+						
 		
 		<%
 			// 로그인 상태이면 cart 테이블에서 데이터 조회
@@ -108,6 +184,7 @@
 							<!-- <th>수량</th> -->
 							<th>총 금액</th>
 							<th>수량</th>
+							<th>선택</th>
 							<th>삭제</th>
 						</tr>
 			<%
@@ -132,15 +209,16 @@
 							<%-- <td><%=c.getCartNo()%></td> --%>
 							
 							<td>
-								<input type="hidden" name="cartNo" value="<%=c.getCartNo()%>">
-								<input type="hidden" name="productImg" value="<%=productImg%>">
+								<input type="hidden" id="cartNo" name="cartNo" value="<%=c.getCartNo()%>">
+								<input type="hidden" id="productImg" name="productImg" value="<%=productImg%>">
 								<img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100">
 							</td>
 							<td>
+								<input type="hidden" id="productName" name="productName" value="<%=productName%>">
 								<%=productName%>
 							</td>
 							<td>
-								<input type="hidden" name="productPrice" value="<%=productPrice%>">
+								<input type="hidden" id="productPrice" name="productPrice" value="<%=productPrice%>">
 								<%=productPrice%>원
 							</td>
 						<%-- 	<td>
@@ -148,12 +226,15 @@
 								<%=c.getCartCnt()%>
 							</td> --%>
 							<td>
-								<input type="hidden" name="productPrice" value="<%=productPrice * c.getCartCnt()%>">
+								<input type="hidden" id="totalPrice" name="totalPrice" value="<%=productPrice * c.getCartCnt()%>">
 								<%=productPrice * c.getCartCnt()%>원
 							</td>
 							<td>
-								<input type="number" name="cartCnt" value="<%=c.getCartCnt()%>">
+								<input type="number" id="cartCnt" name="cartCnt" value="<%=c.getCartCnt()%>">
 								<!-- ?cartNo=<%=c.getCartNo()%>&cartCnt=   -->
+							</td> 	
+							<td>
+								<input type="checkbox" class="selCart" name="selCart" value="<%=c.getCartNo()%>">
 							</td>
 							<td><a href="<%=request.getContextPath()%>/order/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>">삭제버튼</a></td>
 						</tr>
@@ -218,5 +299,9 @@
 			}
 		%>
 		</table>
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
+		<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
+		<jsp:include page="/inc/quickView.jsp"></jsp:include>
+		<jsp:include page="/inc/script.jsp"></jsp:include>
 	</body>
 </html>
