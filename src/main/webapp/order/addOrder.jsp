@@ -5,7 +5,7 @@
 <%@ page import="dao.*" %> 
     
 <% 
-	// 제품 상세페이지에서만 작동하게 될 이슈 (장바구니에서는 어떻게?)
+	// 현재 장바구니에서 넘어온 계산만 처리 가능
 
 	// 주문하기 폼 (shopping cart.html 파일에서 분리 예정 -> 그대로 갈 수도)
 	// 상품 이름, 상품이미지, 상품 가격, 상품 개수, 총 주문금액, 주문인 이름, 배송지(가장 최근에 등록한 배송지), 
@@ -14,33 +14,52 @@
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 
-	// 요청값 유효성 검사 (상품이미지, 상품이름, 상품 가격, 상품 개수)
+	// 요청값 유효성 검사 (상품이미지, 상품이름, 상품 가격, 상품 개수, 전체 가격, 선택된 번호)
 	// 하나라도 null 값이 있다면 홈으로 리다이렉트
-/* 	
-	if (request.getParameter("productImg") == null
-	|| request.getParameter("productName") == null
-	|| request.getParameter("productPrice") == null
-	|| request.getParameter("orderCnt") == null) {
+ 	
+	if (request.getParameterValues("cartNo") == null
+	|| request.getParameterValues("productImg") == null
+	|| request.getParameterValues("productName") == null
+	|| request.getParameterValues("productPrice") == null
+	|| request.getParameterValues("cartCnt") == null
+	|| request.getParameterValues("totalPrice") == null
+	|| request.getParameterValues("selCart") == null) {
 		System.out.println("유효성 검사 확인(addOrder)");
 		response.sendRedirect(request.getContextPath() + "/home.jsp");
+		return;
 	}
-	
-	// 요청값
-	String productImg = request.getParameter("productImg");
-	String productName = request.getParameter("productName");
-	int productPrice = Integer.parseInt(request.getParameter("productPrice"));
-	int orderCnt = Integer.parseInt(request.getParameter("orderCnt")); */
-	
+		
 	// request.getParameterValues();
-	
+	// 모든 값이 cartList.jsp에서 넘어옴
+	// selCart 가 체크된 값이 있는 경우에만 넘어오게 하는 방법? -> 체크박스 value에 cartNo 사용
+			
+	String[] selectedValues = request.getParameterValues("selCart");
+		if (selectedValues != null) { 
+  			for (String value : selectedValues) {
+    			System.out.println("선택된 장바구니 번호: " + value);
+  		}
+	}
+		
+	String[] cartNo = request.getParameterValues("cartNo");
 	String[] productImg = request.getParameterValues("productImg");
-	
-	// 테스트용 값
-	// String productImg = "시저 독 닭고기 캔 100g.jpeg";
-	String productName = "습식1";
-	int productPrice = 10000;
-	int orderCnt = 1;
-	
+	String[] productName = request.getParameterValues("productName");
+	String[] productPrice = request.getParameterValues("productPrice");
+	String[] selCart = request.getParameterValues("selCart");
+	String[] totalPrice = request.getParameterValues("totalPrice");
+	String[] cartCnt = request.getParameterValues("cartCnt");
+
+	// 요청값 디버깅
+	for (int i = 0; i < cartNo.length; i += 1) { // 장바구니 목록 내 제품 개수만큼 반복
+		for (int j = 0; j < selCart.length; j += 1) { // 선택된 제품 개수만큼 반복
+			if (cartNo[i].equals(selCart[j])) { // 장바구니 번호와 체크된 체크박스의 번호가 일치하면
+				System.out.println(cartNo[i] + " <-- cartNo(addOrder)"); // 카트번호
+				System.out.println(productImg[i] + " <-- productImg(addOrder)"); // 이미지 이름
+				System.out.println(productName[i] + " <-- productName(addOrder)"); // 상품 이름
+				System.out.println(productPrice[i] + " <-- productPrice(addOrder)"); // 상품 가격
+				System.out.println(totalPrice[i] + " <-- totalPrice(addOrder)"); // 총 가격
+			}
+		}
+	} 
 	
 	// id 확인 및 디버깅
 	String id = "";
@@ -49,7 +68,6 @@
  		id = customer.getId();
  		System.out.println(id + " <-- id(addOrder)");
  	}
-	
 	
 	// model
 	// 내 포인트 조회, 주문인 이름, 배송지 조회를 위한 CustomerDao -> selectMyPoint(String id), selectMyName(String id), selectMyAdd(String id)
@@ -60,13 +78,12 @@
 	System.out.println(myPoint + " <-- myPoint(addOrder)");
 	
 	// 이름 조회
-	String myName = customerDao.selectMyName(id); 
+	String myName = customerDao.selectMyName(id);
 	System.out.println(myName + " <-- myName(addOrder)");
 	
 	// 주소 조회
 	String myAdd = customerDao.selectMyAdd(id);
-	System.out.println(myAdd + " <-- myAdd(addOrder)");
-	
+	System.out.println(myAdd + " <-- myAdd(addOrder)"); 
 	
 	System.out.println("==============addOrder.jsp==============");
 	
@@ -87,11 +104,9 @@
 	// 상품 이름, 상품이미지, 상품 가격, 상품 개수, 총 주문금액, 주문인 이름, 배송지(가장 최근에 등록한 배송지), 
 	// 버튼: 포인트 (사용가능 포인트 표시, 사용할 포인트 입력), 결제
 	
-	
-	
 	/*
 	
-	   String[] a = get;
+	String[] a = get;
 
    AraayList<Orders> oList = new ArrayList<>();
    for(int i=0; i<a.length;i+=1) {
@@ -107,27 +122,8 @@
       }
    }
 	
-   
    */
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 %>
-
-
 
 <!DOCTYPE html>
 <html>
@@ -135,6 +131,27 @@
 		<meta charset="UTF-8">
 		<title>addOrder</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				var minValue = 10;
+				var maxValue = <%=myPoint%>;
+				
+				$('input[type=number]').on('input', function() {
+					var value = parseInt($(this).val());
+					if (isNaN(value)) {
+					      value = minValue;
+					} else {
+					      value = Math.max(minValue, Math.min(value, maxValue));
+				    }
+					
+					$(this).val(value);
+					
+					if (value < minValue || value > maxValue) {
+					      alert('입력값이 허용된 범위를 벗어납니다.');
+					}
+				});
+			});
+		</script>
 	</head>
 	<body>
 		<h1>주문하기</h1>
@@ -144,60 +161,36 @@
 					<th>상품이미지</th>
 					<th>상품이름</th>
 					<th>상품가격</th>
-					<th>가격</th>
+					<th>개수</th>
 					<th>주문인 이름</th>
 					<th>배송지</th>
 					<th>합계금액</th>
 				</tr>
 			<%
-				// for () {}
-			%>
+				int allTotalPrice = 0; // 전체 주문금액	
 			
-			<%
-			
+				for (int i = 0; i < cartNo.length; i += 1) { // 장바구니 목록 내 제품 개수만큼 반복
+					for (int j = 0; j < selCart.length; j += 1) { // 선택된 제품 개수만큼 반복
+						if (cartNo[i].equals(selCart[j])) { // 장바구니 번호와 체크된 체크박스의 번호가 일치하면
 			%>
 				<tr>
-					<td><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"></td>
-					<td><%=productName%></td>
-					<td><%=productPrice%>원</td>
-					<td><%=orderCnt%></td>
+					<td><img src="<%=request.getContextPath()%>/pimg/<%=productImg[i]%>" width="100" height="100"></td>
+					<td><%=productName[i]%></td>
+					<td><%=productPrice[i]%>원</td>
+					<td><%=cartCnt[i]%></td>
 					<td><%=myName%></td>
 					<td><%=myAdd%>(최근 등록 주소)</td>
-					<td><%=productPrice * orderCnt%>원</td>
+					<td><%=totalPrice[i]%>원</td>
 				
 				</tr>
-			
-			
-				<%-- <tr>
-					<th>상품이미지</th>
-					<td><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"></td>
-				</tr>
-				<tr>
-					<th>상품이름</th>
-					<td><%=productName%></td>
-				</tr>
-				<tr>
-					<th>상품가격</th>
-					<td><%=productPrice%>원</td>
-				</tr>
-				<tr>
-					<th>개수</th>
-					<td><%=orderCnt%></td>
-				</tr>
-				<tr>
-					<th>주문인 이름</th>
-					<td><%=myName%></td>
-				</tr>
-				<tr>
-					<th>배송지</th>
-					<td><%=myAdd%>(최근 등록 주소)</td>
-				</tr>
-				<tr>
-					<th>합계금액</th>
-					<td><%=productPrice * orderCnt%>원</td>
-				</tr> --%>
-		
+			<%
+							allTotalPrice += Integer.parseInt(totalPrice[i]);
+						}
+					}
+				} 
+			%>
 		</table>
+		
 		<%
 			if (request.getParameter("msg") != null) {
 		%>
@@ -205,7 +198,12 @@
 		<%		
 			}
 		%>
-		사용할 포인트 입력: <input type="text" placeholder="보유 포인트: <%=myPoint%>" name="point">	
+		<div>
+			총 합계 금액: <%=allTotalPrice%>원
+		</div>
+		
+		사용할 포인트 입력: <input type="number" id="inputValue" placeholder="보유 포인트: <%=myPoint%>" name="point">	
+		<button type="button" id="submitButton">입력</button>
 		<div>
 			<button type="submit">결제</button> 
 		</div>
