@@ -1,19 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.util.*"%>
 <%@ page import = "vo.*"%>
 <%@ page import = "dao.*"%> 
 <%
-	//test용 아이디 저장
-	Employees empVo = new Employees();
-	empVo.setId("admin1");
-	empVo.setEmpLevel("2");
-	session.setAttribute("loginId", empVo);
-	
 	//로그인 되지 않은 사용자가 넘어왔을 경우
 	if(session.getAttribute("loginId") == null){
 		response.sendRedirect(request.getContextPath()+"/login.jsp");
 	}
+	
+	// 로그인 세션 정보 변수에 저장
+	Employees empVo = (Employees)session.getAttribute("loginId");
+		
 	//현재페이지
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null) {
@@ -53,84 +50,110 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<!-- Latest compiled and minified CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Latest compiled JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<title>사원 리스트</title>
+<jsp:include page="/inc/link.jsp"></jsp:include>
 </head>
 <body>
-	<div class="container">
-	<h1>사원 리스트</h1>
-	<%
+<jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
+<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+<jsp:include page="/inc/cart.jsp"></jsp:include>
+<!-- 사원 목록 -->
+<form class="bg0 p-t-75 p-b-85">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
+					<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+						<div class="flex-w flex-sb-m p-b-17">
+							<h4 class="mtext-111 cl2  p-r-20">
+								사원 리스트
+							</h4>
+						<%
 		
-		if(session.getAttribute("loginId") != null && 
-		empVo.getEmpLevel().equals("2")){
-	%>
-			<div class="d-grid">
-				<a href="<%=request.getContextPath()%>/employees/addEmployee.jsp">
-					<button type="button" class="btn btn-dark btn-block">추가</button>
-				</a>
+							if(session.getAttribute("loginId") != null && 
+							empVo.getEmpLevel().equals("2")){
+						%>
+								<span class="fs-18 cl11 stext-102 flex-w m-r--5">
+									<a href="<%=request.getContextPath()%>/employees/addEmployee.jsp" style="color: #333333" class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+										사원 추가
+									</a>
+								</span>
+						<%		
+							}
+						%>
+						</div>
+						<br>
+						
+						<table class="table-shopping-cart">
+							<tr class="table_head" >
+								<th class="column-1" style="width: 80px">번호</th>
+								<th class="column-1">사원 ID</th>
+								<th class="column-1">사원 이름</th>
+								<th class="column-1">사원 레벨</th>
+								<th class="column-1">입사날짜</th>
+							</tr>
+						<%
+							for(Employees employee : list) {
+						%>
+								<tr class="table_head" style="height: 100px">
+									<td class="column-1" style="width: 80px"><%=employee.getEmpNo()%></td>
+									<td class="column-1">
+										<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp?empNo=<%=employee.getEmpNo()%>">
+											<%=employee.getId()%>
+										</a>
+									</td>
+									<td class="column-1"><%=employee.getEmpName()%></td>
+									<td class="column-1"><%=employee.getEmpLevel()%></td>
+									<td class="column-1"><%=employee.getCreatedate().substring(0,10)%></td>
+								</tr>
+						<%		
+							}
+						%>
+						</table>
+						
+						<!-- Pagination -->
+						<div class="flex-l-m flex-w w-full p-t-10 m-lr--7" style="justify-content: center">
+						<%
+							//이전 페이지 버튼
+							if(minPage >1){
+						%>
+				  				<a href="<%=request.getContextPath()%>/employees/employeeList.jsp?currentPage=<%=minPage-pagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+				  					이전 
+				  				</a>
+					   	<%
+							}
+					        for(int i = minPage; i <= maxPage; i++){
+					        	if(i==currentPage){
+					    %>
+					    			<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+					       				<%=i %>
+					       			</a>
+					    <%
+					        	}else{
+					   	%>
+					       			<a href="<%=request.getContextPath()%>/employees/employeeList.jsp?currentPage=<%=i %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+					       				<%=i %>
+					       			</a>
+					    <%
+					       		}
+					        }
+					    	//다음 페이지 버튼
+					    	if(maxPage != lastPage){
+					    %>
+								<a href="<%=request.getContextPath()%>/employees/employeeList.jsp?currentPage=<%=minPage+pagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									다음
+								</a>
+						<%
+							}
+						%>
+						</div>	
+					</div>			
+				</div>
 			</div>
-	<%		
-		}
-	%>
-		<table class="table table-bordered">
-			<tr>
-				<th class="table-dark">번호</th>
-				<th class="table-dark">사원 ID</th>
-				<th class="table-dark">사원 이름</th>
-				<th class="table-dark">사원 레벨</th>
-				<th class="table-dark">입사 날짜</th>
-			</tr>
-			<%
-				for(Employees employee : list) {
-			%>
-					<tr>
-						<td><%=employee.getEmpNo()%></td>
-						<td>
-							<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp?empNo=<%=employee.getEmpNo()%>">
-								<%=employee.getId()%>
-							</a>
-						</td>
-						<td><%=employee.getEmpName()%></td>
-						<td><%=employee.getEmpLevel()%></td>
-						<td><%=employee.getCreatedate().substring(0,10)%></td>
-					</tr>
-			<%		
-				}
-			%>
-		</table>
-
-	<%	
-		// 이전 페이지
-		// 최소 페이지가 1보타 클 경우 이전 페이지 표시
-		if(minPage>1) {
-	%>
-			<a href="<%=request.getContextPath()%>/employees/employeeList.jsp?currentPage=<%=minPage-pagePerPage%>">이전</a>
-	<%			
-		}
-		// 최소 페이지부터 최대 페이지까지 표시
-		for(int i = minPage; i<=maxPage; i=i+1) {
-			if(i == currentPage) {	// 현재페이지는 링크 비활성화
-	%>	
-			<%=i%>
-	<%			
-			}else {					// 현재페이지가 아닌 페이지는 링크 활성화
-	%>	
-				<a href="<%=request.getContextPath()%>/employees/employeeList.jsp?currentPage=<%=i%>"><%=i%></a>
-	<%				
-			}
-		}
-		// 다음 페이지
-		// 최대 페이지가 마지막 페이지와 다를 경우 다음 페이지 표시
-		if(maxPage != lastPage) {
-	%>
-			<a href="<%=request.getContextPath()%>/teacher/teacherListjsp?currentPage=<%=minPage+pagePerPage%>">다음</a>
-	<%	
-		}
-	%>
-	</div>
+		</div>
+	</form>
+<jsp:include page="/inc/footer.jsp"></jsp:include>
+<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
+<jsp:include page="/inc/quickView.jsp"></jsp:include>
+<jsp:include page="/inc/script.jsp"></jsp:include>
 </body>
 </html>
