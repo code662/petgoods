@@ -70,7 +70,7 @@
 						<%
 		
 							if(session.getAttribute("loginId") != null && 
-							empVo.getEmpLevel().equals("2")){
+								empVo.getEmpLevel().equals("2")){
 						%>
 								<span class="fs-18 cl11 stext-102 flex-w m-r--5">
 									<a href="<%=request.getContextPath()%>/employees/addEmployee.jsp" style="color: #333333" class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
@@ -97,9 +97,21 @@
 								<tr class="table_head" style="height: 100px">
 									<td class="column-1" style="width: 80px"><%=employee.getEmpNo()%></td>
 									<td class="column-1">
+								<%
+									if(session.getAttribute("loginId") != null && 
+										empVo.getEmpLevel().equals("2")){
+								%>
 										<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp?empNo=<%=employee.getEmpNo()%>">
 											<%=employee.getId()%>
 										</a>
+								<% 
+									}else if(session.getAttribute("loginId") != null && 
+										empVo.getEmpLevel().equals("1")){
+								%>
+										<%=employee.getId()%>
+								<%
+									}
+								%>
 									</td>
 									<td class="column-1"><%=employee.getEmpName()%></td>
 									<td class="column-1"><%=employee.getEmpLevel()%></td>
