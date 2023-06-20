@@ -71,74 +71,11 @@
 		<jsp:include page="/inc/link.jsp"></jsp:include>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 		<script>
-			/* $(document).ready(function() {
-				$(document).on('change', '.selCart', function() {
-					if ($('.selCart').is(":checked")) {
-					    $('.selCartH').val('Y');
-					} else {
-					    $('.selCartH').val('N');
-					}
-				})
-			}); */
-			
-		/* 	$(document).ready(function(goBuy() {
-				const checkedCnt = document.querySelectorAll('.chk:Checked').length;
-				if (checkedCnt == 0) {
-					alert('선택한 상품이 없습니다.');
-					return;
-				}
-				
-				const checkBoxes = document.querySelectorAll('.chk:checked'); // 여러 개 가져옴 -> all
-			})
-			 */
-			 
-	/* 		$(document).ready(function(){
-				// 제목 행의 체크박스 체크 여부 확인
-				const checkedCnt = $('.selCart:Checked').length;
-				if (checkedCnt == 0) {
-				  alert('선택한 상품이 없습니다.');
-				  return;
-				}
-
-				const checkedBoxes = $('.selCart:checked');
-				let totalPrice = 0;
-				//let itemCodes = '';
-				let cartCnts = '';
-				let cartNos = '';
-
-				checkedBoxes.each(function () {
-				  const checkBox = $(this);
-
-				  const price = checkBox.closest('tr').children().eq(5).text();
-				  totalPrice += parseInt(price);
-
-				 // const itemCode = checkBox.val();
-				  //itemCodes += itemCode + ',';
-
-				  const cartCnt = checkBox.closest('tr').children().eq(4).text();
-				  cartCnts += cartCnt + ',';
-
-				  const cartNo = checkBox.data('cartNo');
-				  alert(cartNo);
-				});
-
-				$('#totalPrice').val(totalPrice);
-				// $('#itemCode').val(itemCodes.slice(0, -1));
-				$('#cartCnt').val(cartCnts.slice(0, -1));
-				$('#cartNo').val(cartNos.slice(0, -1));
-
-				$('form[action="/order/addOrder.jsp"]').submit();
-				
-			}); */
-		</script>
-		<script>
-			// 로그인 상태일 때
-			if (session.getAttribute("loginID") != null) {
-				$(document).ready(function() {
-					$(".modifyLink").click(function(e)) {
-						 e.preventDefault();			 
-						 let cartNo = $(this).
-					}
+			$(document).ready(function(){
+				const urlParams  = new URL(location.href).searchParams;
+				const msg = urlParams.get('msg');
+				if(msg != null){
+					alert(msg);
 				}
 			});
 		</script>
@@ -168,13 +105,13 @@
 			// 로그인 상태이면 cart 테이블에서 데이터 조회
 			if (session.getAttribute("loginId") != null) {
 				// Customer customer = (Customer) session.getAttribute("loginId");
-				if (request.getParameter("msg") != null) {
+				// if (request.getParameter("msg") != null) {
 		%>
-					<%=request.getParameter("msg")%>
+				<%-- 	<%=request.getParameter("msg")%> --%>
 		<%
-				}
+			//	}
 		%>
-				<form action="<%=request.getContextPath()%>/order/addOrder.jsp" method="post" id="cartList">
+				<form action="<%=request.getContextPath()%>/order/addOrderCart.jsp" method="post" id="cartList">
 					<table border="1">
 						<tr>
 						   <!--  <th>번호</th> -->
@@ -209,6 +146,7 @@
 							<%-- <td><%=c.getCartNo()%></td> --%>
 							
 							<td>
+								<input type="hidden" id="productNo" name="productNo" value="<%=c.getProductNo()%>">
 								<input type="hidden" id="cartNo" name="cartNo" value="<%=c.getCartNo()%>">
 								<input type="hidden" id="productImg" name="productImg" value="<%=productImg%>">
 								<img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100">
@@ -247,7 +185,7 @@
 						총 합계 금액: <%=totalPrice%>원
 					</div>
 					<button onclick="$('#cartList').submit()">주문하기</button>
-					<button type="submit" formaction="<%=request.getContextPath()%>/order/modifyCartAction.jsp">수량 수정</button> <!-- formaction: <form> 태그 내 액션 파일명과 값과 관계없이 formaction 태그 내에   -->
+					<button type="submit" formaction="<%=request.getContextPath()%>/order/modifyCartAction.jsp">수량 수정</button> <!-- formaction: <form> 태그 내 액션 파일명과 값과 관계없이 formaction 태그 내 링크로 이동-->
 				</form>
 		
 		<%
