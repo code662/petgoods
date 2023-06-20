@@ -111,7 +111,7 @@
 						<div class="p-t-33">
 							<br>
 							<br>
-							<form action="<%=request.getContextPath()%>/order/addCartAction.jsp" method="post" id="product">
+							<form action="" method="post" id="product">
 								<input type="hidden" name="productNo" value="<%=product.getProductNo()%>">
 								<input type="hidden" name="productImg" value="<%=pDao.productImgName(product.getProductNo())%>">
 								<input type="hidden" name="productName" value="<%=product.getProductName()%>">
@@ -131,7 +131,7 @@
 										</div>
 									</div>
 									<div class="size-204 flex-w respon6-next">
-										<button class="flex-c-m stext-101 m-r-20 cl0 size-101 bg1 bor1 hov-btn1 m-tb-10 p-lr-15 trans-04 js-addcart-detail" onclick="$('#product').submit();">
+										<button class="flex-c-m stext-101 m-r-20 cl0 size-101 bg1 bor1 hov-btn1 m-tb-10 p-lr-15 trans-04 js-addcart-detail" onclick="$('#product').attr('action','<%=request.getContextPath()%>/order/addCartAction.jsp').submit();">
 												장바구니 담기
 										</button>
 									</div>
