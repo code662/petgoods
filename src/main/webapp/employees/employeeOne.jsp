@@ -107,24 +107,24 @@
 						<br>
 						<div class="flex-w flex-sb-m p-b-17">
 							<div class="mtext-111 cl2  p-r-20 flex-w dis-inline-block">
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 								<a href="<%=request.getContextPath()%>/employees/modifyEmployee.jsp?empNo=<%=employees.getEmpNo()%>" style="color: #333333">
-									레벨 변경
+									<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+										레벨 변경
+									</span>
 								</a>
-							</div>
-							&nbsp;
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+								&nbsp;
 								<a href="<%=request.getContextPath()%>/employees/removeEmployeeAction.jsp?empNo=<%=employees.getEmpNo()%>" style="color: #333333">
-									사원 삭제
+									<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+										사원 삭제
+									</span>
 								</a>
-							</div>
 							</div>
 							<div class="fs-18 cl11 stext-102 flex-w m-r--5">
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
 								<a href="<%=request.getContextPath()%>/employees/employeeList.jsp" style="color: #333333">
-									취소
+									<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
+										취소
+									</span>	
 								</a>
-							</div>
 							</div>
 						</div>
 					</div>

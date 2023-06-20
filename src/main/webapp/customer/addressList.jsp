@@ -62,17 +62,17 @@
 							</div>
 							<div class="size-208">
 								<div align="center">
-									<span class="stext-112 cl8" style="font-size:17px; ">
-										<a href="<%=request.getContextPath()%>/customer/modifyAddress.jsp?addressNo=<%=a.getAddressNo() %>" style="color: #A6A6A6">
-											수정
-										</a>
-									</span>
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<span class="stext-112 cl8" style="font-size:17px;">
-										<a href="<%=request.getContextPath()%>/customer/removeAddressAction.jsp?addressNo=<%=a.getAddressNo() %>" style="color: #A6A6A6">
-											삭제
-										</a>
-									</span>
+									<div class="stext-112 cl8">
+										<span class="fs-18 cl11 stext-102 flex-w m-r--5">
+											<a href="<%=request.getContextPath()%>/customer/modifyAddress.jsp?addressNo=<%=a.getAddressNo() %>" style="color: #A6A6A6" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+												수정
+											</a>
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<a href="<%=request.getContextPath()%>/customer/removeAddressAction.jsp?addressNo=<%=a.getAddressNo() %>" style="color: #A6A6A6" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+												삭제
+											</a>
+										</span>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -82,17 +82,16 @@
 					    %>
 						<br>
 						<div class="flex-w dis-inline-block">
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-								<a class="btn" href="<%=request.getContextPath()%>/customer/addAddress.jsp" style="color: #333333">
+							<a class="btn" href="<%=request.getContextPath()%>/customer/addAddress.jsp" style="color: #333333">
+								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									새 배송지 추가
-								</a>
-							</div>
-							&nbsp;
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-								<a class="btn" href="<%=request.getContextPath()%>/customer/myPage.jsp" style="color: #333333">
+								</span>
+							</a>
+							<a class="btn" href="<%=request.getContextPath()%>/customer/myPage.jsp" style="color: #333333">
+								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									취소
-								</a>
-							</div>
+								</span>
+							</a>
 						</div>
 					</div>
 				</div>

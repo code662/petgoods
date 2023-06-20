@@ -49,6 +49,19 @@
 						당신의 소중한 리뷰는 다른 고객들이 좋은 상품을 선택하는데 큰 도움이 됩니다.
 					</p>
 					<br>
+					
+					<!-- 리다이렉션 메시지 -->
+					<div>
+					<%
+					   if(request.getParameter("msg") != null){
+					%>
+							<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg") %></p>
+					<%
+					   }
+					%>
+					<br>
+					</div>
+					
 					<div class="row p-b-25">
 						<div class="col-sm-3 p-b-5">
 							<label class="stext-102 cl3" style="margin-bottom: 0">Order No.</label>
@@ -78,11 +91,11 @@
 				</form>
 				<br>
 				<div class="flex-w dis-inline-block cen">
-					<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers cen">
-						<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp" style="color: #333333">
+					<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp" style="color: #333333" class="cen">
+						<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
 							취소
-						</a>
-					</div>
+						</span>
+					</a>
 				</div>
 			</div>
 		</div>

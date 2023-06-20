@@ -18,18 +18,20 @@
 	MultipartRequest mRequest = new MultipartRequest(request, dir, maxFileSize, "utf-8", new DefaultFileRenamePolicy());
 	
 	// 업로드 파일이 jpg/jpeg/png 파일이 아니면 삭제한 뒤 return
-	if( !(mRequest.getContentType("reviewImg").equals("image/jpg")
-			||mRequest.getContentType("reviewImg").equals("image/jpeg")
-			||mRequest.getContentType("reviewImg").equals("image/png"))){
+	String msg = null;
+	if( !mRequest.getContentType("reviewImg").equals("image/jpg")
+			&&!mRequest.getContentType("reviewImg").equals("image/jpeg")
+			&&!mRequest.getContentType("reviewImg").equals("image/png")){
 		//이미 저장된 파일을 삭제 (db에는 아직 저장안됨)
 		System.out.println("image 파일이 아닙니다 addReviewAction");
 		String saveFilename = mRequest.getFilesystemName("reviewImg");
-		File f = new File(dir + "\\" + saveFilename);
+		File f = new File(dir + "/" + saveFilename);
 		if(f.exists()){ //이 파일이 존재하고 있다면 삭제실행
 			f.delete();
 			System.out.println(saveFilename + "파일삭제 addReviewAction");
 		}
-		response.sendRedirect(request.getContextPath()+"/addReview.jsp");
+		msg = URLEncoder.encode("image 파일이 아닙니다","utf-8");
+		response.sendRedirect(request.getContextPath()+"/customer/addReview.jsp?msg="+msg+"&orderNo="+mRequest.getParameter("orderNo"));
 		return;
 	}
 	
@@ -70,11 +72,12 @@
 	rimg.setReviewNo(reviewNo);
 	int row = rd.addReviewImg(rimg); 
 	
-	String msg = null;
 	if(row == 1){
 		msg = URLEncoder.encode("리뷰가 등록되었습니다","utf-8");
 		response.sendRedirect(request.getContextPath()+"/customer/myOrderList.jsp?msg="+msg);
 		return;
+	}else{
+		msg = URLEncoder.encode("리뷰등록에 실패하였습니다","utf-8");
+		response.sendRedirect(request.getContextPath()+"/customer/myOrderList.jsp?msg="+msg);
 	}
-	response.sendRedirect(request.getContextPath()+"/customer/myOrderList.jsp");
 %>

@@ -95,11 +95,11 @@
 				</form>
 				<br>
 				<div class="flex-w dis-inline-block cen">
-					<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers cen">
-						<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp?empNo=<%=employees.getEmpNo() %>" style="color: #333333">
+					<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp?empNo=<%=employees.getEmpNo() %>" style="color: #333333" class="cen">
+						<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
 							취소
-						</a>
-					</div>
+						</span>
+					</a>
 				</div>
 			</div>
 		</div>

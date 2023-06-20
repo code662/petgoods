@@ -95,35 +95,35 @@
 						</div>
 						<br>
 						<div class="flex-w dis-inline-block">
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-								<a href="<%=request.getContextPath()%>/customer/modifyCustomer.jsp?cstmNo=<%=customer.getCstmNo()%>" style="color: #333333">
-									정보 수정
-								</a>
-							</div>
+							<a href="<%=request.getContextPath()%>/customer/modifyCustomer.jsp?cstmNo=<%=customer.getCstmNo()%>" style="color: #333333">
+								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+								정보 수정
+								</span>
+							</a>
 							&nbsp;
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer" >
-								<a href="<%=request.getContextPath()%>/customer/modifyPw.jsp" style="color: #333333">
+							<a href="<%=request.getContextPath()%>/customer/modifyPw.jsp" style="color: #333333">
+								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									비밀번호 변경
-								</a>
-							</div>
+								</span>
+							</a>
 							&nbsp;
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-								<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp" style="color: #333333">
+							<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp" style="color: #333333">
+								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									주문 조회
-								</a>
-							</div>
+								</span>
+							</a>
 							&nbsp;
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-								<a href="<%=request.getContextPath()%>/customer/addressList.jsp" style="color: #333333">
+							<a href="<%=request.getContextPath()%>/customer/addressList.jsp" style="color: #333333">
+								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									배송지 관리
-								</a>
-							</div>
+								</span>
+							</a>
 							&nbsp;
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-								<a href="<%=request.getContextPath()%>/customer/reviewList.jsp" style="color: #333333">
+							<a href="<%=request.getContextPath()%>/customer/reviewList.jsp" style="color: #333333">
+								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									리뷰 관리
-								</a>
-							</div>
+								</span>
+							</a>
 						</div>
 					</div>
 				</div>

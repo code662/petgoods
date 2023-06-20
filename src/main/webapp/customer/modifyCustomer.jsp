@@ -80,17 +80,16 @@
 				</form>
 				<br>
 				<div class="flex-w dis-inline-block cen">
-					<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers cen">
-						<a href="<%=request.getContextPath()%>/customer/myPage.jsp?cstmNo=<%=customer.getCstmNo()%>" style="color: #333333">
+					<a href="<%=request.getContextPath()%>/customer/myPage.jsp?cstmNo=<%=customer.getCstmNo()%>" style="color: #333333" class="cen">
+						<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
 							취소
-						</a>
-					</div>
-					&nbsp;
-					<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer cen" >
-						<a href="<%=request.getContextPath()%>/customer/removeCustomer.jsp" style="color: #333333">
+						</span>
+					</a>
+					<a href="<%=request.getContextPath()%>/customer/removeCustomer.jsp" style="color: #333333" class="cen">
+						<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer" >
 							회원탈퇴
-						</a>
-					</div>
+						</span>
+					</a>
 				</div>
 			</div>
 		</div>

@@ -98,17 +98,17 @@
 						</div>
 						<br>
 						<div class="flex-w dis-inline-block">
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-								<a href="<%=request.getContextPath()%>/employees/modifyEmpMyPage.jsp?empNo=<%=employees.getEmpNo()%>" style="color: #333333">
+							<a href="<%=request.getContextPath()%>/employees/modifyEmpMyPage.jsp?empNo=<%=employees.getEmpNo()%>" style="color: #333333">
+								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									개인정보 변경
-								</a>
-							</div>
+								</span>
+							</a>
 							&nbsp;
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
-								<a href="<%=request.getContextPath()%>/home.jsp" style="color: #333333">
+							<a href="<%=request.getContextPath()%>/home.jsp" style="color: #333333">
+								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
 									취소
-								</a>
-							</div>
+								</span>
+							</a>
 						</div>
 					</div>
 				</div>
