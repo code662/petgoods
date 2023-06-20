@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.*;
 import util.*;
 import vo.*;
+import dao.*;
 
 public class OrdersDao {
 	// 전체 고객 주문 조회 (관리자 화면에서 조회)
@@ -379,15 +380,52 @@ public class OrdersDao {
 		stmt.setString(2, orders.getId());
 		stmt.setInt(3, orders.getOrderCnt());
 		stmt.setInt(4, orders.getOrderPrice());
+		row = stmt.executeUpdate();
 		ResultSet rs = stmt.getGeneratedKeys();
 		if (rs.next()) {
 			key = rs.getInt(1);
 		}
-
+		
+		System.out.println(key + "key");
 		row = modifyProductStock(key);
 
 		return row;
 	}
+	
+	
+	// 포인트 사용 주문 추가 (결제완료)
+		public int addOrders(Orders orders, int point) throws Exception {
+			// sql 실행시 영향받은 행의 수
+			int row = 0;
+			int key = 0;
+			// db 접속
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			String sql = "INSERT INTO orders(product_no, id, order_status, order_cnt, order_price, createdate, updatedate) VALUES(?, ?, '결제완료', ?, ?, NOW(), NOW())";
+			PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); //
+			stmt.setInt(1, orders.getProductNo());
+			stmt.setString(2, orders.getId());
+			stmt.setInt(3, orders.getOrderCnt());
+			stmt.setInt(4, orders.getOrderPrice());
+			row = stmt.executeUpdate();
+			ResultSet rs = stmt.getGeneratedKeys();
+			if (rs.next()) {
+				key = rs.getInt(1);
+			}
+			
+			System.out.println(key + "key");
+			row = modifyProductStock(key);
+				
+			orders.setOrderNo(key); // key: auto_increment key (orderNo)
+			CustomerDao customerDao = new CustomerDao();
+			if (row == 1) {
+				row = customerDao.addMinusPoint(orders, point);
+			}
+			
+			return row;
+		}
+	
+	
 
 	// 주문코드 (createdate(연/월/일/시/분/초) + orderNo(4자리)) 조회
 	public String selectOrdersCode(int orderNo) throws Exception {
@@ -512,5 +550,22 @@ public class OrdersDao {
 		 * UPDATE customers INNER JOIN orders ON customers.id = orders.customer_id SET
 		 * customers.address = 'New Address' WHERE orders.total_amount > 100;
 		 */
+	}
+	
+	// 재고량 변경 (주문취소 시 재고량 추가)
+	public int addProductStock(int orderNo) throws Exception {
+		// 변경된 재고량
+		int row = 0;
+		// DB 연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		String sql = "UPDATE product p INNER JOIN orders o ON p.product_no = o.product_no SET p.product_stock = p.product_stock + o.order_cnt WHERE o.order_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, orderNo);
+
+		row = stmt.executeUpdate();
+
+		return row;
 	}
 }
