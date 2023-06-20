@@ -105,39 +105,39 @@ public class CustomerDao {
 	}
 	
 	// 포인트 추가
-		// 주문 목록에서 구매확정 클릭 시 적립 -> orderNo에 해당하는 구매금액(orderPrice * orderCnt)의 1% (등급에 따라 5%, 10% 변경)
-		public int addPlusPoint(Orders order) throws Exception {
-			int row = 0;
-			String rank = selectMyRank(order.getId());
-			System.out.println(rank);
-			int point = order.getOrderPrice() * order.getOrderCnt();
-			if (rank.equals("BRONZE")) {
-				point = (int) (point * 0.01);
-			} else if (rank.equals("SILVER")) {
-				point = (int) (point * 0.05);
-			} else {
-				point = (int) (point * 0.1);
-			}
-			System.out.println(point);
-			
-			System.out.println(order.getOrderNo());
-				
-			// DB 연결
-			DBUtil dbUtil = new DBUtil();
-			Connection conn = dbUtil.getConnection();
-			String sql = "INSERT INTO point_history(order_no, point_pm, point, createdate) VALUES(?, '+', ?, NOW())";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, order.getOrderNo());
-			stmt.setInt(2, point);
-			System.out.println(stmt);
-			row = stmt.executeUpdate();
-			
-			if (row == 1) {
-				row = modifyMyPoint(order.getId());
-			}
-			
-			return row;
+	// 주문 목록에서 구매확정 클릭 시 적립 -> orderNo에 해당하는 구매금액(orderPrice * orderCnt)의 1% (등급에 따라 5%, 10% 변경)
+	public int addPlusPoint(Orders order) throws Exception {
+		int row = 0;
+		String rank = selectMyRank(order.getId());
+		System.out.println(rank);
+		int point = order.getOrderPrice() * order.getOrderCnt();
+		if (rank.equals("BRONZE")) {
+			point = (int) (point * 0.01);
+		} else if (rank.equals("SILVER")) {
+			point = (int) (point * 0.05);
+		} else {
+			point = (int) (point * 0.1);
 		}
+		System.out.println(point);
+		
+		System.out.println(order.getOrderNo());
+			
+		// DB 연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "INSERT INTO point_history(order_no, point_pm, point, createdate) VALUES(?, '+', ?, NOW())";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, order.getOrderNo());
+		stmt.setInt(2, point);
+		System.out.println(stmt);
+		row = stmt.executeUpdate();
+		
+		if (row == 1) {
+			row = modifyMyPoint(order.getId());
+		}
+		
+		return row;
+	}
 		
 		// 주문 시 사용한 포인트 조회
 		public int usedPoint(int orderNo) throws Exception {
@@ -206,7 +206,7 @@ public class CustomerDao {
 			Connection conn = dbUtil.getConnection();
 			String sql = "INSERT INTO point_history(order_no, point_pm, point, , ) VALUES() point_pm = '+' WHERE point_no= ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			
+			row = stmt.executeUpdate();
 			
 			return row;
 		}
