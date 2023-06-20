@@ -75,7 +75,7 @@
 						<div class="bor16 p-l-29 p-b-9 m-t-22">
 							<p class="stext-114 cl6 p-r-40 p-b-11">
 								OS : Window11<br>
-								Library : Servlet(4.0), BootStrap5, jQuery(3.6.4)<br>
+								Library : Servlet(4.0), BootStrap5, jQuery(3.7.0)<br>
 								Language : HTML5, CSS , Java(JavaSE-17), JavaScript<br>
 								사용 프로그램 : Eclipse IDE(2022-12 R), HeidiSQL(12.3.0)<br>
 								Database : MariaDB(10.5.21)<br>
