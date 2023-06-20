@@ -70,6 +70,7 @@
 		
 
 	<!-- Product Detail -->
+	
 	<section class="sec-product-detail bg0 p-t-65 p-b-60">
 		<div class="container">
 			<div class="row">
@@ -110,42 +111,42 @@
 						<div class="p-t-33">
 							<br>
 							<br>
-							<div class="flex-w flex-r-m p-b-10">
-								<div class="size-204 flex-w flex-m respon6-next">
-									<div class="wrap-num-product flex-w m-l-10 m-tb-10">
-										<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-											<i class="fs-16 zmdi zmdi-minus"></i>
-										</div>
-
-										<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
-
-										<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-											<i class="fs-16 zmdi zmdi-plus"></i>
+							<form action="<%=request.getContextPath()%>/order/addCartAction.jsp" method="post" id="product">
+								<input type="hidden" name="productNo" value="<%=product.getProductNo()%>">
+								<input type="hidden" name="productImg" value="<%=pDao.productImgName(product.getProductNo())%>">
+								<input type="hidden" name="productName" value="<%=product.getProductName()%>">
+								<input type="hidden" name="productPrice" value="<%=product.getProductPrice()%>">
+								<div class="flex-w flex-r-m p-b-10">
+									<div class="size-204 flex-w flex-m respon6-next">
+										<div class="wrap-num-product flex-w m-l-10 m-tb-10">
+											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+												<i class="fs-16 zmdi zmdi-minus"></i>
+											</div>
+	
+											<input class="mtext-104 cl3 txt-center num-product" type="number" name="cnt" value="1">
+	
+											<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+												<i class="fs-16 zmdi zmdi-plus"></i>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="size-204 flex-w respon6-next">
-									<button class="flex-c-m stext-101 m-r-20 cl0 size-101 bg1 bor1 hov-btn1 m-tb-10 p-lr-15 trans-04 js-addcart-detail">
-											장바구니 담기
-									</button>
-								</div>
-								<div class="size-204 flex-w respon6-next">
-									<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 m-tb-10 trans-04 js-addcart-detail">
-											바로구매
-									</button>
-								</div>
-							</div>	
-						</div>
-
-						<!--  -->
-						<div class="flex-w flex-m p-l-100 p-t-40 respon7">
-						
-							
+									<div class="size-204 flex-w respon6-next">
+										<button class="flex-c-m stext-101 m-r-20 cl0 size-101 bg1 bor1 hov-btn1 m-tb-10 p-lr-15 trans-04 js-addcart-detail" onclick="$('#product').submit();">
+												장바구니 담기
+										</button>
+									</div>
+									<div class="size-204 flex-w respon6-next">
+										<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 m-tb-10 trans-04 js-addcart-detail" onclick="$('#product').attr('action','<%=request.getContextPath()%>/order/addOrderProduct.jsp').submit();">
+												바로구매
+										</button>
+									</div>
+								</div>	
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
-
+			
 			<div class="bor10 m-t-50 p-t-43 p-b-40">
 				<!-- Tab01 -->
 				<div class="tab01">
