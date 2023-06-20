@@ -27,7 +27,9 @@
 		<%
 			}
 		%>
-		<a href="<%=request.getContextPath()%>/product/productList.jsp">쇼핑계속하기</a>
-		<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp">주문내역확인</a>
+		<div>
+			<a href="<%=request.getContextPath()%>/product/productList.jsp">쇼핑계속하기</a>
+			<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp">주문내역확인</a>
+		</div>
 	</body>
 </html>
