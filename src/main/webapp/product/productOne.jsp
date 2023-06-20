@@ -7,8 +7,9 @@
 		|| request.getParameter("productNo").equals("")) {
 		response.sendRedirect(request.getContextPath() + "/product/productList.jsp");
 	}
-	int productNo = Integer.parseInt(request.getParameter("productNo"));
 
+	int productNo = Integer.parseInt(request.getParameter("productNo"));
+	
 	ProductDao pDao = new ProductDao();
 	CategoryDao cDao = new CategoryDao();
 	Product product = pDao.selectProductOne(productNo);
@@ -20,6 +21,15 @@
 <meta charset="UTF-8">
 <title><%=product.getProductName()%></title>
 <jsp:include page="/inc/link.jsp"></jsp:include>
+<script>
+	$(document).ready(function(){
+		const urlParams  = new URL(location.href).searchParams;
+		const msg = urlParams.get('msg');
+		if(msg != null){
+			alert(msg);
+		}
+	});
+</script>
 </head>
 <body>
 	<%
@@ -205,7 +215,7 @@
 										<!-- Review -->
 										<div class="flex-w flex-t p-b-68">
 											<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-												<img src="images/avatar-01.jpg" alt="AVATAR">
+												<img src="<%=request.getContextPath()%>/temp/images/avatar-01.jpg" alt="AVATAR">
 											</div>
 
 											<div class="size-207">
