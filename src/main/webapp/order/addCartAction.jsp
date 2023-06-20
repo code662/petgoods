@@ -25,10 +25,9 @@
 	
 	// 테스트용 임시 값
 	// 넘어온 productNo, cartCnt 값
-	// int productNo = Integer.parseInt(request.getParameter("productNo"));
-	// int cartCnt = Integer.parseInt(request.getParameter("cartCnt"));
-	int productNo = 0;
-	int cartCnt = 1;
+	int productNo = Integer.parseInt(request.getParameter("productNo"));
+	int cartCnt = Integer.parseInt(request.getParameter("cnt"));
+	
 	System.out.println(productNo + " <-- productNo(addCartAction)");
 	System.out.println(cartCnt + " <-- cartCnt(addCartAction)");
 	
