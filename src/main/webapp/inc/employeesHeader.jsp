@@ -22,6 +22,10 @@
 						<li>
 							<a href="<%=request.getContextPath()%>/product/productList.jsp">Product</a>
 						</li>
+						
+						<li>
+							<a href="<%=request.getContextPath()%>/discount/discountList.jsp">Discount</a>
+						</li>
 
 						<li>
 							<a href="<%=request.getContextPath()%>/employees/employeeList.jsp">Employees</a>
