@@ -3,6 +3,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="vo.*" %>
 <%@ page import="dao.*" %> 
+<%@ page import="java.net.*" %>
 
 <%
 	// productOne에서 넘어온 단일 상품 주문 폼
@@ -18,9 +19,7 @@
 	System.out.println(productNo + " <-- productNo(addOrder)");
 	
 	// 상품이미지, 상품이름, 상품가격, 담은 개수(cnt) -> 총 가격은 따로 구하기
-	if (request.getParameter("productImg") == null
-	|| request.getParameter("productName") == null
-	|| request.getParameter("productPrice") == null
+	if (request.getParameter("productPrice") == null
 	|| request.getParameter("cnt") == null) {
 		System.out.println("유효성 검사 확인-단일 상품(addOrder)");
 		response.sendRedirect(request.getContextPath() + "/product/productOne.jsp?productNo=" + productNo);
@@ -34,12 +33,18 @@
 	int cnt = Integer.parseInt(request.getParameter("cnt"));
 	
 	// id 확인 및 디버깅
+	// 로그인 상태가 아니면 메시지와 함께 로그인 화면으로 이동
 	String id = "";
+	String msg = "";
 	if (session.getAttribute("loginId") != null) {
  		Customer customer = (Customer) session.getAttribute("loginId");
  		id = customer.getId();
  		System.out.println(id + " <-- id(addOrder)");
- 	}
+ 	} else {
+		msg = URLEncoder.encode("로그인 후 이용 가능합니다.", "UTF-8"); 
+		response.sendRedirect(request.getContextPath() + "/login.jsp?msg=" + msg);
+		return;
+	}
 	
 	// model
 	// 내 포인트 조회, 주문인 이름, 배송지 조회를 위한 CustomerDao -> selectMyPoint(String id), selectMyName(String id), selectMyAdd(String id)
@@ -65,7 +70,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>addOrder</title>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<%-- 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 		<script>
 			$(document).ready(function() {
 				var minValue = 0;
@@ -86,10 +91,17 @@
 					}
 				});
 			});
-		</script>
+		</script> --%>
 	</head>
 	<body>
 		<h1>주문하기</h1>
+		<%
+			if (request.getParameter("msg") != null) {
+		%>
+				<%=request.getParameter("msg")%>
+		<%		
+			}
+		%>
 		<form action="<%=request.getContextPath()%>/order/addOrderProductAction.jsp" method="post">
 			<input type="hidden" name="productNo" value="<%=productNo%>">
 			<table border="1">
@@ -119,17 +131,8 @@
 				
 				</tr>
 		</table>
-		
-		<%
-			if (request.getParameter("msg") != null) {
-		%>
-				<%=request.getParameter("msg")%>
-		<%		
-			}
-		%>
-		
 		사용할 포인트 입력: <input type="number" id="inputValue" placeholder="보유 포인트: <%=myPoint%>" name="point">	
-		<button type="button" id="submitButton">입력</button>
+		<!-- <button type="button" id="submitButton">입력</button> -->
 		<div>
 			<button type="submit">결제</button> 
 		</div>
