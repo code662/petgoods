@@ -3,7 +3,7 @@
 <%@ page import = "vo.*"%>
 <%@ page import = "dao.*"%> 
 <%
-	//Ansi코드 //콘솔창에서 글자배경색지정
+	// Ansi코드 //콘솔창에서 글자배경색지정
 	final String RESET = "\u001B[0m";	
 	final String PURPLE = "\u001B[45m";
 	
@@ -12,15 +12,24 @@
 		response.sendRedirect(request.getContextPath()+"/home.jsp");
 		return;
 	}
-
-	// 로그인 세션 정보 변수에 저장
-	Employees e = (Employees)session.getAttribute("loginId");
-	String id = e.getId(); 
+	
+	// 요청값 유효성 검사
+	if(request.getParameter("empNo") == null
+			|| request.getParameter("empNo").equals("")){
+		response.sendRedirect(request.getContextPath()+"/employees/employeeList.jsp");
+		return;
+	}
+	
+	// 요청값 변수에 저장
+	int empNo = Integer.parseInt(request.getParameter("empNo"));
 	// 디버깅
-	System.out.println(PURPLE + id + " <--id employeeOne" + RESET);
+	System.out.println(PURPLE + empNo + " <--empNo employeeOne" + RESET);
+		
+	// 로그인 세션 정보 객체에 저장
+	Employees e = (Employees)session.getAttribute("loginId");
 	
 	EmployeesDao ed = new EmployeesDao();
-	Employees employees = ed.selectEmployeesOne(id);
+	Employees employees = ed.selectEmployeesOne(empNo);
 
 %>   
 <!DOCTYPE html>
@@ -43,7 +52,7 @@
 						<h4 class="mtext-111 cl2 p-b-30">
 							사원 상세정보
 						</h4>
-
+						
 						<div class="flex-w flex-t bor12 p-b-13">
 							<div class="size-208">
 								<span class="stext-110 cl2" style="font-size:17px">
@@ -96,31 +105,26 @@
 							</div>
 						</div>
 						<br>
-						<div class="flex-w dis-inline-block">
+						<div class="flex-w flex-sb-m p-b-17">
+							<div class="mtext-111 cl2  p-r-20 flex-w dis-inline-block">
 							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 								<a href="<%=request.getContextPath()%>/employees/modifyEmployee.jsp?empNo=<%=employees.getEmpNo()%>" style="color: #333333">
-									정보 수정
+									레벨 변경
 								</a>
 							</div>
-						<%
-		
-							if(session.getAttribute("loginId") != null && 
-							e.getEmpLevel().equals("2")){
-						%>
 							&nbsp;
 							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-								<a href="<%=request.getContextPath()%>/employees/removeEmployeeAction.jsp" style="color: #333333">
+								<a href="<%=request.getContextPath()%>/employees/removeEmployeeAction.jsp?empNo=<%=employees.getEmpNo()%>" style="color: #333333">
 									사원 삭제
 								</a>
 							</div>
-						<%
-							}
-						%>
-							&nbsp;
+							</div>
+							<div class="fs-18 cl11 stext-102 flex-w m-r--5">
 							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
 								<a href="<%=request.getContextPath()%>/employees/employeeList.jsp" style="color: #333333">
 									취소
 								</a>
+							</div>
 							</div>
 						</div>
 					</div>

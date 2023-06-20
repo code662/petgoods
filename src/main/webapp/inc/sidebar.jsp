@@ -51,7 +51,7 @@
 					} else if(session.getAttribute("loginId") instanceof Employees) {
 			%>
 						<li class="p-b-13">
-							<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp?" class="stext-102 cl2 hov-cl1 trans-04">
+							<a href="<%=request.getContextPath()%>/employees/employeeMyPage.jsp" class="stext-102 cl2 hov-cl1 trans-04">
 								MyPage
 							</a>
 						</li>

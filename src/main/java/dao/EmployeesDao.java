@@ -32,15 +32,15 @@ public class EmployeesDao {
 	} 
 	
 	// 사원 상세정보 조회
-	 public Employees selectEmployeesOne(String id) throws Exception{
+	 public Employees selectEmployeesOne(int empNo) throws Exception{
 		 //반환할 Employees 객체 생성
 		 Employees employees = null;
 		 //db접속
 		 DBUtil dbUtil = new DBUtil();
 		 Connection conn = dbUtil.getConnection();
 		 //sql 전송 후 결과 셋 반환받아 리스트에 저장
-		 PreparedStatement stmt = conn.prepareStatement("SELECT emp_no empNo, id, emp_name empName, emp_level empLevel, updatedate, createdate FROM employees WHERE id=?");
-		 stmt.setString(1, id);
+		 PreparedStatement stmt = conn.prepareStatement("SELECT emp_no empNo, id, emp_name empName, emp_level empLevel, updatedate, createdate FROM employees WHERE emp_no=?");
+		 stmt.setInt(1, empNo);
 		 ResultSet rs = stmt.executeQuery();
 		 if(rs.next()) {
 			 employees = new Employees();
@@ -115,16 +115,16 @@ public class EmployeesDao {
 	 } 
 	
 	// 사원 삭제
-	public int removeEmployees(Employees employees) throws Exception{
+	public int removeEmployees(int empNo) throws Exception{
 		//sql 실행 시 영향받은 행의 수
 		int row = 0;
 		//db 접속
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		//sql 전송 후 영향받은 행의 수 반환받아 저장
-		String sql="DELETE FROM employees WHERE empNo=?";
+		String sql="DELETE FROM employees WHERE emp_no=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, employees.getEmpNo());
+		stmt.setInt(1, empNo);
 		row = stmt.executeUpdate();
 		if(row==1) {
 			System.out.println("삭제 성공");
@@ -136,7 +136,6 @@ public class EmployeesDao {
 	}
 	 
 	// 자기 자신의 정보 변경
-	
 	public int modifyMyEmp(String beforePw, Employees employees) throws Exception{
 		 //sql 실행 시 영향받은 행의 수
 		 int row = 0;
@@ -149,14 +148,17 @@ public class EmployeesDao {
 		 stmt.setString(1, employees.getEmpName());
 		 stmt.setInt(2, employees.getEmpNo());
 		 stmt.setString(3, employees.getEmpName());
-		 row = stmt.executeUpdate();
+		 
 		 
 		 IdDao idDao = new IdDao();
 		 if(!beforePw.equals(employees.getPw())) {
 			 Id id = new Id();
 			 id.setId(employees.getId());
 			 id.setLastPw(employees.getPw());
-			 idDao.modifyLastPw(id);
+			 int pwRow = idDao.modifyLastPw(id);
+			 if(pwRow == 1) {
+				 row = stmt.executeUpdate();
+			 }
 		 }
 		 
 		 return row;

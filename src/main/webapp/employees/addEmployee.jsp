@@ -1,4 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	// 세션 유효성 검사: 로그인이 되어있지 않으면 home으로 리다이렉션
+	if(session.getAttribute("loginId") == null){
+		response.sendRedirect(request.getContextPath()+"/home.jsp");
+		return;
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,8 +67,6 @@
 			</div>
 		</div>
 	</section>
-
-
 <jsp:include page="/inc/footer.jsp"></jsp:include>
 <jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
 <jsp:include page="/inc/quickView.jsp"></jsp:include>

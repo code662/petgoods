@@ -3,7 +3,7 @@
 <%@ page import = "vo.*"%>
 <%@ page import = "dao.*"%> 
 <%
-	//로그인 되지 않은 사용자가 넘어왔을 경우
+	// 로그인 되지 않은 사용자가 넘어왔을 경우
 	if(session.getAttribute("loginId") == null){
 		response.sendRedirect(request.getContextPath()+"/login.jsp");
 	}
@@ -11,7 +11,7 @@
 	// 로그인 세션 정보 변수에 저장
 	Employees empVo = (Employees)session.getAttribute("loginId");
 		
-	//현재페이지
+	// 현재페이지
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null) {
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -23,12 +23,12 @@
 	// 전체 해의 수
 	int totalRow = empDao.selectEmployeesCnt();
 	// 페이지 당 행의 수
-	int rowPerPage = 10;
+	int rowPerPage = 5;
 	// 시작 행 번호
 	int beginRow = (currentPage-1) * rowPerPage;
 	// 마지막 페이지 번호
 	int lastPage = totalRow/ rowPerPage;
-	//추가하지 못한 행이 있을 경우 페이지 +1
+	// 추가하지 못한 행이 있을 경우 페이지 +1
 	if(totalRow % rowPerPage != 0){
 		lastPage = lastPage + 1;
 	}
@@ -36,7 +36,7 @@
 	ArrayList<Employees> list = empDao.selectEmployeesListByPage(beginRow, rowPerPage);
 	
 	// 페이징 수
-	int pagePerPage = 10;
+	int pagePerPage = 5;
 	// 최소 페이지
 	int minPage = (currentPage-1) / pagePerPage * pagePerPage + 1;
 	// 최대 페이지
@@ -68,7 +68,6 @@
 								사원 리스트
 							</h4>
 						<%
-		
 							if(session.getAttribute("loginId") != null && 
 								empVo.getEmpLevel().equals("2")){
 						%>
@@ -82,6 +81,18 @@
 						%>
 						</div>
 						<br>
+						
+						<!-- 리다이렉션 메시지 -->
+						<div>
+						<%
+						   if(request.getParameter("msg") != null){
+						%>
+								<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg") %></p>
+						<%
+						   }
+						%>
+						<br>
+						</div>
 						
 						<table class="table-shopping-cart">
 							<tr class="table_head" >
@@ -101,9 +112,11 @@
 									if(session.getAttribute("loginId") != null && 
 										empVo.getEmpLevel().equals("2")){
 								%>
-										<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp?empNo=<%=employee.getEmpNo()%>">
-											<%=employee.getId()%>
-										</a>
+										<span class="fs-18 cl11 stext-102 flex-w m-r--5">
+											<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp?empNo=<%=employee.getEmpNo()%>" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+												<%=employee.getId()%>
+											</a>
+										</span>
 								<% 
 									}else if(session.getAttribute("loginId") != null && 
 										empVo.getEmpLevel().equals("1")){

@@ -11,6 +11,7 @@
 	request.setCharacterEncoding("utf-8");
 
 	//요청값 유효성 검사
+	String msg=null;
 	if(request.getParameter("id") == null
 			|| request.getParameter("pw") == null
 			|| request.getParameter("empName") == null
@@ -19,7 +20,8 @@
 			|| request.getParameter("pw").equals("")
 			|| request.getParameter("empName").equals("")
 			|| request.getParameter("empLevel").equals("")){
-		response.sendRedirect(request.getContextPath()+"/employees/addEmployee.jsp");
+		msg = URLEncoder.encode("정보를 입력해주세요","utf-8");
+		response.sendRedirect(request.getContextPath()+"/employees/addEmployee.jsp?msg="+msg);
 		return;
 	}
 
@@ -45,11 +47,12 @@
 	
 
 	int row = ed.addEmployees(employees);
-	String msg = null;
 	if(row == 1){
 		msg = URLEncoder.encode("사원등록이 완료되었습니다","utf-8");
 		response.sendRedirect(request.getContextPath()+"/employees/addEmployee.jsp?msg="+msg);
 		return;
+	}else{
+		msg = URLEncoder.encode("사원등록이 실패하였습니다","utf-8");
+		response.sendRedirect(request.getContextPath()+"/employees/addEmployee.jsp?msg="+msg);	
 	}
-	response.sendRedirect(request.getContextPath()+"/employees/addEmployee.jsp");
 %>
