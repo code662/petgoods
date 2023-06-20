@@ -111,16 +111,17 @@ public class CartDao {
 	}
 
 	// 나의 장바구니 추가 시 중복검사 (로그인 상태)
-	public int checkCartDuplicate(int productNo) throws Exception {
+	public int checkCartDuplicate(int productNo, String id) throws Exception {
 		// 장바구니에 추가하려는 상품 중복 체크 변수
 		int check = 0;
 		// DB 연결
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		// SQL 전송 후 결과셋 반환받아 리스트에 저장
-		String sql = "SELECT COUNT(*) FROM cart WHERE product_no = ?";
+		String sql = "SELECT COUNT(*) FROM cart WHERE product_no = ? AND id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, productNo);
+		stmt.setString(2, id);
 		ResultSet rs = stmt.executeQuery();
 		if (rs.next()) {
 			check = rs.getInt(1);

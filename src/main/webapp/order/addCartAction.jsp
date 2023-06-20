@@ -13,7 +13,7 @@
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 
-	// 입력값 유효성 확인	 -> 파일 생성되면 하기
+	// 입력값 유효성 확인	
 	// productOne.jsp에서 productNo 값이 넘어오지 않으면 productOne.jsp로 다시 이동
 	/*
 	if (request.getParameter("productNo") == null) {
@@ -23,7 +23,6 @@
 	}
 	*/
 	
-	// 테스트용 임시 값
 	// 넘어온 productNo, cartCnt 값
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	int cartCnt = Integer.parseInt(request.getParameter("cnt"));
@@ -43,7 +42,7 @@
  		id = customer.getId();
  		System.out.println(id + " <-- id(addCartAction)");
 		// 상품명 중복 확인
-		int check = cartDao.checkCartDuplicate(productNo);
+		int check = cartDao.checkCartDuplicate(productNo, id);
 		System.out.println(check + " <-- ckeck(addCartAction)");
 		if (check == 0) {
 			System.out.println("중복 상품 없음");
