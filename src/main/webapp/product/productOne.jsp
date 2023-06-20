@@ -40,7 +40,7 @@
 	<%	
 		// 아니면 고객용 헤더 표시
 		} else {
-			%>
+	%>
 			<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
 	<%		
 		}
@@ -140,16 +140,37 @@
 											</div>
 										</div>
 									</div>
-									<div class="size-204 flex-w respon6-next">
-										<button class="flex-c-m stext-101 m-r-20 cl0 size-101 bg1 bor1 hov-btn1 m-tb-10 p-lr-15 trans-04 js-addcart-detail" onclick="$('#product').attr('action','<%=request.getContextPath()%>/order/addCartAction.jsp').submit();">
-												장바구니 담기
-										</button>
-									</div>
-									<div class="size-204 flex-w respon6-next">
-										<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 m-tb-10 trans-04 js-addcart-detail" onclick="$('#product').attr('action','<%=request.getContextPath()%>/order/addOrderProduct.jsp').submit();">
-												바로구매
-										</button>
-									</div>
+									<%
+										// 사원이 로그인 중일 때 사원용 헤더 표시
+										if(session.getAttribute("loginId") instanceof Employees) {
+									%>
+											<div class="size-204 flex-w respon6-next">
+												<button class="flex-c-m stext-101 m-r-20 cl0 size-101 bg1 bor1 hov-btn1 m-tb-10 p-lr-15 trans-04 js-addcart-detail" onclick="$('#product').attr('action','<%=request.getContextPath()%>/product/modifyProduct.jsp').submit();">
+														상품 정보 수정
+												</button>
+											</div>
+											<div class="size-204 flex-w respon6-next">
+												<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 m-tb-10 trans-04 js-addcart-detail" onclick="$('#product').attr('action','<%=request.getContextPath()%>/product/removeProductAction.jsp').submit();">
+														상품 삭제
+												</button>
+											</div>
+									<%	
+										// 아니면 고객용 헤더 표시
+										} else {
+									%>
+											<div class="size-204 flex-w respon6-next">
+												<button class="flex-c-m stext-101 m-r-20 cl0 size-101 bg1 bor1 hov-btn1 m-tb-10 p-lr-15 trans-04 js-addcart-detail" onclick="$('#product').attr('action','<%=request.getContextPath()%>/order/addCartAction.jsp').submit();">
+														장바구니 담기
+												</button>
+											</div>
+											<div class="size-204 flex-w respon6-next">
+												<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 m-tb-10 trans-04 js-addcart-detail" onclick="$('#product').attr('action','<%=request.getContextPath()%>/order/addOrderProduct.jsp').submit();">
+														바로구매
+												</button>
+											</div>
+									<%		
+										}
+									%>
 								</div>	
 							</form>
 						</div>
