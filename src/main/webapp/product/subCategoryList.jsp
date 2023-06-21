@@ -78,8 +78,8 @@
 				<th>서브 카테고리</th>
 				<th>생성일자</th>
 				<th>수정일자</th>
-				<th>수정</th>
-				<th>삭제</th>
+				<th></th>
+				<th></th>
 			</tr>
 		<%
 			for (Category c : list) {
@@ -91,12 +91,12 @@
 					<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCreatedate().substring(0, 10)%></td>
 					<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCreatedate().substring(0, 10)%></td>
 					<td class="stext-112 cl8" style="font-size:17px;">
-						<a href="<%=request.getContextPath()%>/product/modifyCategory.jsp?categoryNo=<%=c.getCategoryNo()%>">
+						<a href="<%=request.getContextPath()%>/product/modifyCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 							수정
 						</a>
 					</td>
 					<td class="stext-112 cl8" style="font-size:17px;">
-						<a href="<%=request.getContextPath()%>/product/removeCategory.jsp?categoryNo=<%=c.getCategoryNo()%>">
+						<a href="<%=request.getContextPath()%>/product/removeCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 							삭제
 						</a>
 					</td>

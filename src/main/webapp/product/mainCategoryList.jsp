@@ -45,8 +45,11 @@
 					<div class="col-sm-12 col-lg-11 col-xl-11 m-lr-auto m-b-50">
 						<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
 							<h4 class="mtext-111 cl2 p-b-30">
-								카테고리 리스트(메인)
-							</h4>
+									카테고리 리스트(메인)
+								</h4>
+								<br>
+							
+						
 		<%
 			if (request.getParameter("msg") != null) {
 		%>
@@ -54,8 +57,8 @@
 		<%
 			}
 		%>
-		<table>
-		   	<colgroup>
+		<table class="center">
+ 		   	<colgroup>
 		     	<col width="5%">
 		     	<col width="10%">
 		     	<col width="*">
@@ -63,15 +66,15 @@
 		     	<col width="15%">
 		     	<col width="5%">
 		     	<col width="5%">
-	   		 </colgroup>
-   		 	<tr class="bor12" height="40">
+	   		 </colgroup> 
+   		 	<tr class="bor12">
 				<th>NO.</th>
 				<th>메인 카테고리</th>
 				<th>서브 카테고리</th>
 				<th>생성일자</th>
 				<th>수정일자</th>
-				<th>수정</th>
-				<th>삭제</th>
+				<th></th>
+				<th></th>
 			</tr>
 		<%
 			for (Category c : list) {
@@ -84,18 +87,20 @@
 					<tr class="bor12">
 						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategoryNo()%></td>
 						<td class="stext-112 cl8" style="font-size:17px;">
-							<a href="<%=request.getContextPath()%>/product/subCategoryList.jsp?categoryMainName=<%=categoryMainName%>"><%=c.getCategoryMainName()%></a>
+							<a href="<%=request.getContextPath()%>/product/subCategoryList.jsp?categoryMainName=<%=categoryMainName%>" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+								<%=c.getCategoryMainName()%>
+							</a>
 						</td>
 						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategorySubName()%></td>
 						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCreatedate().substring(0, 10)%></td>
 						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getUpdatedate().substring(0, 10)%></td>
 						<td class="stext-112 cl8" style="font-size:17px;">
-							<a href="<%=request.getContextPath()%>/product/modifyCategory.jsp?categoryNo=<%=c.getCategoryNo()%>">
+							<a href="<%=request.getContextPath()%>/product/modifyCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 								수정
 							</a>
 						</td>
 						<td class="stext-112 cl8" style="font-size:17px;">
-							<a href="<%=request.getContextPath()%>/product/removeCategory.jsp?categoryNo=<%=c.getCategoryNo()%>">
+							<a href="<%=request.getContextPath()%>/product/removeCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 								삭제
 							</a>
 						</td>
@@ -112,7 +117,6 @@
 					</a>
 				</div>
 			</div>
-		
 						</div>
 					</div>
 				</div>
