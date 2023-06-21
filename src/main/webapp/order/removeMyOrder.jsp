@@ -4,13 +4,13 @@
 <%@ page import="dao.*"%>
     
 <%
-	// 주문취소 폼 -> 요청값 유효성 검사 링크 이슈
+	// 주문취소 폼 
 	
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 
 	// 요청값	(OrdersDao 내 상세 정보 메소드 요청값 -> order_no) 유효성 확인
-	// order_no 값 없을 시 내 주문 목록으로 이동 -> 지금은 user1의 주문 목록, 추후 유저별로 수정할 것
+	// order_no 값 없을 시 내 주문 목록으로 이동 
 	if (request.getParameter("orderNo") == null
 	|| request.getParameter("orderNo").equals("")) {
 		response.sendRedirect(request.getContextPath() + "/customer/myOrderList.jsp");
@@ -39,39 +39,111 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>removeMyOrder</title>
+		<jsp:include page="/inc/link.jsp"></jsp:include>
 	</head>
 	<body>
-		<div>
+		<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+		<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+		<jsp:include page="/inc/cart.jsp"></jsp:include>
+		<!-- <div>
 			<h1>주문취소</h1>
-		</div>
-		주문취소 하시겠습니까?
-		<form action="<%=request.getContextPath()%>/order/removeMyOrderAction.jsp" method="post">
-			<input type="hidden" name="orderNo" value="<%=order.getOrderNo()%>">
-			<input type="hidden" name="orderId" value="<%=order.getId()%>">
-			<input type="hidden" name="createdate" value="<%=order.getCreatedate()%>">
-			<table border="1">
-				<tr>
-					<th>주문코드</th>
-					<td><%=orderCode%></td>
-				</tr>
-				<tr>
-					<th>상품이름</th>
-					<td><%=productName%></td>
-				</tr>
-				<tr>
-					<th>가격</th>
-					<td><%=order.getOrderPrice()%></td>
-				</tr>
-				<tr>
-					<th>수량</th>
-					<td><%=order.getOrderCnt()%></td>
-				</tr>
-				<tr>
-					<th>주문일자</th>
-					<td><%=order.getCreatedate()%></td>
-				</tr>
-			</table>
-			<button type="submit">주문취소</button>
+		</div> -->
+		
+		<form action="<%=request.getContextPath()%>/order/removeMyOrderAction.jsp" method="post" class="bg0 p-t-75 p-b-85">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
+						<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">	 	
+							<h4 class="mtext-111 cl2 p-b-30">
+								주문취소
+							</h4>
+							<h6>주문 취소 하시겠습니까?</h6>
+							<br>
+							<input type="hidden" name="orderNo" value="<%=order.getOrderNo()%>">
+							<input type="hidden" name="orderId" value="<%=order.getId()%>">
+							<input type="hidden" name="createdate" value="<%=order.getCreatedate()%>">
+							<div class="flex-w flex-t bor12 p-b-13">
+								<div class="size-208">
+									<span class="stext-110 cl2" style="font-size:17px">
+										주문코드
+									</span>
+								</div>
+								<div class="size-209">
+									<span class="stext-112 cl8" style="font-size:17px">
+										<%=orderCode%>
+									</span>
+								</div>
+							</div>
+							
+							<div class="flex-w flex-t bor12 p-t-15 p-b-30">
+							<div class="size-208 w-full-ssm">
+								<span class="stext-110 cl2" style="font-size:17px">
+									상품이름
+								</span>
+							</div>
+							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+								<p class="stext-112 cl8 p-t-2" style="font-size:17px">
+									<%=productName%>
+								</p>
+							</div>
+						</div>
+						
+						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
+						<div class="size-208 w-full-ssm">
+							<span class="stext-110 cl2" style="font-size:17px">
+								가격
+							</span>
+						</div>
+						<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+							<p class="stext-112 cl8 p-t-2" style="font-size:17px">
+								<%=order.getOrderPrice()%>
+							</p>
+						</div>
+						</div>
+						
+						<div class="flex-w flex-t bor12  p-t-15 p-b-30">
+						<div class="size-208 w-full-ssm">
+							<span class="stext-110 cl2" style="font-size:17px">
+								수량
+							</span>
+						</div>
+						<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+							<p class="stext-112 cl8 p-t-2" style="font-size:17px">
+								<%=order.getOrderCnt()%>
+							</p>
+						</div>
+						</div>
+					
+						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
+						<div class="size-208 w-full-ssm">
+							<span class="stext-110 cl2" style="font-size:17px">
+								주문일자
+							</span>
+						</div>
+						<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+							<p class="stext-112 cl8 p-t-2" style="font-size:17px">
+								<%=order.getCreatedate()%>
+							</p>
+						</div>
+						</div>
+						
+						<br>
+						<div class="flex-w dis-inline-block">
+							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+								<button type="submit" style="color: #333333">
+									주문취소
+								</button>
+							</div>
+						</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
 		</form>
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
+		<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
+		<jsp:include page="/inc/quickView.jsp"></jsp:include>
+		<jsp:include page="/inc/script.jsp"></jsp:include>
 	</body>
 </html>
