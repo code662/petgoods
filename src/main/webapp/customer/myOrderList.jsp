@@ -21,22 +21,6 @@
  		id = customer.getId();
  		System.out.println(id + " <-- id(myOrderList)");
  	}
- 	
- 	// id = "user1";
-	
-	/*
-	// 요청값(id) 유효성 검사 
-	if (request.getParameter("id") == null
-	|| request.getParameter("id").equals("")) {
-		// 이전 페이지로 이동
-		return;
-	}
-	
-	// 마이페이지에서 id값 넘어와야 함 -> 추후 수정할 것 (임시로 id = user1 설정)
-	// String id = "user1";
-	
-	
-	*/
 	
 	// OrdersDao 클래스 객체 생성 -> SQL 메소드 이용
 	OrdersDao ordersDao = new OrdersDao();
@@ -106,11 +90,13 @@
 		 <form class="bg0 p-t-75 p-b-85">
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-12 col-lg-11 col-xl-11 m-lr-auto m-b-50">
+					<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
 						<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
-							<h4 class="mtext-111 cl2 p-b-30">
-								나의 주문 리스트
-							</h4>
+							<div class="flex-w flex-sb-m p-b-17">
+								<h4 class="mtext-111 cl2  p-r-20">
+									나의 주문 리스트
+								</h4>
+							</div>
 
 		<%
 			if (request.getParameter("msg") != null) {
@@ -119,25 +105,15 @@
 		<%
 			}
 		%>
-		<table>
- 			<colgroup>
-		     	<col width="*">
-		     	<col width="10%">
-		     	<col width="15%">
-		     	<col width="15%">
-		     	<col width="5%">
-		     	<col width="15%">
-		     	<col width="10%">
-		     	<col width="10%">
-	   		 </colgroup>
-			<tr class="bor12">
+		<table class="table-shopping-cart">
+			<tr class="table_head">
 				<th>주문코드</th>
 				<th>상품이름</th>
 				<th>주문상태</th>
 				<th>가격</th>
 				<th>수량</th>
 				<th>주문일자</th>
-				<th>이미지</th>
+				<th>상품이미지</th>
 				<th>기타옵션</th>
 			</tr>
 		<%
@@ -154,7 +130,7 @@
 			// 상품 이미지 조회
 			String productImg = ordersDao.selectImg(o.getProductNo());
 		%>
-			<tr class="bor12">
+			<tr class="table_head">
 				<td><%=ordersCode%></td>
 				<td><%=productName%></td>
 				<td><%=o.getOrderStatus()%></td>
@@ -167,15 +143,27 @@
 				
 				if (o.getOrderStatus().equals("결제완료")) { // 결제완료일 때 주문취소 버튼 노출
 			%>
-					<td><a href="<%=request.getContextPath()%>/order/removeMyOrder.jsp?orderNo=<%=orderNo%>">주문취소</a></td>
+					<td>
+						<a href="<%=request.getContextPath()%>/order/removeMyOrder.jsp?orderNo=<%=orderNo%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+							주문취소
+						</a>
+					</td>
 			<%		
 				} else if (o.getOrderStatus().equals("구매확정")) { // 구매확정일 때 리뷰작성 버튼 노출
 			%>
-					<td><a href="<%=request.getContextPath()%>/customer/addReview.jsp?orderNo=<%=orderNo%>">리뷰작성</a></td>
+					<td>
+						<a href="<%=request.getContextPath()%>/customer/addReview.jsp?orderNo=<%=orderNo%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+							리뷰작성
+						</a>
+					</td>
 			<% 	
 				} else if (o.getOrderStatus().equals("배송완료")) { // 배송완료일때 구매확정 버튼 노출	
 			%>
-					<td><a href="<%=request.getContextPath()%>/order/purchaseAction.jsp?orderNo=<%=orderNo%>&orderStatus=<%=o.getOrderStatus()%>&createdate=<%=o.getCreatedate()%>&orderPrice=<%=o.getOrderPrice()%>&orderCnt=<%=o.getOrderCnt()%>">구매확정</a></td>
+					<td>
+						<a href="<%=request.getContextPath()%>/order/purchaseAction.jsp?orderNo=<%=orderNo%>&orderStatus=<%=o.getOrderStatus()%>&createdate=<%=o.getCreatedate()%>&orderPrice=<%=o.getOrderPrice()%>&orderCnt=<%=o.getOrderCnt()%>" style="color: #747474; 	width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+							구매확정
+						</a>
+					</td>
 			<%
 				} else {
 			%>
@@ -197,14 +185,16 @@
 				</a>
 			</div>
 		</div>
-	
 		
-		
+		<!-- Pagination -->
+		<div class="flex-l-m flex-w w-full p-t-10 m-lr--7" style="justify-content: center">
 		<%
 			// minPage가 1보다 클 때만 [이전] 탭 출력
 			if (minPage > 1) {
 		%>
-				<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp?currentPage=<%=minPage - pagePerPage%>">이전</a>
+				<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp?currentPage=<%=minPage - pagePerPage%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+					이전
+				</a>
 		<%
 			}
 		
@@ -212,27 +202,35 @@
 			for (int i = minPage; i <= maxPage; i += 1) {
 				if (currentPage == i) { // 현재 페이지 번호에는 링크 없이 표시
 		%>
-					<span><%=i%></span>
+					<a href="" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+						<%=i%>
+					</a>
 		<%
 				} else { // 현재 페이지가 아닌 나머지 페이지에는 번호를 링크로 표시 (클릭 시 해당 번호 페이지로 이동)
 		%>
-					<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp?currentPage=<%=i%>"><%=i%></a>
+					<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp?currentPage=<%=i%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+						<%=i%>
+					</a>
+					
 		<%			
 				}
 			}
 		
-			if (maxPage < lastPage) {	
+			if (maxPage < lastPage) { // 마지막 페이지보다 maxPage가 작을 때만 다음 버튼 출력
 		%>
-				<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp?currentPage=<%=minPage + pagePerPage%>"></a>
+				<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp?currentPage=<%=minPage + pagePerPage%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+					다음
+				</a>
 		<% 
 			}
 		%>
+		
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</form>
-		
 		<jsp:include page="/inc/footer.jsp"></jsp:include>
 		<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
 		<jsp:include page="/inc/quickView.jsp"></jsp:include>
