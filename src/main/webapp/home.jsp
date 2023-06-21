@@ -297,6 +297,9 @@ ArrayList<Product> productList = pDao.selectProductList(0, 8, "전체", "전체"
 								<%		
 									}
 								%>
+							</div>
+						</div>
+					</div>
 
 					<!-- - -->
 					<div class="tab-pane fade" id="sale" role="tabpanel">
@@ -331,7 +334,9 @@ ArrayList<Product> productList = pDao.selectProductList(0, 8, "전체", "전체"
 								<%		
 									}
 								%>
-
+							</div>
+						</div>
+					</div>
 					<!-- - -->
 					<div class="tab-pane fade" id="top-rate" role="tabpanel">
 						<!-- Slide2 -->
@@ -365,8 +370,6 @@ ArrayList<Product> productList = pDao.selectProductList(0, 8, "전체", "전체"
 								<%		
 									}
 								%>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
