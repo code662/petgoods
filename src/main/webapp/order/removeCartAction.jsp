@@ -7,8 +7,6 @@
 
 <%
 	// 로그인 상태 / 로그인 아닌 상태 분기 -> 추후 테스트 필요
-	// 사진 클릭 시 X 팝업 -> 템플릿 적용 시 수정
-
 	// 장바구니 삭제 액션 파일 -> cartList.jsp에서 넘어오는 값 (삭제버튼 눌렀을 때)
 	
 	// post 방식 인코딩 설정
@@ -26,7 +24,7 @@
  		System.out.println(id + " <-- id(removeCartAction)");
  		
  		// 입력값 유효성 확인
- 		// cartList.jsp에서 cartNo 값이 넘어오지 않으면 carList.jsp로 다시 이동
+ 		// cartList.jsp에서 cartNo 값이 넘어오지 않으면 cartList.jsp로 다시 이동
  		if (request.getParameter("cartNo") == null) {
  			response.sendRedirect(request.getContextPath() + "/order/cartList.jsp");
  			return;
@@ -78,9 +76,13 @@
  		for (Cart c : sessionCart) {
  			if (c.getProductNo() == productNo) {
  				sessionCart.remove(c);
+ 				msg = URLEncoder.encode("상품을 삭제했습니다.", "UTF-8");
  				break;
  			}
  		}
+ 		
+ 		// 데이터 삭제 후 cartList.jsp로 리다이렉트
+ 		response.sendRedirect(request.getContextPath() + "/order/cartList.jsp?msg=" + msg);
 	}
 	
 	System.out.println("==============removeCartAction.jsp==============");

@@ -132,7 +132,7 @@
 								카테고리 삭제
 							</button>
 						</div>
-							</div>
+					</div>
 						</div>
 					</div>
 				</div>
