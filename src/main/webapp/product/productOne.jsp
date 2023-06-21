@@ -90,10 +90,10 @@
 							<div class="wrap-slick3"></div>
 
 							<div class="slick3 gallery-lb">
-								<div class="item-slick3" data-thumb="<%=request.getContextPath()%>/pimg/<%=pDao.productImgName(product.getProductNo())%>">
+								<div class="item-slick3" data-thumb="<%=request.getContextPath()%>/pimg/<%=pDao.selectProductImg(product.getProductNo()).getProductSaveFilename()%>">
 									<div class="wrap-pic-w pos-relative">
-										<img src="<%=request.getContextPath()%>/pimg/<%=pDao.productImgName(product.getProductNo())%>" alt="IMG-PRODUCT">
-										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="<%=request.getContextPath()%>/pimg/<%=pDao.productImgName(product.getProductNo())%>">
+										<img src="<%=request.getContextPath()%>/pimg/<%=pDao.selectProductImg(product.getProductNo()).getProductSaveFilename()%>" alt="IMG-PRODUCT">
+										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="<%=request.getContextPath()%>/pimg/<%=pDao.selectProductImg(product.getProductNo()).getProductSaveFilename()%>">
 											<i class="fa fa-expand"></i>
 										</a>
 									</div>
@@ -123,7 +123,7 @@
 							<br>
 							<form action="" method="post" id="product">
 								<input type="hidden" name="productNo" value="<%=product.getProductNo()%>">
-								<input type="hidden" name="productImg" value="<%=pDao.productImgName(product.getProductNo())%>">
+								<input type="hidden" name="productImg" value="<%=pDao.selectProductImg(product.getProductNo()).getProductSaveFilename()%>">
 								<input type="hidden" name="productName" value="<%=product.getProductName()%>">
 								<input type="hidden" name="productPrice" value="<%=product.getProductPrice()%>">
 								<div class="flex-w flex-r-m p-b-10">
