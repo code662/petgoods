@@ -7,9 +7,10 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <%
+	//utf-8 인코딩 설정
 	request.setCharacterEncoding("utf-8");
 
-	// 프로젝트안에 있는 upload 폴더의 실제 물리적 위치
+	//프로젝트안에 있는 pimg 폴더의 실제 물리적 위치
 	String dir = request.getServletContext().getRealPath("/pimg");
 	System.out.println(dir + " <-- dir");
 	
@@ -18,8 +19,33 @@
 	
 	// request객체를 MutipartReqest의 API를 사용할 수 있도록 랩핑
 	MultipartRequest mRequest  = new MultipartRequest(request, dir, max, "utf-8", new DefaultFileRenamePolicy());
+	System.out.println(mRequest.getParameter("productImg"));
+	// 요청값 유효성 검사
+	if(mRequest.getParameter("categoryNo") == null					// 파라미터 값이 null이거나 공백이면
+		|| mRequest.getParameter("productName") == null
+		|| mRequest.getParameter("productStock") == null
+		|| mRequest.getParameter("productPrice") == null
+		|| mRequest.getParameter("prdouctStatus") == null
+		|| mRequest.getParameter("productInfo") == null
+		|| mRequest.getParameter("categoryNo").equals("")
+		|| mRequest.getParameter("productName").equals("")
+		|| mRequest.getParameter("productStock").equals("")
+		|| mRequest.getParameter("productPrice").equals("")
+		|| mRequest.getParameter("prdouctStatus").equals("")
+		|| mRequest.getParameter("productInfo").equals("")) {
+		// 파일이 저장되었다면 삭제하고
+		String saveFilename = mRequest.getFilesystemName("productImg");
+		File f = new File(dir+"/"+saveFilename);
+		if(f.exists()) {
+			f.delete();
+			System.out.println(saveFilename + "파일삭제");
+		}
+		// addProduct로 가라
+		response.sendRedirect(request.getContextPath() + "/product/addProduct.jsp");
+		return;
+	}
 	
-	// 
+	// 파일 타입 검사
 	if(!mRequest.getContentType("productImg").equals("image/png") 
 		&& !mRequest.getContentType("productImg").equals("image/jpg")
 		&& !mRequest.getContentType("productImg").equals("image/jpeg")) {
@@ -51,7 +77,7 @@
 	System.out.println(prdouctStatus + " <-- addProductAction prdouctStatus");
 	System.out.println(productInfo + " <-- addProductAction productInfo");
 	
-	// 
+	// 상품 객체 생성후 값 저장
 	Product product = new Product();
 	product.setCategoryNo(categoryNo);
 	product.setProductName(productName);
@@ -60,9 +86,7 @@
 	product.setProductStatus(prdouctStatus);
 	product.setProductInfo(productInfo);
 	
-	
-	// 
-	// 
+	// 파라미터 값 변수에 저장
 	String productFiletype = mRequest.getContentType("productImg");
 	String productOriFilename = mRequest.getOriginalFileName("productImg");
 	String productSaveFilename = mRequest.getFilesystemName("productImg");
@@ -70,11 +94,12 @@
 	System.out.println(productFiletype + " <-- addProductAction productFiletype");
 	System.out.println(productOriFilename + " <-- addProductAction productOriFilename");
 	System.out.println(productSaveFilename + " <-- addProductAction productSaveFilename");
-	// 
-	// 
+	
+	// 상품 정보 DB에 추가 후 키값 반환
 	ProductDao pDao = new ProductDao();
 	int productNo = pDao.addProduct(product);
 	
+	// 상품 이미지 정보 DB에 추가
 	ProductImg productImg = new ProductImg();
 	productImg.setProductNo(productNo);
 	productImg.setProductFiletype(productFiletype);
@@ -83,6 +108,6 @@
 	
 	int row = pDao.addProductImg(productImg);
 
-	//
+	// 상품리스트로 가라
 	response.sendRedirect(request.getContextPath()+"/product/productList.jsp");
 %>
