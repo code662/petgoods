@@ -8,7 +8,14 @@ public class Discount {
 	private double discountRate;
 	private String createdate;
 	private String updatedate;
+	private String productName;
 	
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
 	public int getDiscountNo() {
 		return discountNo;
 	}

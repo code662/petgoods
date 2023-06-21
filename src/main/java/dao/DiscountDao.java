@@ -15,7 +15,7 @@ public class DiscountDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		// sql 전송 후 결과셋 반환받아 리스트에 저장
-		String sql = "SELECT discount_no discountNo, product_no productNo, discount_start discountStart, discount_end discontEnd, discout_rate discountRate, createdate, updatedate FROM dicount LIMIT ? ,?";
+		String sql = "SELECT p.product_name productName, d.discount_no discountNo, d.product_no productNo, d.discount_start discountStart, d.discount_end discountEnd, d.discount_rate discountRate, d.createdate, d.updatedate FROM discount d INNER JOIN product p ON d.product_no = p.product_no LIMIT ? ,?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, beginRow);
 		stmt.setInt(2, rowPerPage);
@@ -23,10 +23,11 @@ public class DiscountDao {
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			Discount discount = new Discount();
+			discount.setProductName(rs.getString("productName"));
 			discount.setDiscountNo(rs.getInt("discountNo"));
 			discount.setProductNo(rs.getInt("productNo"));
 			discount.setDiscountStart(rs.getString("discountStart"));
-			discount.setDiscountEnd(rs.getString("discontEnd"));
+			discount.setDiscountEnd(rs.getString("discountEnd"));
 			discount.setDiscountRate(rs.getDouble("discountRate"));
 			discount.setCreatedate(rs.getString("createdate"));
 			discount.setUpdatedate(rs.getString("updatedate"));
@@ -35,6 +36,83 @@ public class DiscountDao {
 		
 		return list;
 	}
+	
+	// product_no로 검색한 할인 품목 조회
+	public ArrayList<Discount> searchProducNo(int searchProductNo, int beginRow, int rowPerPage) throws Exception {
+		// 반환할 ArrayList<Discount> 생성
+		ArrayList<Discount> list = new ArrayList<>();
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		String sql = "SELECT p.product_name productName, d.discount_no discountNo, d.product_no productNo, d.discount_start discountStart, d.discount_end discountEnd, d.discount_rate discountRate, d.createdate createdate, d.updatedate updatedate FROM discount d INNER JOIN product p ON d.product_no = p.product_no WHERE d.product_no = ? ORDER BY d.createdate DESC LIMIT ? ,?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, searchProductNo);
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
+		
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			Discount discount = new Discount();
+			discount.setProductName(rs.getString("productName"));
+			discount.setDiscountNo(rs.getInt("discountNo"));
+			discount.setProductNo(rs.getInt("productNo"));
+			discount.setDiscountStart(rs.getString("discountStart"));
+			discount.setDiscountEnd(rs.getString("discountEnd"));
+			discount.setDiscountRate(rs.getDouble("discountRate"));
+			discount.setCreatedate(rs.getString("createdate"));
+			discount.setUpdatedate(rs.getString("updatedate"));
+			list.add(discount);	
+		}
+		
+		return list;
+	}
+	
+	// 할인 품목 개별 조회
+	public Discount selectDiscountOne(int discountNo) throws Exception {
+		// 반환할 Discount객체 생성
+		Discount discount = new Discount();
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장 
+		String sql = "SELECT p.product_name productName, d.discount_no discountNo, d.product_no productNo, d.discount_start discountStart, d.discount_end discountEnd, d.discount_rate discountRate, d.createdate, d.updatedate FROM discount d INNER JOIN product p ON d.product_no = p.product_no WHERE discount_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, discountNo);
+		
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			discount.setProductName(rs.getString("productName"));
+			discount.setDiscountNo(rs.getInt("discountNo"));
+			discount.setProductNo(rs.getInt("productNo"));
+			discount.setDiscountStart(rs.getString("discountStart"));
+			discount.setDiscountEnd(rs.getString("discountEnd"));
+			discount.setDiscountRate(rs.getDouble("discountRate"));
+			discount.setCreatedate(rs.getString("createdate"));
+			discount.setUpdatedate(rs.getString("updatedate"));
+		}
+		
+		return discount;
+	}
+	
+	// 할인 품목 갯수
+	public int discountCnt() throws Exception {
+		int cnt = 0;
+		
+		//db접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		//sql 전송 후 결과 셋 반환받아 리스트에 저장
+		String sql = "SELECT COUNT(*) FROM discount";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			cnt = rs.getInt(1);
+		}
+		 
+		return cnt;
+	}
+		
 	// 같은 제품 할인 기간 중복 체크
 	public int checkDiscountPeriod(Discount discount) throws Exception {
 		// 중복 체크 변수
@@ -48,7 +126,7 @@ public class DiscountDao {
 
 		if(discount.getDiscountNo() != 0) {
 			// 수정시 기간 중복 체크
-			checkSql = "SELECT COUNT(*) FROM discount WHERE discount_no != ? AND product_no = ? AND ? BETWEEN discount_start AND discount_end OR ? BETWEEN discount_start AND discount_end";
+			checkSql = "SELECT COUNT(*) FROM discount WHERE discount_no != ? AND product_no = ? AND ((? BETWEEN discount_start AND discount_end) OR( ? BETWEEN discount_start AND discount_end))";
 			checkStmt = conn.prepareStatement(checkSql);
 			checkStmt.setInt(1, discount.getDiscountNo());
 			checkStmt.setInt(2, discount.getProductNo());
@@ -56,7 +134,7 @@ public class DiscountDao {
 			checkStmt.setString(4, discount.getDiscountEnd());
 		} else { 
 			// 추가시 기간 중복 체크
-			checkSql = "SELECT COUNT(*) FROM discount WHERE product_no = ? AND ? BETWEEN discount_start AND discount_end OR ? BETWEEN discount_start AND discount_end";
+			checkSql = "SELECT COUNT(*) FROM discount WHERE product_no = ? AND ((? BETWEEN discount_start AND discount_end) OR (? BETWEEN discount_start AND discount_end))";
 			checkStmt = conn.prepareStatement(checkSql);
 			checkStmt.setInt(1, discount.getProductNo());
 			checkStmt.setString(2, discount.getDiscountStart());
@@ -68,6 +146,7 @@ public class DiscountDao {
 		}
 		return check;
 	}
+	
 	// 할인 제품 추가
 	public int addDiscount(Discount discount) throws Exception {
 		// 반환할 성공여부 변수 생성
@@ -82,10 +161,15 @@ public class DiscountDao {
 		stmt.setString(2, discount.getDiscountStart());
 		stmt.setString(3, discount.getDiscountEnd());
 		stmt.setDouble(4, discount.getDiscountRate());
-		row = stmt.executeUpdate();
 		
+		DiscountDao dd = new DiscountDao();
+		int check = dd.checkDiscountPeriod(discount);
+		if(check == 0 ) {
+			row = stmt.executeUpdate();
+		}
 		return row;
 	}
+	
 	// 할인 제품 수정
 	public int modifyDiscount(Discount discount) throws Exception {
 		// 반환할 성공여부 변수 생성
@@ -94,16 +178,22 @@ public class DiscountDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		// sql 전송 후 결과셋 반환받아 리스트에 저장
-		String sql = "UPDATE SET discount_start = ?, discount_end = ?, discout_rate = ?, updatedate = NOW() FROM discount WHERE discount_no = ?";
+		String sql = "UPDATE discount SET discount_start = ?, discount_end = ?, discount_rate = ?, updatedate = NOW() WHERE discount_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, discount.getDiscountStart());
 		stmt.setString(2, discount.getDiscountEnd());
 		stmt.setDouble(3, discount.getDiscountRate());
 		stmt.setInt(4, discount.getDiscountNo());
-		row = stmt.executeUpdate();
+		
+		DiscountDao dd = new DiscountDao();
+		int check = dd.checkDiscountPeriod(discount);
+		if(check == 0 ) {
+			row = stmt.executeUpdate();
+		}
 		
 		return row;
 	}
+	
 	// 할인 제품 삭제
 	public int removeDiscount(int discountNo) throws Exception {
 		// 반환할 성공여부 변수 생성
@@ -119,6 +209,7 @@ public class DiscountDao {
 		
 		return row;
 	}
+	
 	// 제품 할인율 조회
 	public double selectDiscountRate(int productNo) throws Exception {
 		// 반환할 할인율 변수 생성
