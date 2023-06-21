@@ -60,9 +60,7 @@
 			}else if($('#productInfo').val() == ''){
 				alert('상품 정보를 입력해주세요');
 			}else {
-				$('#addProductBtn').click(function(){
-					$('#addProduct').submit();
-				});
+				$('#addProduct').submit();
 			}
 		});
 	});
@@ -76,8 +74,13 @@
 	<!-- breadcrumb -->
 	<div class="container">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-			<a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
+			<a href="<%=request.getContextPath()%>/home.jsp" class="stext-109 cl8 hov-cl1 trans-04">
 				Home
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			
+			<a href="<%=request.getContextPath()%>/product/productList.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				product
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
 
@@ -87,6 +90,7 @@
 		</div>
 	</div>
 	
+	<section class="bg0 p-t-65 p-b-60">
 	<form action="<%=request.getContextPath()%>/product/addProductAction.jsp" method="post" enctype="multipart/form-data" id="addProduct">
 		<div class="col-sm-10 col-lg-7 col-xl-7 m-lr-auto m-b-50">
 			<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
@@ -132,7 +136,7 @@
 					</div>
 	
 					<div class="size-209 p-r-18 p-r-0-sm w-full-ssm bor8 bg0">
-						<input class="stext-111 cl8 plh3 size-111 p-lr-15 p-tb-6" type="file" id="productImg" name="productImg" placeholder="상품 이미지">
+						<input class="stext-111 cl8 plh3 size-111 p-lr-15 p-tb-6" type="file" id="productImg" name="productImg" accept=".jpeg,.jpg,.png">
 					</div>
 				</div>
 				
@@ -206,6 +210,7 @@
 			</div>
 		</div>
 	</form>
+	</section>
 <jsp:include page="/inc/footer.jsp"></jsp:include>
 <jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
 <jsp:include page="/inc/quickView.jsp"></jsp:include>
