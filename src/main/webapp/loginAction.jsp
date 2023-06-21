@@ -58,7 +58,7 @@
 					newCart.setId(id);
 					
 					// 입력 메소드 실행
-					int row = cartDao.addMyCart(cart); 
+					int row = cartDao.addMyCart(newCart); 
 					System.out.println(row + "row(loginAction)"); // row가 1이면 추가 성공, 아니면 실패
 				}
 			}
