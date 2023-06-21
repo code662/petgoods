@@ -51,7 +51,7 @@
 	<%	
 		// 아니면 고객용 헤더 표시
 		} else {
-			%>
+	%>
 			<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
 	<%		
 		}
@@ -110,6 +110,20 @@
 						<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
 						Search
 					</div>
+					
+					
+					<%
+						// 사원이 로그인 중일 때 사원용 헤더 표시
+						if(session.getAttribute("loginId") instanceof Employees) {
+					%>
+							<a href="<%=request.getContextPath()%>/product/addProduct.jsp" class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 m-l-8">
+								<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-plus"></i>
+								상품추가
+							</a>
+					<%	
+						}
+					%>
+					
 				</div>
 				
 				<!-- Search product -->
@@ -321,16 +335,16 @@
 					<div class="block2">
 						<div class="block2-pic hov-img0">
 							<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-								<img src="<%=request.getContextPath()%>/pimg/<%=pDao.productImgName(p.getProductNo())%>" alt="IMG-PRODUCT">
+								<img src="<%=request.getContextPath()%>/pimg/<%=pDao.selectProductImg(p.getProductNo()).getProductSaveFilename()%>" alt="IMG-PRODUCT" width="270px" height="270">
 							</a>
 						</div>
 
 						<div class="block2-txt flex-w flex-t p-t-14">
-							<div class="block2-txt-child1 flex-col-l ">
+							<div class="block2-txt-child1 flex-col-l label1" data-label1="할인">
 								<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									<%=p.getProductName()%>
 								</a>
-
+								
 								<span class="stext-105 cl3">
 									<%=p.getProductPrice()%>원
 								</span>
