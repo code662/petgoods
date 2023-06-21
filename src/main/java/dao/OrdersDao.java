@@ -568,4 +568,20 @@ public class OrdersDao {
 
 		return row;
 	}
+	// 상품의 주문 수 조회
+	public int selectOrdersCntByProduct(int productNo) throws Exception {
+		int cnt = 0;
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		String sql = "SELECT COUNT(*) FROM orders WHERE product_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, productNo);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			cnt = rs.getInt(1);
+		}
+		return cnt;
+	}
 }
