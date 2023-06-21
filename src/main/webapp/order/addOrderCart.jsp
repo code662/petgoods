@@ -16,8 +16,9 @@
 	request.setCharacterEncoding("UTF-8");
 
 	// 요청값 유효성 검사 (상품이미지, 상품이름, 상품 가격, 상품 개수, 전체 가격, 선택된 번호)
-	// 하나라도 null 값이 있다면 홈으로 리다이렉트
+	// 하나라도 null 값이 있다면 cartList.jsp 로 리다이렉트
  	
+	String msg = "";
 	if (request.getParameterValues("cartNo") == null
 	|| request.getParameterValues("productNo") == null
 	|| request.getParameterValues("productImg") == null
@@ -27,7 +28,8 @@
 	|| request.getParameterValues("totalPrice") == null
 	|| request.getParameterValues("selCart") == null) {
 		System.out.println("유효성 검사 확인(addOrderCart)");
-		response.sendRedirect(request.getContextPath() + "/home.jsp");
+		msg = URLEncoder.encode("체크박스 선택 후 주문 가능합니다.", "UTF-8"); 
+		response.sendRedirect(request.getContextPath() + "/order/cartList.jsp?msg=" + msg);
 		return;
 	}
 		
@@ -69,7 +71,6 @@
 	// id 확인 및 디버깅
 	// 로그인 상태가 아니면 메시지와 함께 로그인 화면으로 이동
 	String id = "";
-	String msg = "";
 	if (session.getAttribute("loginId") != null) {
  		Customer customer = (Customer) session.getAttribute("loginId");
  		id = customer.getId();
@@ -137,6 +138,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>addOrderCart</title>
+		<jsp:include page="/inc/link.jsp"></jsp:include>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 		<script>
 			$(document).ready(function(){
@@ -147,49 +149,41 @@
 				}
 			});
 		</script>
-<%-- 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-		<script>
-			$(document).ready(function() {
-				var minValue = 0;
-				var maxValue = <%=myPoint%>;
-				
-				$('input[type=number]').on('input', function() {
-					var value = parseInt($(this).val());
-					if (isNaN(value)) {
-					      value = minValue;
-					} else {
-					      value = Math.max(minValue, Math.min(value, maxValue));
-				    }
-					
-					$(this).val(value);
-					
-					if (value < minValue || value > maxValue) {
-					      alert('입력값이 허용된 범위를 벗어납니다.');
-					}
-				});
-			});
-		</script> --%>
+
 	</head>
 	<body>
-		<h1>주문하기</h1>
-		<%
+		<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+		<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+		<jsp:include page="/inc/cart.jsp"></jsp:include>
+		
+		
+ 		<%
 			if (request.getParameter("msg") != null) {
 		%>
 				<%=request.getParameter("msg")%>
 		<%		
 			}
-		%>
-		<form action="<%=request.getContextPath()%>/order/addOrderCartAction.jsp" method="post">
-			
-			<table border="1">
-				<tr>
-					<th>상품이미지</th>
-					<th>상품이름</th>
-					<th>상품가격</th>
-					<th>개수</th>
-					<th>주문인 이름</th>
-					<th>배송지</th>
-					<th>합계금액</th>
+		%> 
+		<form action="<%=request.getContextPath()%>/order/addOrderCartAction.jsp" method="post" class="bg0 p-t-75 p-b-85">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
+						<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+							<div class="flex-w flex-sb-m p-b-17">
+								<h4 class="mtext-111 cl2  p-r-20">
+									주문하기
+								</h4>
+								<br>	
+							</div>
+			<table class="table-shopping-cart">
+				<tr class="table_head">
+					<th class="column-1">상품이미지</th>
+					<th class="column-1">상품이름</th>
+					<th class="column-1">상품가격</th>
+					<th class="column-1">개수</th>
+					<th class="column-1">주문인 이름</th>
+					<th class="column-1">배송지</th>
+					<th class="column-1">합계금액</th>
 				</tr>
 			<%
 				int allTotalPrice = 0; // 전체 주문금액	
@@ -198,24 +192,24 @@
 					for (int j = 0; j < selCart.length; j += 1) { // 선택된 제품 개수만큼 반복
 						if (cartNo[i].equals(selCart[j])) { // 장바구니 번호와 체크된 체크박스의 번호가 일치하면
 			%>
-				<tr>
-					<td><img src="<%=request.getContextPath()%>/pimg/<%=productImg[i]%>" width="100" height="100"></td>
-					<td>
+				<tr class="table_head">
+					<td class="column-1"><img src="<%=request.getContextPath()%>/pimg/<%=productImg[i]%>" width="100" height="100"></td>
+					<td class="column-1">
 						<input type="hidden" name="productNo" value="<%=productNo[i]%>">
 						<input type="hidden" name="cartNo" value="<%=cartNo[i]%>">
 						<%=productName[i]%>
 					</td>
-					<td>
+					<td class="column-1">
 						<input type="hidden" name="productPrice" value="<%=productPrice[i]%>">
 						<%=productPrice[i]%>원
 					</td>
-					<td>
+					<td class="column-1">
 						<input type="hidden" name="cartCnt" value="<%=cartCnt[i]%>">
 						<%=cartCnt[i]%>
 					</td>
-					<td><%=myName%></td>
-					<td><%=myAdd%>(최근 등록 주소)</td>
-					<td>
+					<td class="column-1"><%=myName%></td>
+					<td class="column-1"><%=myAdd%></td>
+					<td class="column-1">
 						<input type="hidden" name="totalPrice" value="<%=totalPrice[i]%>">
 						<%=totalPrice[i]%>원
 					</td>
@@ -227,15 +221,33 @@
 				} 
 			%>
 		</table>
+		<br>
 		<div>
 			총 합계 금액: <%=allTotalPrice%>원
 		</div>
-		
-		사용할 포인트 입력: <input type="number" id="inputValue" placeholder="보유 포인트: <%=myPoint%>" name="point">	
-		<!-- <button type="button" id="submitButton">입력</button> -->
+<%-- 		사용할 포인트 입력: <input type="number" id="inputValue" placeholder="보유 포인트: <%=myPoint%>" name="point" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5">	
 		<div>
 			<button type="submit">결제</button> 
+		</div> --%>
+		
+		<div class="flex-w dis-inline-block">
+			<input type="number" id="inputValue" placeholder="포인트 입력 : 최대 <%=myPoint%>" name="point" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5">	
+			&nbsp;
+			<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+				<button  type="submit" style="color: #333333">
+					결제
+				</button>
+			</div>
 		</div>
-	</form>
+		
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
+		<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
+		<jsp:include page="/inc/quickView.jsp"></jsp:include>
+		<jsp:include page="/inc/script.jsp"></jsp:include>
 	</body>
 </html>
