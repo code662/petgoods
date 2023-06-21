@@ -50,7 +50,7 @@
 		msg = URLEncoder.encode("주문상태를 변경했습니다.", "UTF-8");
 	} else {
 		System.out.println("주문상태 변경 실패");
-		msg = URLEncoder.encode("주문상태를 변경에 실패했습니다.", "UTF-8");
+		msg = URLEncoder.encode("주문상태 변경에 실패했습니다.", "UTF-8");
 	}
 	
 	// 주문상태 변경 성공 여부 관계없이 메시지와 함께 orderList.jsp로 이동

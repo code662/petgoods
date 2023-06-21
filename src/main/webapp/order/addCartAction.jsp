@@ -91,8 +91,10 @@
 		cart.setCartCnt(cartCnt);
 		sessionCart.add(cart);
 		
-		// 장바구니 추가 성공 여부 관계없이 해당 상품 상세 페이지로 이동
-		response.sendRedirect(request.getContextPath() + "/product/productOne.jsp?productNo=" + productNo);
+		msg = URLEncoder.encode("장바구니에 추가되었습니다.", "UTF-8");
+		
+		// 장바구니 추가 성공 메시지와 함께 상품 상세 페이지로 이동
+		response.sendRedirect(request.getContextPath() + "/product/productOne.jsp?productNo=" + productNo + "&msg=" + msg);
 		return;
 	
 		/*
