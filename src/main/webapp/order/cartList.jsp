@@ -85,22 +85,6 @@
 		<jsp:include page="/inc/sidebar.jsp"></jsp:include>
 		<jsp:include page="/inc/cart.jsp"></jsp:include>
 		
-		
-	   <form class="bg0 p-t-75 p-b-85">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12 col-lg-11 col-xl-11 m-lr-auto m-b-50">
-					<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
-						<h4 class="mtext-111 cl2 p-b-30">
-							장바구니 (템플릿 수정)
-						</h4>		
-					</div>
-				</div>
-			</div>
-		</div>
-		</form>
-						
-		
 		<%
 			// 로그인 상태이면 cart 테이블에서 데이터 조회
 			if (session.getAttribute("loginId") != null) {
@@ -111,18 +95,28 @@
 		<%
 			//	}
 		%>
-				<form action="<%=request.getContextPath()%>/order/addOrderCart.jsp" method="post" id="cartList">
-					<table border="1">
-						<tr>
+				<form action="<%=request.getContextPath()%>/order/addOrderCart.jsp" method="post" id="cartList" class="bg0 p-t-75 p-b-85">
+					<div class="container">
+						<div class="row">
+							<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
+								<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+									<div class="flex-w flex-sb-m p-b-17">
+										<h4 class="mtext-111 cl2  p-r-20">
+											장바구니
+										</h4>	
+										<br>
+									</div>	
+					<table class="table-shopping-cart">
+						<tr class="table_head">
 						   <!--  <th>번호</th> -->
-							<th>이미지</th>
-							<th>상품이름</th>
-							<th>가격</th>
+							<th class="column-3">상품이미지</th>
+							<th class="column-1">상품이름</th>
+							<th class="column-1">가격</th>
 							<!-- <th>수량</th> -->
-							<th>총 금액</th>
-							<th>수량</th>
-							<th>선택</th>
-							<th>삭제</th>
+							<th class="column-1">총 금액</th>
+							<th class="column-1">수량</th>
+							<th class="column-1">선택</th>
+							<th class="column-1"></th>
 						</tr>
 			<%
 					int totalPrice = 0;
@@ -134,28 +128,21 @@
 					// 상품 이미지 조회
 					String productImg = cartDao.selectImg(c.getProductNo());
 					
-					totalPrice += productPrice * c.getCartCnt();
-					
-					/* int cartCnt = 0;
-					if (cartCnt >= 0) {
-						cartCnt = Integer.parseInt(request.getParameter("cartCnt"));
-					} */
-			
+					totalPrice += productPrice * c.getCartCnt();			
 			%>
-						<tr>
+						<tr class="table_head">
 							<%-- <td><%=c.getCartNo()%></td> --%>
-							
-							<td>
+							<td class="column-3">
 								<input type="hidden" id="productNo" name="productNo" value="<%=c.getProductNo()%>">
 								<input type="hidden" id="cartNo" name="cartNo" value="<%=c.getCartNo()%>">
 								<input type="hidden" id="productImg" name="productImg" value="<%=productImg%>">
 								<img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100">
 							</td>
-							<td>
+							<td class="column-1">
 								<input type="hidden" id="productName" name="productName" value="<%=productName%>">
 								<%=productName%>
 							</td>
-							<td>
+							<td class="column-1">
 								<input type="hidden" id="productPrice" name="productPrice" value="<%=productPrice%>">
 								<%=productPrice%>원
 							</td>
@@ -163,38 +150,68 @@
 								<input type="hidden" name="orderCnt" value="<%=c.getCartCnt()%>">
 								<%=c.getCartCnt()%>
 							</td> --%>
-							<td>
+							<td class="column-1">
 								<input type="hidden" id="totalPrice" name="totalPrice" value="<%=productPrice * c.getCartCnt()%>">
 								<%=productPrice * c.getCartCnt()%>원
 							</td>
-							<td>
-								<input type="number" id="cartCnt" name="cartCnt" value="<%=c.getCartCnt()%>">
+							<td class="column-3">
+								<div class="wrap-num-product flex-w m-l-auto m-r-0">
+									<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+										<i class="fs-16 zmdi zmdi-minus"></i>
+									</div>
+									<input class="mtext-104 cl3 txt-center num-product" type="number" name="cartCnt" value="<%=c.getCartCnt()%>">
+									<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+										<i class="fs-16 zmdi zmdi-plus"></i>
+									</div>
+								</div>
+							
+							<%-- 	<input type="number" id="cartCnt" name="cartCnt" value="<%=c.getCartCnt()%>"> --%>
 								<!-- ?cartNo=<%=c.getCartNo()%>&cartCnt=   -->
 							</td> 	
-							<td>
+							<td class="column-1">
 								<input type="checkbox" class="selCart" name="selCart" value="<%=c.getCartNo()%>">
 							</td>
-							<td><a href="<%=request.getContextPath()%>/order/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>">삭제버튼</a></td>
+							<td class="column-1">
+								<a href="<%=request.getContextPath()%>/order/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+									삭제
+								</a>
+							</td>
 						</tr>
 			<%
-			 		// 위 <input> 태그 하드코딩 부분 템플릿 적용 시 수정할 것 
 					}
 			%>
 					</table>
+					<br>
 					<div>
 						총 합계 금액: <%=totalPrice%>원
 					</div>
-					<button onclick="$('#cartList').submit()">주문하기</button>
-					<button type="submit" formaction="<%=request.getContextPath()%>/order/modifyCartAction.jsp">수량 수정</button> <!-- formaction: <form> 태그 내 액션 파일명과 값과 관계없이 formaction 태그 내 링크로 이동-->
+					<br>
+					
+					<div class="flex-w dis-inline-block">
+						<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+							<button onclick="$('#cartList').submit()" style="color: #333333">
+								주문하기
+							</button>
+						</div>
+						&nbsp;
+						<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+							<button  type="submit" formaction="<%=request.getContextPath()%>/order/modifyCartAction.jsp" style="color: #333333">
+								수량 변경
+							</button>
+						</div>
+					</div>
+				
+						
+				
+					<%-- <button type="submit" formaction="<%=request.getContextPath()%>/order/modifyCartAction.jsp">수량 수정</button> --%> <!-- formaction: <form> 태그 내 액션 파일명과 값과 관계없이 formaction 태그 내 링크로 이동-->
+								</div>
+							</div>
+						</div>
+					</div>
 				</form>
 		
 		<%
 			} else { // 로그인 상태가 아니면 세션에서 데이터 조회
-				if (request.getParameter("msg") != null) {
-		%>
-					<%=request.getParameter("msg")%>
-		<% 			
-				}
 		%>
 				<table border="1">
 					<tr>
@@ -229,7 +246,7 @@
 					}
 			 	} else { // 세션 장바구니에 값이 없으면 표시할 내용
 		%>
-					<tr>
+					<tr class="table_head">
 						<td colspan="6">세션 장바구니가 비어있습니다.</td>
 					</tr>
 		<% 
