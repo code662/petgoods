@@ -58,7 +58,7 @@
 	</div>
 	
 	<!-- 수정 폼 -->
-	<section class="bg0 p-t-104 p-b-116">
+	<section class="bg0 p-t-75 p-b-116">
 		<div class="container">
 			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md cen">
 				<form action="<%=request.getContextPath()%>/customer/modifyCustomerAction.jsp?cstmNo=<%=customer.getCstmNo() %>" method="post">
@@ -79,16 +79,16 @@
 					</div>
 						
 					<div class="bor8 m-b-20 how-pos4-parent" style="border:none">
-						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="id" value="<%=customer.getId() %>" style="font-size:16px" readonly="readonly">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="id" value="<%=customer.getId() %>" readonly="readonly">
 					</div>
 					<div class="bor8 m-b-20 how-pos4-parent">
-						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="password" name="currentPw" required="required" style="font-size:16px" placeholder="Enter your password">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30"  type="password" name="currentPw" required="required" placeholder="Enter your password">
 					</div>
 					<div class="bor8 m-b-20 how-pos4-parent">
-						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="cstmName" value="<%=customer.getCstmName()%>" style="font-size:16px">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="cstmName" value="<%=customer.getCstmName()%>">
 					</div>
 					<div class="bor8 m-b-20 how-pos4-parent">
-						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="cstmEmail" value="<%=customer.getCstmEmail()%>" style="font-size:16px">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="cstmEmail" value="<%=customer.getCstmEmail()%>">
 					</div>
 
 					<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
@@ -97,12 +97,12 @@
 				</form>
 				<br>
 				<div class="flex-w dis-inline-block cen">
-					<a href="<%=request.getContextPath()%>/customer/myPage.jsp?cstmNo=<%=customer.getCstmNo()%>" style="color: #333333" class="cen">
+					<a href="<%=request.getContextPath()%>/customer/myPage.jsp?cstmNo=<%=customer.getCstmNo()%>" class="cen">
 						<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
 							취소
 						</span>
 					</a>
-					<a href="<%=request.getContextPath()%>/customer/removeCustomer.jsp" style="color: #333333" class="cen">
+					<a href="<%=request.getContextPath()%>/customer/removeCustomer.jsp" class="cen">
 						<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer" >
 							회원탈퇴
 						</span>

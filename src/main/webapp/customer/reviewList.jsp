@@ -181,7 +181,7 @@
 				</div>
 				<br>
 					<div class="flex-w dis-inline-block cen">
-						<a href="<%=request.getContextPath()%>/customer/myPage.jsp" style="color: #333333" class="cen">
+						<a href="<%=request.getContextPath()%>/customer/myPage.jsp" class="cen">
 							<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
 								취소
 							</span>

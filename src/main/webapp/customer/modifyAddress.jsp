@@ -45,7 +45,7 @@
 	</div>
 </div>
 
-<section class="bg0 p-t-104 p-b-116">
+<section class="bg0 p-t-75 p-b-116">
 		<div class="container">
 			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md cen">
 				<form action="<%=request.getContextPath()%>/customer/modifyAddressAction.jsp?addressNo=<%=addressNo %>" method="post">
@@ -53,19 +53,19 @@
 						배송지 수정
 					</h4>
 					<div class="bor8 m-b-20 how-pos4-parent">
-						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="text" id="sample6_postcode" name="postcode" placeholder="우편번호" style="font-size:16px">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30"  type="text" id="sample6_postcode" name="postcode" placeholder="우편번호">
 					</div>
 					<div class="bor8 m-b-20 how-pos4-parent">
-						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" style="font-size:16px">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30"  type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
 					</div>
 					<div class="bor8 m-b-20 how-pos4-parent">
-						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="text" id="sample6_address" name="address" placeholder="주소" style="font-size:16px">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30"  type="text" id="sample6_address" name="address" placeholder="주소">
 					</div>
 					<div class="bor8 m-b-20 how-pos4-parent">
-						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="text" id="sample6_detailAddress" name="detailAddress" placeholder="상세주소" style="font-size:16px">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30"  type="text" id="sample6_detailAddress" name="detailAddress" placeholder="상세주소">
 					</div>
 					<div class="bor8 m-b-20 how-pos4-parent">
-						<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"  type="text" id="sample6_extraAddress" name="extraAddress" placeholder="참고항목" style="font-size:16px">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30"  type="text" id="sample6_extraAddress" name="extraAddress" placeholder="참고항목">
 					</div>
 					<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
 						Submit
@@ -73,7 +73,7 @@
 				</form>
 				<br>
 				<div class="flex-w dis-inline-block cen">
-					<a href="<%=request.getContextPath()%>/customer/addressList.jsp" style="color: #333333" class="cen">
+					<a href="<%=request.getContextPath()%>/customer/addressList.jsp" class="cen">
 						<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
 							취소
 						</span>

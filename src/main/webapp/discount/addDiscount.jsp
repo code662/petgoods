@@ -35,7 +35,7 @@
 		</div>
 	</div>
 	
-	<section class="bg0 p-t-104 p-b-116">
+	<section class="bg0 p-t-75 p-b-116">
 		<div class="container">
 			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md cen">
 				<form class="w-full" action="<%=request.getContextPath()%>/discount/addDiscountAction.jsp" method="post">
@@ -98,7 +98,7 @@
 				<br>
 				
 				<div class="flex-w dis-inline-block cen">
-					<a href="<%=request.getContextPath()%>/discount/discountList.jsp" style="color: #333333" class="cen">
+					<a href="<%=request.getContextPath()%>/discount/discountList.jsp" class="cen">
 						<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
 							취소
 						</span>

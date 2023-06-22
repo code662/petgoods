@@ -58,7 +58,7 @@
 	</div>
 
 	<!-- 리뷰 등록 -->
-	<section class="bg0 p-t-104 p-b-116">
+	<section class="bg0 p-t-75 p-b-116">
 		<div class="container">
 			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md cen">
 				<form class="w-full" action="<%=request.getContextPath()%>/customer/addReviewAction.jsp" method="post" enctype="multipart/form-data">
@@ -85,8 +85,8 @@
 					
 					<div class="row p-b-25">
 						<div class="col-sm-3 p-b-5">
-							<label class="stext-102 cl3" style="margin-bottom: 0">Order No.</label>
-							<input class="size-111 bor8 stext-103 cl2 p-lr-20" type="text" name="orderNo" value="<%=orderNo %>" readonly="readonly" style="border:none; font-size:16px;">
+							<label class="stext-102 cl3 cen">Order No.</label>
+							<input class="size-111 bor8 mtext-107 cl2 p-lr-20" type="text" name="orderNo" value="<%=orderNo %>" readonly="readonly" style="border:none;">
 						</div>
 						<div class="col-sm-9 p-b-5">
 							<label class="stext-102 cl3">File</label>
@@ -97,12 +97,12 @@
 								Review Title
 							</span>
 							<span class="fs-18 cl11 pointer">
-								<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="text" name="reviewTitle"> 
+								<input class="size-111 bor8 mtext-107 cl2 p-lr-30" type="text" name="reviewTitle"> 
 							</span>
 						</div>
 						<div class="col-12 p-b-5">
 							<label class="stext-102 cl3">Your review</label>
-							<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" name="reviewContent"></textarea>
+							<textarea class="size-110 bor8 mtext-107 cl2 p-lr-30 p-tb-10" name="reviewContent"></textarea>
 						</div>
 					</div>
 	
@@ -112,7 +112,7 @@
 				</form>
 				<br>
 				<div class="flex-w dis-inline-block cen">
-					<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp" style="color: #333333" class="cen">
+					<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp" class="cen">
 						<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
 							취소
 						</span>

@@ -74,8 +74,6 @@
 				Home
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
-			
-			
 			<span class="stext-109 cl4">
 				discountList
 			</span>
@@ -101,7 +99,7 @@
 								</div>
 								<a href="<%=request.getContextPath()%>/discount/addDiscount.jsp" class="flex-c-m stext-106 cl6 size-102 bor4 pointer hov-btn3 trans-04 m-tb-4 m-l-8">
 									<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-plus"></i>
-									할인 상품 추가
+										할인 상품 추가
 								</a>
 							</div>
 						</div>

@@ -86,7 +86,7 @@
 								empVo.getEmpLevel().equals("2")){
 						%>
 								<span class="fs-18 cl11 stext-102 flex-w m-r--5">
-									<a href="<%=request.getContextPath()%>/employees/addEmployee.jsp" style="color: #333333" class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+									<a href="<%=request.getContextPath()%>/employees/addEmployee.jsp" class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 										<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-plus"></i>
 											사원 추가
 									</a>
@@ -115,7 +115,7 @@
 								<th class="column-1">사원 ID</th>
 								<th class="column-1">사원 이름</th>
 								<th class="column-1">권한 등급</th>
-								<th class="column-1">입사날짜</th>
+								<th class="column-1">입사일</th>
 							</tr>
 						<%
 							for(Employees employee : list) {

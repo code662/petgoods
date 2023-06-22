@@ -53,7 +53,7 @@
 				employeeList
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
-			<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+			<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp?empNo=<%=empNo %>" class="stext-109 cl8 hov-cl1 trans-04">
 				employeeOne
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
@@ -89,7 +89,7 @@
 							사원번호
 						</span>
 						<span class="fs-18 cl11 pointer">
-							<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="text" name="empNo" value="<%=employees.getEmpNo() %>" style="font-size:16px; border:none;"> 
+							<input class="mtext-107 bor8 stext-102 cl2 p-lr-95" type="text" name="empNo" value="<%=employees.getEmpNo() %>" style="border:none;"> 
 						</span>
 					</div>
 					<div class="col-12 p-b-5">
@@ -97,7 +97,7 @@
 							사원이름
 						</span>
 						<span class="fs-18 cl11 pointer">
-							<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="text" name="empName" value="<%=employees.getEmpName() %>" style="font-size:16px; border:none;"> 
+							<input class="mtext-107 bor8 stext-102 cl2 p-lr-95" type="text" name="empName" value="<%=employees.getEmpName() %>" style="border:none;"> 
 						</span>
 					</div>
 					<div class="col-12 p-b-5">
@@ -105,7 +105,7 @@
 							권한등급
 						</span>
 						<span class="fs-18 cl11 pointer">
-							<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="text" name="empLevel" value="<%=employees.getEmpLevel() %>" style="font-size:16px;"> 
+							<input class="stext-1120 bor8 stext-102 cl2 p-lr-95" type="text" name="empLevel" value="<%=employees.getEmpLevel() %>"> 
 						</span>
 					</div>
 					<br>
@@ -115,7 +115,7 @@
 				</form>
 				<br>
 				<div class="flex-w dis-inline-block cen">
-					<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp?empNo=<%=employees.getEmpNo() %>" style="color: #333333" class="cen">
+					<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp?empNo=<%=employees.getEmpNo() %>" class="cen">
 						<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
 							취소
 						</span>

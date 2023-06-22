@@ -59,66 +59,66 @@
 							마이페이지
 						</h4>
 						
-						<div class="flex-w flex-t bor12 p-b-13">
+						<div class="flex-w flex-t bor12 p-b-13 p-lr-20 p-t-20">
 							<div class="size-208">
-								<span class="stext-110 cl2" style="font-size:17px">
+								<span class="mtext-1020 cl2">
 									ID :
 								</span>
 							</div>
 							<div class="size-209">
-								<span class="stext-112 cl8" style="font-size:17px">
+								<span class="stext-1120 cl8">
 									<%=employees.getId() %>
 								</span>
 							</div>
 						</div>
 						
 						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
-							<div class="size-208 w-full-ssm">
-								<span class="stext-110 cl2" style="font-size:17px">
+							<div class="size-208 w-full-ssm p-lr-20">
+								<span class="mtext-1020 cl2">
 									이름 :
 								</span>
 							</div>
 							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
-								<p class="stext-112 cl8 p-t-2" style="font-size:17px">
+								<p class="stext-1120 cl8 p-t-2">
 									<%=employees.getEmpName()%>
 								</p>
 							</div>
 						</div>
 						
 						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
-							<div class="size-208 w-full-ssm">
-								<span class="stext-110 cl2" style="font-size:17px">
+							<div class="size-208 w-full-ssm p-lr-20">
+								<span class="mtext-1020 cl2">
 									권한등급 :
 								</span>
 							</div>
 							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
-								<p class="stext-112 cl8 p-t-2" style="font-size:17px">
+								<p class="stext-1120 cl8 p-t-2">
 									<%=employees.getEmpLevel() %>
 								</p>
 							</div>
 						</div>
 						
 						<div class="flex-w flex-t  p-t-15 p-b-30">
-							<div class="size-208 w-full-ssm">
-								<span class="stext-110 cl2" style="font-size:17px">
-									입사날짜 :
+							<div class="size-208 w-full-ssm p-lr-20">
+								<span class="mtext-1020 cl2">
+									입사일 :
 								</span>
 							</div>
 							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
-								<p class="stext-112 cl8 p-t-2" style="font-size:17px">
-									<%=employees.getCreatedate() %>
+								<p class="stext-1120 cl8 p-t-2">
+									<%=employees.getCreatedate().substring(0,10) %>
 								</p>
 							</div>
 						</div>
 						<br>
 						<div class="flex-w dis-inline-block">
-							<a href="<%=request.getContextPath()%>/employees/modifyEmpMyPage.jsp?empNo=<%=employees.getEmpNo()%>" style="color: #333333">
+							<a href="<%=request.getContextPath()%>/employees/modifyEmpMyPage.jsp?empNo=<%=employees.getEmpNo()%>">
 								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									개인정보 변경
 								</span>
 							</a>
 							&nbsp;
-							<a href="<%=request.getContextPath()%>/home.jsp" style="color: #333333">
+							<a href="<%=request.getContextPath()%>/home.jsp">
 								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
 									취소
 								</span>

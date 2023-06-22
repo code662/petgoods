@@ -2136,6 +2136,7 @@ input.num-product::-webkit-inner-spin-button {
 .cl11 {color: #f9ba48;}
 .cl12 {color: #ccc;}
 
+.cl66 {color : #A6A6A6;}
 /*//////////////////////////////////////////////////////////////////
 [ S-Text 0 - 15 ]*/
 .stext-101 {
@@ -2213,6 +2214,13 @@ input.num-product::-webkit-inner-spin-button {
   text-transform: uppercase;
 }
 
+.stext-1120 {
+  font-family: Poppins-Regular;
+  font-size: 17px;
+  line-height: 1.6923;
+  text-transform: uppercase;
+}
+
 .stext-113 {
   font-family: Poppins-Light;
   font-size: 14px;
@@ -2264,6 +2272,12 @@ input.num-product::-webkit-inner-spin-button {
 .mtext-102 {
   font-family: Poppins-SemiBold;
   font-size: 16px;
+  line-height: 1.6;
+}
+
+.mtext-1020 {
+  font-family: Poppins-SemiBold;
+  font-size: 17px;
   line-height: 1.6;
 }
 
