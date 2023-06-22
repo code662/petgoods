@@ -35,9 +35,21 @@
 		<jsp:include page="/inc/link.jsp"></jsp:include>
 	</head>
 	<body>
-		<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+		<jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
 		<jsp:include page="/inc/sidebar.jsp"></jsp:include>
-		<jsp:include page="/inc/cart.jsp"></jsp:include>
+		
+		<!-- breadcrumb -->
+		<div class="container">
+			<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+				<a href="<%=request.getContextPath()%>/home.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+					Home
+					<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+				</a>
+				<span class="stext-109 cl4">
+					mainCategoryList
+				</span>
+			</div>
+		</div>
 		
 	   <form class="bg0 p-t-75 p-b-85">
 			<div class="container">
@@ -95,12 +107,12 @@
 						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCreatedate().substring(0, 10)%></td>
 						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getUpdatedate().substring(0, 10)%></td>
 						<td class="stext-112 cl8" style="font-size:17px;">
-							<a href="<%=request.getContextPath()%>/product/modifyCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+							<a href="<%=request.getContextPath()%>/product/modifyCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474; width:80px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 								수정
 							</a>
 						</td>
 						<td class="stext-112 cl8" style="font-size:17px;">
-							<a href="<%=request.getContextPath()%>/product/removeCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+							<a href="<%=request.getContextPath()%>/product/removeCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474; width:80px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 								삭제
 							</a>
 						</td>

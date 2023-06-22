@@ -42,9 +42,30 @@
 	</head>
 
 	<body>
-	<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+	<jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
 	<jsp:include page="/inc/sidebar.jsp"></jsp:include>
-	<jsp:include page="/inc/cart.jsp"></jsp:include>
+	
+	<!-- breadcrumb -->
+	<div class="container">
+		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+			<a href="<%=request.getContextPath()%>/home.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				Home
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				mainCategoryList
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				subCategoryList
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			<span class="stext-109 cl4">
+				removeCategory
+			</span>
+		</div>
+	</div>
+	
 	<!-- cnt가 0 (메인-서브 카테고리 내 상품이 없는 경우)인 경우에만 입력폼 출력 -->
 	<%
 		if (cnt == 0) {
