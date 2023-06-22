@@ -6,6 +6,22 @@
 <title>회원가입, 로그인</title>
 <jsp:include page="/inc/link.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/inc/loginAddCustomer.css">
+<script>
+$(document).ready(function(){
+	$('#loginBtn').click(function(){
+		$.ajax({
+			url:'./dormant.jsp', 
+			data:{id:$('#id').val()},
+			success: function(param){ 
+				console.log(param);
+				if(param == 1){
+					alert('휴면계정입니다. 로그인하시겠습니까?');
+				};
+			},
+		});
+	});
+});
+</script>
 </head>
 <body>
 <jsp:include page="/inc/customerHeader.jsp"></jsp:include>
@@ -79,10 +95,10 @@
 	     	<%
 	        	}
 	     	%>
-			<input type="text" placeholder="id" name="id" />
+			<input type="text" placeholder="id" name="id" id="id" />
 			<input type="password" placeholder="Password" name="pw"/>
 			<a href="#">비밀번호를 잊으셨나요?</a>
-			<button>로그인</button>
+			<button id="loginBtn">로그인</button>
 		</form>
 	</div>
 	

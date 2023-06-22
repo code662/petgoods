@@ -33,6 +33,7 @@
 	// model
 	LoginDao loginDao = new LoginDao();
 	CartDao cartDao = new CartDao();
+	CustomerDao customerDao = new CustomerDao();
 	
 	// map 에 id pw 값 저장
 	HashMap<String, Object> map = loginDao.selectLogin(id, pw);
@@ -46,6 +47,7 @@
 			// 아이디가 customer 면 c 에 저장
 			c = (Customer)map.get("login");
 			session.setAttribute("loginId", c); 
+			customerDao.modifyLastLogin(id);
 			// 세션에 장바구니에 저장된 값 있으면 addCartAction 처리 -> 추후 테스트
 			// 세션에서 장바구니 데이터 가져오기
 			ArrayList<Cart> sessionCart = (ArrayList<Cart>) session.getAttribute("sessionCart");

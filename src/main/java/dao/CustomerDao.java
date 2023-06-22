@@ -365,4 +365,26 @@ public class CustomerDao {
 			
 			return row;
 		}
+		
+		// 휴면계정 여부 조회
+		public int selectDormant(String id) throws Exception {
+			// 반환할 변수 선언
+			int dormantRow = 0;
+			int chk = 0;
+			// DB 접속
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			// sql 전송 후 결과셋 반환받아 리스트에 저장
+			String sql = "SELECT DATEDIFF(now(), cstm_last_login) FROM customer WHERE id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, id);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) { // 휴면계정이면 1
+				chk=rs.getInt(1);
+				if(chk>90) {
+					dormantRow = 1;
+				}
+			}
+			return dormantRow;
+		}
 	}
