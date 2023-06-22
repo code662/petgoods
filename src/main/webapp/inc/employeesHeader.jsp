@@ -28,7 +28,7 @@
 						</li>
 						
 						<li>
-							<a href="<%=request.getContextPath()%>/product/categoryList.jsp">Category</a>
+							<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp">Category</a>
 						</li>
 
 						<li>
