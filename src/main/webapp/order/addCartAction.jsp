@@ -13,16 +13,14 @@
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 
-	// 입력값 유효성 확인	
-	// productOne.jsp에서 productNo 값이 넘어오지 않으면 productOne.jsp로 다시 이동
-	/*
-	if (request.getParameter("productNo") == null) {
-		response.sendRedirect(request.getContextPath() + "/product/productOne.jsp");
-		// productList.jsp로 가야할 것 같은데 나중에 보고 수정
+ 	// 입력값 유효성 확인	
+	// productOne.jsp에서 productNo 값이 넘어오지 않으면 productList.jsp로 다시 이동
+	if (request.getParameter("productNo") == null
+	|| request.getParameter("cnt") == null) {
+		response.sendRedirect(request.getContextPath() + "/product/productList.jsp");
 		return;
-	}
-	*/
-	
+	} 
+
 	// 넘어온 productNo, cartCnt 값
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	int cartCnt = Integer.parseInt(request.getParameter("cnt"));
@@ -43,11 +41,11 @@
  		System.out.println(id + " <-- id(addCartAction)");
 		// 상품명 중복 확인
 		int check = cartDao.checkCartDuplicate(productNo, id);
-		System.out.println(check + " <-- ckeck(addCartAction)");
+		System.out.println(check + " <-- check(addCartAction)");
 		if (check == 0) {
-			System.out.println("중복 상품 없음");
+			System.out.println("중복 상품 없음(addCartAction)");
 		} else { // 중복값 있을 경우 메시지와 함께 해당 상품 상세 페이지로 이동
-			System.out.println("중복 상품 존재");
+			System.out.println("중복 상품 존재(addCartAction)");
 			msg = URLEncoder.encode("이미 장바구니에 담았습니다.", "UTF-8");
 			response.sendRedirect(
 			request.getContextPath() + "/product/productOne.jsp?productNo=" + productNo + "&msg=" + msg);
@@ -57,6 +55,7 @@
 		Cart cart = new Cart();
 		cart.setProductNo(productNo);
 		cart.setId(id);
+		cart.setCartCnt(cartCnt);
 	
 		// 입력 메소드 실행
 		int row = cartDao.addMyCart(cart);
@@ -75,21 +74,34 @@
 		return;
 	
 	} else { // 로그인 상태가 아니면 세션에 상품 추가
+		ArrayList<Cart> sessionCart = new ArrayList<>();
 		// 세션 장바구니에 추가할 상품 정보: productOne.jsp에서 넘어오는 값 -> cart vo 내 productNo, cartCnt
 		// 세션에서 장바구니 데이터 가져오기
-		ArrayList<Cart> sessionCart = (ArrayList<Cart>) session.getAttribute("sessionCart");
-		
-		// 장바구니 데이터가 없으면 새로 생성하여 세션에 저장
-		if (sessionCart == null) {
-			sessionCart = new ArrayList<Cart>();
+		if ((ArrayList<Cart>) session.getAttribute("sessionCart") != null) { // 세션 장바구니에 값이 있을 경우
+			sessionCart = (ArrayList<Cart>) session.getAttribute("sessionCart");
+			int check = 0;
+			for (int i = 0; i < sessionCart.size(); i += 1) {
+				if (sessionCart.get(i).getProductNo() == productNo) { // 중복 상품 저장 시 수량만 추가
+					sessionCart.get(i).setCartCnt(sessionCart.get(i).getCartCnt() + cartCnt);
+					check = 1;
+					break;
+				}
+			}
+			if (check == 0) {
+				Cart cart = new Cart();
+				cart.setProductNo(productNo);
+				cart.setCartCnt(cartCnt);
+				sessionCart.add(cart);
+			}
 			session.setAttribute("sessionCart", sessionCart);
-		}
-		
-		// 장바구니에 상품 추가
-		Cart cart = new Cart();
-		cart.setProductNo(productNo);
-		cart.setCartCnt(cartCnt);
-		sessionCart.add(cart);
+		} else { // 세션 장바구니가 비어있는 경우 바로 값 저장
+			Cart cart = new Cart();
+			cart.setProductNo(productNo);
+			cart.setCartCnt(cartCnt);
+			sessionCart.add(cart);
+			session.setAttribute("sessionCart", sessionCart);
+		}	
+	}
 		
 		msg = URLEncoder.encode("장바구니에 추가되었습니다.", "UTF-8");
 		
@@ -98,7 +110,6 @@
 		return;
 	
 		/*
-		
 		// session.setAttribute("y1", "session: gdj66");
 		// System.out.println(session.getAttribute("y1"));
 		// cart vo 사용 cart ArrayList 생성
@@ -130,7 +141,6 @@
 		
 		// 세션에 장바구니 맵 객체 저장
 		cartSession.setAttribute("cart", cart); */
-	}
 
 	// System.out.println("==============addCartAction.jsp==============");
 %>
