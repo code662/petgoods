@@ -27,12 +27,14 @@
 	// Dao 객체 생성
 	CategoryDao cDao = new CategoryDao();
 	ProductDao pDao = new ProductDao();
+	DiscountDao dDao = new DiscountDao();
 	// 상품 개수
 	int productCnt = pDao.productCnt(mainCategory, subCategory);
 	// 카테고리 리스트
 	ArrayList<Category> categoryMainList = cDao.selectMainCategory();
 	// 상품 리스트
 	ArrayList<Product> productList = pDao.selectProductList(beginRow, rowPerPage, mainCategory, subCategory);
+	
 		
 %>
 <!DOCTYPE html>
@@ -329,30 +331,118 @@
 			<div class="row isotope-grid">
 			<%
 				for(Product p : productList){
+					if(session.getAttribute("loginId") instanceof Employees) {
 			%>
-				<div id="p<%=p.getProductNo()%>" class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategoryMainName()%> <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategorySubName()%>">
-					<!-- Block2 -->
-					<div class="block2">
-						<div class="block2-pic hov-img0">
-							<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-								<img src="<%=request.getContextPath()%>/pimg/<%=pDao.selectProductImg(p.getProductNo()).getProductSaveFilename()%>" alt="IMG-PRODUCT" width="270px" height="270">
-							</a>
-						</div>
+						<div id="p<%=p.getProductNo()%>" class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategoryMainName()%> <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategorySubName()%>">
+							<!-- Block2 -->
+							<div class="block2">
+								<div class="block2-pic hov-img0">
+			<%
+								if(p.getProductStatus().equals("품절")){
+			%>
+									<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6" style="filter: grayscale(100%);">
+										<img src="<%=request.getContextPath()%>/pimg/<%=pDao.selectProductImg(p.getProductNo()).getProductSaveFilename()%>" alt="IMG-PRODUCT" width="270px" height="270">
+									</a>
+			<%						
+								} else {
+			%>
+									<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+										<img src="<%=request.getContextPath()%>/pimg/<%=pDao.selectProductImg(p.getProductNo()).getProductSaveFilename()%>" alt="IMG-PRODUCT" width="270px" height="270">
+									</a>
+			<%						
+								}
+			%>
+								</div>
 
-						<div class="block2-txt flex-w flex-t p-t-14">
-							<div class="block2-txt-child1 flex-col-l label1" data-label1="할인">
-								<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									<%=p.getProductName()%>
-								</a>
-								
-								<span class="stext-105 cl3">
-									<%=p.getProductPrice()%>원
-								</span>
+								<div class="block2-txt flex-w flex-t p-t-14">
+			<%
+											Discount discount = dDao.selectDiscountOneNow(p.getProductNo());
+											if(discount == null) {
+			%>
+												<div class="block2-txt-child1 flex-col-l">
+													<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+														<%=p.getProductName()%>
+													</a>
+													
+													<span class="stext-105 cl3">
+														<%=p.getProductPrice()%>원
+													</span>
+												</div>
+			<%		
+											} else {
+			%>
+												<div class="block2-txt-child1 flex-col-l label1" data-label1="할인">
+													<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+														<%=p.getProductName()%>
+													</a>
+													
+													
+													<span class="stext-105 cl3">
+														<span class="stext-109 cl7" style="text-decoration:line-through">
+															<%=p.getProductPrice()%>원
+														</span>	
+														 &nbsp;&nbsp;<%=(int)(p.getProductPrice() * discount.getDiscountRate())%>원
+													</span>	
+												</div>
+			<%		
+											}
+			%>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-			<%	
+			<%			
+					} else {
+						if(p.getProductStatus().equals("판매중")){
+			%>
+							<div id="p<%=p.getProductNo()%>" class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategoryMainName()%> <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategorySubName()%>">
+								<!-- Block2 -->
+								<div class="block2">
+									<div class="block2-pic hov-img0">
+										<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+											<img src="<%=request.getContextPath()%>/pimg/<%=pDao.selectProductImg(p.getProductNo()).getProductSaveFilename()%>" alt="IMG-PRODUCT" width="270px" height="270">
+										</a>
+									</div>
+
+									<div class="block2-txt flex-w flex-t p-t-14">
+			<%
+												Discount discount = dDao.selectDiscountOneNow(p.getProductNo());
+												if(discount == null) {
+			%>
+													<div class="block2-txt-child1 flex-col-l">
+														<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+															<%=p.getProductName()%>
+														</a>
+														
+														<span class="stext-105 cl3">
+															<%=p.getProductPrice()%>원
+														</span>
+													</div>
+			<%		
+												} else {
+			%>
+													<div class="block2-txt-child1 flex-col-l label1" data-label1="할인">
+														<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+															<%=p.getProductName()%>
+														</a>
+														
+														
+														<span class="stext-105 cl3">
+															<span style="font-size: 15px; color: red;">
+																<%=(int)(discount.getDiscountRate() * 100)%>%
+															</span>
+															<span class="stext-109 cl7" style="text-decoration:line-through"><%=p.getProductPrice()%>원</span>	
+															<%=(int)(p.getProductPrice() * discount.getDiscountRate())%>원
+														</span>	
+													</div>
+			<%		
+												}
+			%>
+									</div>
+								</div>
+							</div>
+			<%		
+						}			
+					}
 				}
 			%>
 			</div>
