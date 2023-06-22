@@ -40,7 +40,7 @@
 						</li>
 
 						<li>
-							<a href="<%=request.getContextPath()%>/qna/qusetionList.jsp">QnA</a>
+							<a href="<%=request.getContextPath()%>/qna/questionList.jsp">QnA</a>
 						</li>
 
 						<li>
