@@ -101,10 +101,11 @@ public class CartDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		// 실행 쿼리문
-		String sql = "INSERT INTO cart(product_no, id, cart_cnt, createdate, updatedate) VALUES(?, ?, 1, NOW(), NOW())";
+		String sql = "INSERT INTO cart(product_no, id, cart_cnt, createdate, updatedate) VALUES(?, ?, ?, NOW(), NOW())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, cart.getProductNo());
 		stmt.setString(2, cart.getId());
+		stmt.setInt(3,  cart.getCartCnt());
 		row = stmt.executeUpdate();
 		
 		return row;
@@ -162,6 +163,23 @@ public class CartDao {
 		row = stmt.executeUpdate();
 		
 		return row;
+	}
+	
+	// 나의 장바구니 상품 종류 개수
+	public int myCartCnt(String id) throws Exception {
+		int cnt = 0;
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT COUNT(*) FROM cart WHERE id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()) {
+			cnt = rs.getInt(1);
+		}
+	
+		return cnt;
 	}
 	
 	// 장바구니 추가 (로그인 X, 세션 사용)
