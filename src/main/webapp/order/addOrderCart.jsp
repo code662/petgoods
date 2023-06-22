@@ -57,7 +57,7 @@
 	for (int i = 0; i < cartNo.length; i += 1) { // 장바구니 목록 내 제품 개수만큼 반복
 		for (int j = 0; j < selCart.length; j += 1) { // 선택된 제품 개수만큼 반복
 			if (cartNo[i].equals(selCart[j])) { // 장바구니 번호와 체크된 체크박스의 번호가 일치하면
-				System.out.println(cartNo[i] + " <-- cartNo(addOrderCart"); // 카트번호
+				System.out.println(cartNo[i] + " <-- cartNo(addOrderCart)"); // 카트번호
 				System.out.println(productNo[i] + " <-- productNo(addOrderCart)"); // 상품번호
 				System.out.println(productImg[i] + " <-- productImg(addOrderCart)"); // 이미지 이름
 				System.out.println(productName[i] + " <-- productName(addOrderCart)"); // 상품 이름
@@ -155,6 +155,23 @@
 		<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
 		<jsp:include page="/inc/sidebar.jsp"></jsp:include>
 		<jsp:include page="/inc/cart.jsp"></jsp:include>
+	
+		<!-- breadcrumb -->
+		<div class="container">
+			<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+				<a href="<%=request.getContextPath()%>/home.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+					Home
+					<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+				</a>
+				<span class="stext-109 cl4">
+					cartList
+					<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+				</span>
+				<span class="stext-109 cl4">
+					addOrderCart
+				</span>
+			</div>
+		</div>
 		
 		
  		<%
