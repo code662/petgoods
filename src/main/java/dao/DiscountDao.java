@@ -7,6 +7,7 @@ import util.*;
 import vo.*;
 
 public class DiscountDao {
+	
 	// 할인 품목 조회
 	public ArrayList<Discount> selectDiscount(int beginRow, int rowPerPage) throws Exception {
 		// 반환할 ArrayList<Discount> 생성
@@ -87,6 +88,33 @@ public class DiscountDao {
 			discount.setProductNo(rs.getInt("productNo"));
 			discount.setDiscountStart(rs.getString("discountStart"));
 			discount.setDiscountEnd(rs.getString("discountEnd"));
+			discount.setDiscountRate(rs.getDouble("discountRate"));
+			discount.setCreatedate(rs.getString("createdate"));
+			discount.setUpdatedate(rs.getString("updatedate"));
+		}
+		
+		return discount;
+	}
+	
+	// 상품의 현재 할인 내역 조회
+	public Discount selectDiscountOneNow(int productNo) throws Exception {
+		// 반환할 ArrayList<Discount> 생성
+		Discount discount = null;
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		String sql = "SELECT discount_no discountNo, product_no productNo, discount_start discountStart, discount_end discontEnd, discount_rate discountRate, createdate, updatedate FROM discount WHERE product_no=? AND (NOW() BETWEEN discount_start AND discount_end)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, productNo);
+		
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			discount = new Discount();
+			discount.setDiscountNo(rs.getInt("discountNo"));
+			discount.setProductNo(rs.getInt("productNo"));
+			discount.setDiscountStart(rs.getString("discountStart"));
+			discount.setDiscountEnd(rs.getString("discontEnd"));
 			discount.setDiscountRate(rs.getDouble("discountRate"));
 			discount.setCreatedate(rs.getString("createdate"));
 			discount.setUpdatedate(rs.getString("updatedate"));
