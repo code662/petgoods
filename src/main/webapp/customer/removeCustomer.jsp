@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="dao.*" %>
+<%@ page import="vo.*" %>
 <%
 	//세션 유효성 검사: 로그인이 되어있지 않으면 home으로 리다이렉션
 	if(session.getAttribute("loginId") == null){
 		response.sendRedirect(request.getContextPath()+"/home.jsp");
 		return;
 	}
+	//요청값 변수에 저장
+	Customer c = (Customer)session.getAttribute("loginId");
+	int cstmNo = c.getCstmNo();
 %>
 <!DOCTYPE html>
 <html>
@@ -18,6 +23,27 @@
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
 <jsp:include page="/inc/cart.jsp"></jsp:include>
 
+	<!-- breadcrumb -->
+	<div class="container">
+		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+			<a href="<%=request.getContextPath()%>/home.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				Home
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			<a href="<%=request.getContextPath()%>/customer/myPage.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				mypage
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			<a href="<%=request.getContextPath()%>/customer/modifyCustomer.jsp?cstmNo=<%=cstmNo %>" class="stext-109 cl8 hov-cl1 trans-04">
+				modifyCustomer
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			<span class="stext-109 cl4">
+				removeCustomer
+			</span>
+		</div>
+	</div>
+	
 	<!-- 회원탈퇴 폼 -->
 	<section class="bg0 p-t-104 p-b-116">
 		<div class="container">

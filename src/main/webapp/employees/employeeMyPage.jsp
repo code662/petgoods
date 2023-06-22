@@ -35,6 +35,20 @@
 <jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
 <jsp:include page="/inc/cart.jsp"></jsp:include>
+
+<!-- breadcrumb -->
+<div class="container">
+	<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+		<a href="<%=request.getContextPath()%>/home.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+			Home
+			<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+		</a>
+		<span class="stext-109 cl4">
+			employeeMyPage
+		</span>
+	</div>
+</div>
+	
 <!-- 사원 마이페아지 -->
 <form class="bg0 p-t-75 p-b-85">
 		<div class="container">
@@ -42,7 +56,7 @@
 				<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
 					<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
 						<h4 class="mtext-111 cl2 p-b-30">
-							사원 마이페이지
+							마이페이지
 						</h4>
 						
 						<div class="flex-w flex-t bor12 p-b-13">
@@ -74,7 +88,7 @@
 						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
 							<div class="size-208 w-full-ssm">
 								<span class="stext-110 cl2" style="font-size:17px">
-									LEVEL :
+									권한등급 :
 								</span>
 							</div>
 							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">

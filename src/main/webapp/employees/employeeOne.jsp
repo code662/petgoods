@@ -43,6 +43,23 @@
 <jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
 <jsp:include page="/inc/cart.jsp"></jsp:include>
+<!-- breadcrumb -->
+<div class="container">
+	<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+		<a href="<%=request.getContextPath()%>/home.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+			Home
+			<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+		</a>
+		<a href="<%=request.getContextPath()%>/employees/employeeList.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+			employeeList
+			<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+		</a>
+		<span class="stext-109 cl4">
+			employeeOne
+		</span>
+	</div>
+</div>
+	
 <!-- 사원 상세정보 리스트 -->
 <form class="bg0 p-t-75 p-b-85">
 		<div class="container">
@@ -82,7 +99,7 @@
 						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
 							<div class="size-208 w-full-ssm">
 								<span class="stext-110 cl2" style="font-size:17px">
-									LEVEL :
+									권한등급 :
 								</span>
 							</div>
 							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
@@ -109,7 +126,7 @@
 							<div class="mtext-111 cl2  p-r-20 flex-w dis-inline-block">
 								<a href="<%=request.getContextPath()%>/employees/modifyEmployee.jsp?empNo=<%=employees.getEmpNo()%>" style="color: #333333">
 									<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-										레벨 변경
+										권한등급 변경
 									</span>
 								</a>
 								&nbsp;

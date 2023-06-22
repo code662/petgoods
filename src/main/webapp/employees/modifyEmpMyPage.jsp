@@ -34,6 +34,23 @@
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
 <jsp:include page="/inc/cart.jsp"></jsp:include>
 
+	<!-- breadcrumb -->
+	<div class="container">
+		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+			<a href="<%=request.getContextPath()%>/home.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				Home
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			<a href="<%=request.getContextPath()%>/employees/employeeMyPage.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				employeeMyPage
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			<span class="stext-109 cl4">
+				modifyEmpMyPage
+			</span>
+		</div>
+	</div>
+
 	<!-- 개인정보 변경 폼 : 현재 비밀번호 확인 및 변경 비밀번호, 이름 입력 -->
 	<section class="bg0 p-t-104 p-b-116">
 		<div class="container">

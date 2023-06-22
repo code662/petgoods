@@ -35,13 +35,33 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>사원레벨 변경</title>
+<title>권한등급 변경</title>
 <jsp:include page="/inc/link.jsp"></jsp:include>
 </head>
 <body>
 <jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
 <jsp:include page="/inc/cart.jsp"></jsp:include>
+	<!-- breadcrumb -->
+	<div class="container">
+		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+			<a href="<%=request.getContextPath()%>/home.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				Home
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			<a href="<%=request.getContextPath()%>/employees/employeeList.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				employeeList
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				employeeOne
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			<span class="stext-109 cl4">
+				modifyEmployee
+			</span>
+		</div>
+	</div>
 
 	<!-- 사원레벨 변경 폼 -->
 	<section class="bg0 p-t-104 p-b-116">
@@ -49,7 +69,7 @@
 			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md cen">
 				<form action="<%=request.getContextPath()%>/employees/modifyEmployeeAction.jsp" method="post">
 					<h4 class="mtext-111 cl2 txt-center p-b-30">
-						사원레벨 변경
+						권한등급 변경
 					</h4>
 					
 					<!-- 리다이렉션 메시지 -->
@@ -82,7 +102,7 @@
 					</div>
 					<div class="col-12 p-b-5">
 						<span class="stext-102 cl3 m-r-16">
-							사원레벨
+							권한등급
 						</span>
 						<span class="fs-18 cl11 pointer">
 							<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="text" name="empLevel" value="<%=employees.getEmpLevel() %>" style="font-size:16px;"> 

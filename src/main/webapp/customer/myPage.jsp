@@ -33,6 +33,19 @@
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
 <jsp:include page="/inc/cart.jsp"></jsp:include>
 
+<!-- breadcrumb -->
+<div class="container">
+	<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+		<a href="<%=request.getContextPath()%>/home.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+			Home
+			<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+		</a>
+		<span class="stext-109 cl4">
+			myPage
+		</span>
+	</div>
+</div>
+
 <form class="bg0 p-t-75 p-b-85">
 		<div class="container">
 			<div class="row">
@@ -58,7 +71,7 @@
 						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
 							<div class="size-208 w-full-ssm">
 								<span class="stext-110 cl2" style="font-size:17px">
-									NAME :
+									이름 :
 								</span>
 							</div>
 							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
@@ -71,7 +84,7 @@
 						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
 							<div class="size-208 w-full-ssm">
 								<span class="stext-110 cl2" style="font-size:17px">
-									GRADE :
+									등급 :
 								</span>
 							</div>
 							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
@@ -84,7 +97,7 @@
 						<div class="flex-w flex-t  p-t-15 p-b-30">
 							<div class="size-208 w-full-ssm">
 								<span class="stext-110 cl2" style="font-size:17px">
-									POINT :
+									포인트 :
 								</span>
 							</div>
 							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">

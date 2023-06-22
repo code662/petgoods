@@ -67,6 +67,20 @@
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
 <jsp:include page="/inc/cart.jsp"></jsp:include>
 
+	<!-- breadcrumb -->
+	<div class="container">
+		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+			<a href="<%=request.getContextPath()%>/home.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				Home
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			
+			<span class="stext-109 cl4">
+				discountList
+			</span>
+		</div>
+	</div>
+	
 	<form class="bg0 p-t-75 p-b-85" action="<%=request.getContextPath()%>/discount/discountList.jsp" method="get">
 		<div class="container">
 			<div class="row">
@@ -76,11 +90,30 @@
 							<h4 class="mtext-111 cl2  p-r-20">
 								할인 상품 리스트
 							</h4>
-							<span class="fs-18 cl11 stext-102 flex-w m-r--5">
-								<a href="<%=request.getContextPath()%>/discount/addDiscount.jsp" style="color: #333333" class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+							
+							
+							<div class="fs-18 cl11 stext-102 flex-w m-r--5">
+								<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+									<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+									<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+									Search
+								</div>
+								<a href="<%=request.getContextPath()%>/discount/addDiscount.jsp" class="flex-c-m stext-106 cl6 size-102 bor4 pointer hov-btn3 trans-04 m-tb-4 m-l-8">
+									<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-plus"></i>
 									할인 상품 추가
 								</a>
-							</span>
+							</div>
+						</div>
+						
+						<!-- Search product -->
+						<div class="dis-none panel-search w-full p-t-10 p-b-15">
+							<div class="bor8 dis-flex p-l-15">
+								<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+									<i class="zmdi zmdi-search"></i>
+								</button>
+		
+								<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="searchProductNo" placeholder="상품 번호 입력">
+							</div>	
 						</div>
 						
 						<!-- 리다이렉션 메시지 -->
@@ -95,41 +128,27 @@
 						<br>
 						</div>
 						
-						<!-- 검색입력창 -->
-						<div class="flex-w flex-sb-m p-b-17">
-							<span class="mtext-107 cl2 p-r-20">
-								&nbsp;
-							</span>
-							<span class="fs-18 cl11 stext-102 flex-w m-r--5">
-								<input type="text" class="bor8 stext-103" name="searchProductNo" placeholder="상품 번호 입력" style="text-align: center;">
-								&nbsp;
-								<span class="fs-18 cl11 stext-102 flex-w m-r--5">
-									<button type="submit" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">검색</button>			
-								</span>
-							</span>
-						</div>
-						
 						<!-- 할인상품리스트 -->
 						<table class="table-shopping-cart">
 							<tr class="table_head" >
-								<th class="column-1" style="width: 10%">상품 번호</th>
-								<th class="column-1" style="width: 20%">상품 이름</th>
-								<th class="column-1" style="width: 13%">할인 시작일</th>
-								<th class="column-1" style="width: 13%">할인 종료일</th>
-								<th class="column-1" style="width: 10%">할인율</th>
-								<th class="column-1" style="width: 13%">등록일</th>
+								<th class="column-1" style="width: 10%">상품번호</th>
+								<th class="column-1" style="width: 20%">상품이름</th>
+								<th class="column-1" style="width: 14%">할인 시작일</th>
+								<th class="column-1" style="width: 14%">할인 종료일</th>
+								<th class="column-1" style="width: 9%">할인율</th>
+								<th class="column-1" style="width: 14%">등록일</th>
 								<th class="column-1">&nbsp;</th>
 							</tr>
 						<%
 							for(Discount d : list) {
 						%>
-								<tr class="table_head" style="height: 100px">
+								<tr class="table_head" style="height: 100px;">
 									<td class="column-1" style="width: 10%"><%=d.getProductNo() %></td>
 									<td class="column-1" style="width: 20%" ><%=d.getProductName() %></td>
-									<td class="column-1" style="width: 13%"><%=d.getDiscountStart().substring(0,10) %></td>
-									<td class="column-1" style="width: 13%"><%=d.getDiscountEnd().substring(0,10) %></td>
-									<td class="column-1" style="width: 10%"><%=(int)Math.floor(d.getDiscountRate()*100) %>%</td>
-									<td class="column-1" style="width: 13%"><%=d.getCreatedate().substring(0,10) %></td>
+									<td class="column-1" style="width: 14%"><%=d.getDiscountStart().substring(0,10) %></td>
+									<td class="column-1" style="width: 14%"><%=d.getDiscountEnd().substring(0,10) %></td>
+									<td class="column-1" style="width: 9%"><%=(int)Math.floor(d.getDiscountRate()*100) %>%</td>
+									<td class="column-1" style="width: 14%"><%=d.getCreatedate().substring(0,10) %></td>
 									<td class="column-1">
 										<span class="flex-w dis-inline-block">
 										<a href="<%=request.getContextPath()%>/discount/modifyDiscount.jsp?discountNo=<%=d.getDiscountNo() %>" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
