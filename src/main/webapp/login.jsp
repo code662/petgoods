@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/inc/loginAddCustomer.css">
 <script>
 $(document).ready(function(){
+	// 휴면계정 alert띄우기
 	$('#loginBtn').click(function(){
 		$.ajax({
 			url:'./dormant.jsp', 
@@ -19,6 +20,49 @@ $(document).ready(function(){
 				};
 			},
 		});
+	});
+	
+	// 회원가입,로그인 폼 회전 
+    $('#signUp').on("click", function(){
+        $('#container').addClass("right-panel-active");
+      });
+      
+    $('#signIn').on("click", function(){
+      $('#container').removeClass("right-panel-active");
+    });
+    
+ 	// 약관동의 체크박스
+	$('#agree_all').click(function(){
+		let checked = $('#agree_all').is(':checked');
+		if(checked){
+			$('input:checkbox').prop('checked',true);
+		}else{
+			$('input:checkbox').prop('checked',false);
+		}
+	});
+	
+	$('#agree1').on('change',function(){
+		if($('input[name=agree]:checked').length < 3){
+			$('#agree_all').prop('checked',false);
+		}else {
+			$('#agree_all').prop('checked',true);
+		}
+	});
+	
+	$('#agree2').on('change',function(){
+		if($('input[name=agree]:checked').length < 3){
+			$('#agree_all').prop('checked',false);
+		}else {
+			$('#agree_all').prop('checked',true);
+		}
+	});
+	
+	$('#agree3').on('change',function(){
+		if($('input[name=agree]:checked').length < 3){
+			$('#agree_all').prop('checked',false);
+		}else {
+			$('#agree_all').prop('checked',true);
+		}
 	});
 });
 </script>
@@ -117,74 +161,6 @@ $(document).ready(function(){
 		</div>
 	</div>
 </div>
-
-<!-- 약관 동의 java script -->
-<script type="text/javascript">
-	//동의 모두선택 / 해제
-	const agreeChkAll = document.querySelector('input[name=agree_all]');
-	    agreeChkAll.addEventListener('change', (e) => {
-	    	let agreeChk = document.querySelectorAll('input[name=agree]');
-		    for(let i = 0; i < agreeChk.length; i++){
-		      agreeChk[i].checked = e.target.checked;
-		    }
-		});
-	    
-    const agreeChkOne = document.querySelector('input[id=agree1]');
-       agreeChkOne.addEventListener('change', (e) => {
-          let agreeChk = document.querySelectorAll('input[name=agree]');
-          let agreeAll = document.querySelector('input[name=agree_all]');
-          let CheckAll = true;
-          for(let i = 0; i < agreeChk.length; i++){
-              if(!agreeChk[i].checked){
-                 CheckAll = false;
-                 break;
-              }
-          }
-          agreeAll.checked = CheckAll;   
-      });
-       
-    const agreeChkTwo = document.querySelector('input[id=agree2]');
-       agreeChkTwo.addEventListener('change', (e) => {
-          let agreeChk = document.querySelectorAll('input[name=agree]');
-          let agreeAll = document.querySelector('input[name=agree_all]');
-          let CheckAll = true;
-          for(let i = 0; i < agreeChk.length; i++){
-              if(!agreeChk[i].checked){
-                 CheckAll = false;
-                 break;
-              }
-          }
-          agreeAll.checked = CheckAll;   
-      });
-       
-    const agreeChkThree = document.querySelector('input[id=agree3]');
-       agreeChkThree.addEventListener('change', (e) => {
-          let agreeChk = document.querySelectorAll('input[name=agree]');
-          let agreeAll = document.querySelector('input[name=agree_all]');
-          let CheckAll = true;
-          for(let i = 0; i < agreeChk.length; i++){
-              if(!agreeChk[i].checked){
-                 CheckAll = false;
-                 break;
-              }
-          }
-          agreeAll.checked = CheckAll;   
-      });
-    
-    window.onload = function(){
-        const signUpButton = document.getElementById('signUp');
-        const signInButton = document.getElementById('signIn');
-        const container = document.getElementById('container');
-        
-        signUpButton.addEventListener("click", () => {
-          container.classList.add("right-panel-active");
-        });
-        
-        signInButton.addEventListener("click", () => {
-          container.classList.remove("right-panel-active");
-        });
-     };
-</script>
 <jsp:include page="/inc/script.jsp"></jsp:include>
 </body>
 </html>
