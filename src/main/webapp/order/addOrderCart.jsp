@@ -141,7 +141,7 @@
 		<jsp:include page="/inc/link.jsp"></jsp:include>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 		<script>
-			$(document).ready(function(){
+	<%-- 		$(document).ready(function(){
 				const urlParams  = new URL(location.href).searchParams;
 				const msg = urlParams.get('msg');
 				if (msg != null) {
@@ -156,7 +156,41 @@
 						$('#addOrderCart').submit();
 					}
 				});
-			});
+				
+				const myPoint = <%=myPoint%>;
+				$('#btn').keyup(function(){
+					if ($('#inputValue').val() > myPoint || $('#inputValue').val() < 0) {
+						alert('유효값(0 ~ ' + myPoint + ')을 입력해주세요.');
+					} else {
+						$('#addOrderCart').submit();
+					}
+				});
+			}); --%>
+			$(document).ready(function() {
+				  const urlParams = new URL(location.href).searchParams;
+				  const msg = urlParams.get('msg');
+				  if (msg != null) {
+				    alert(msg);
+				  }
+
+				  const myPoint = <%=myPoint%>;
+				  $('#btn').click(function() {
+				    validateForm();
+				  });
+
+				  $('#addOrderCart').submit(function(event) {
+				    event.preventDefault(); // 폼 제출 시 기본 동작 방지
+				    validateForm();
+				  });
+
+				  function validateForm() {
+				    if ($('#inputValue').val() > myPoint || $('#inputValue').val() < 0) {
+				      alert('유효값(0 ~ ' + myPoint + ')을 입력해주세요.');
+				    } else {
+				      $('#addOrderCart').submit();
+				    }
+				  }
+				});
 		</script>
 
 	</head>
