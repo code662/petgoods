@@ -56,7 +56,7 @@ public class CategoryDao {
 		// sql 전송 후 결과셋 반환받아 리스트에 저장
 		// GROUP BY -> 여러 값이 그룹화되기 때문에 MIN()과 같은 집계함수 사용하지 않으면 의도와 달리 그룹 내 다른 값으로 덮어쓰기 될
 		// 수 있음
-		String sql = "SELECT MIN(category_no) categoryNo, category_main_name categoryMainName, GROUP_CONCAT(category_sub_name SEPARATOR ' || ') categorySubName, MIN(createdate) createdate, updatedate FROM category GROUP BY category_main_name ORDER BY category_no ASC";
+		String sql = "SELECT MIN(category_no) categoryNo, category_main_name categoryMainName, GROUP_CONCAT(category_sub_name SEPARATOR '  ') categorySubName, MIN(createdate) createdate, updatedate FROM category GROUP BY category_main_name ORDER BY category_no ASC";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
 		ResultSet rs = stmt.executeQuery();
