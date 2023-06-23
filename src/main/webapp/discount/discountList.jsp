@@ -97,7 +97,7 @@
 									Search
 								</div>
 								<a href="<%=request.getContextPath()%>/discount/addDiscount.jsp" class="flex-c-m stext-106 cl6 size-102 bor4 pointer hov-btn3 trans-04 m-tb-4 m-l-8">
-									<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-plus"></i>
+									<i class="icon-search cl6 m-r-6 fs-15 trans-04 zmdi zmdi-plus"></i>
 										할인 상품 추가
 								</a>
 							</div>
@@ -129,32 +129,32 @@
 						<!-- 할인상품리스트 -->
 						<table class="table-shopping-cart">
 							<tr class="table_head" >
-								<th class="column-1" style="width: 10%">상품번호</th>
-								<th class="column-1" style="width: 20%">상품이름</th>
-								<th class="column-1" style="width: 14%">할인 시작일</th>
-								<th class="column-1" style="width: 14%">할인 종료일</th>
-								<th class="column-1" style="width: 9%">할인율</th>
-								<th class="column-1" style="width: 14%">등록일</th>
-								<th class="column-1">&nbsp;</th>
+								<th class="column-7-10">상품번호</th>
+								<th class="column-7-20">상품이름</th>
+								<th class="column-7-14">할인 시작일</th>
+								<th class="column-7-14">할인 종료일</th>
+								<th class="column-7-9">할인율</th>
+								<th class="column-7-14">등록일</th>
+								<th class="column-7">&nbsp;</th>
 							</tr>
 						<%
 							for(Discount d : list) {
 						%>
-								<tr class="table_head" style="height: 100px;">
-									<td class="column-1" style="width: 10%"><%=d.getProductNo() %></td>
-									<td class="column-1" style="width: 20%" ><%=d.getProductName() %></td>
-									<td class="column-1" style="width: 14%"><%=d.getDiscountStart().substring(0,10) %></td>
-									<td class="column-1" style="width: 14%"><%=d.getDiscountEnd().substring(0,10) %></td>
-									<td class="column-1" style="width: 9%"><%=(int)Math.floor(d.getDiscountRate()*100) %>%</td>
-									<td class="column-1" style="width: 14%"><%=d.getCreatedate().substring(0,10) %></td>
-									<td class="column-1">
+								<tr class="table_head" style="height: 80px;">
+									<td class="column-7-10"><%=d.getProductNo() %></td>
+									<td class="column-7-20" ><%=d.getProductName() %></td>
+									<td class="column-7-14"><%=d.getDiscountStart().substring(0,10) %></td>
+									<td class="column-7-14"><%=d.getDiscountEnd().substring(0,10) %></td>
+									<td class="column-7-9"><%=(int)Math.floor(d.getDiscountRate()*100) %>%</td>
+									<td class="column-7-14"><%=d.getCreatedate().substring(0,10) %></td>
+									<td class="column-7">
 										<span class="flex-w dis-inline-block">
-										<a href="<%=request.getContextPath()%>/discount/modifyDiscount.jsp?discountNo=<%=d.getDiscountNo() %>" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-											수정
-										</a>
-										<a href="<%=request.getContextPath()%>/discount/removeDiscountAction.jsp?discountNo=<%=d.getDiscountNo() %>" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-											삭제
-										</a>
+											<a href="<%=request.getContextPath()%>/discount/modifyDiscount.jsp?discountNo=<%=d.getDiscountNo() %>" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+												수정
+											</a>
+											<a href="<%=request.getContextPath()%>/discount/removeDiscountAction.jsp?discountNo=<%=d.getDiscountNo() %>" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+												삭제
+											</a>
 										</span>
 									</td>
 								</tr>

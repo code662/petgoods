@@ -73,7 +73,7 @@
 					    %>
 						<div class="flex-w flex-t bor12 p-b-13">
 							<div class="size-209">
-								<span class="stext-1120 cl8">
+								<span class="stext-1120 cl8 p-l-20">
 									<%=a.getAddress()%>
 								</span>
 							</div>
@@ -84,7 +84,7 @@
 											<a href="<%=request.getContextPath()%>/customer/modifyAddress.jsp?addressNo=<%=a.getAddressNo() %>" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5 cl66">
 												수정
 											</a>
-											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											&nbsp;
 											<a href="<%=request.getContextPath()%>/customer/removeAddressAction.jsp?addressNo=<%=a.getAddressNo() %>" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5 cl66">
 												삭제
 											</a>

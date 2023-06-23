@@ -110,23 +110,23 @@
 						
 						<table class="table-shopping-cart">
 							<tr class="table_head" >
-								<th class="column-1" style="width: 80px">번호</th>
-								<th class="column-1">사원 ID</th>
-								<th class="column-1">사원 이름</th>
-								<th class="column-1">권한 등급</th>
-								<th class="column-1">입사일</th>
+								<th class="column-6">번호</th>
+								<th class="column-7">사원 ID</th>
+								<th class="column-7">사원 이름</th>
+								<th class="column-7">권한 등급</th>
+								<th class="column-7">입사일</th>
 							</tr>
 						<%
 							for(Employees employee : list) {
 						%>
-								<tr class="table_head" style="height: 100px">
-									<td class="column-1" style="width: 80px"><%=employee.getEmpNo()%></td>
-									<td class="column-1">
+								<tr class="table_head" style="height: 80px">
+									<td class="column-6"><%=employee.getEmpNo()%></td>
+									<td class="column-7">
 								<%
 									if(session.getAttribute("loginId") != null && 
 										empVo.getEmpLevel().equals("2")){
 								%>
-										<span class="fs-18 cl11 stext-102 flex-w m-r--5">
+										<span class="fs-18 cl11 stext-102 flex-w m-r--5 flex-c">
 											<a href="<%=request.getContextPath()%>/employees/employeeOne.jsp?empNo=<%=employee.getEmpNo()%>" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 												<%=employee.getId()%>
 											</a>
@@ -140,9 +140,9 @@
 									}
 								%>
 									</td>
-									<td class="column-1"><%=employee.getEmpName()%></td>
-									<td class="column-1"><%=employee.getEmpLevel()%></td>
-									<td class="column-1"><%=employee.getCreatedate().substring(0,10)%></td>
+									<td class="column-7"><%=employee.getEmpName()%></td>
+									<td class="column-7"><%=employee.getEmpLevel()%></td>
+									<td class="column-7"><%=employee.getCreatedate().substring(0,10)%></td>
 								</tr>
 						<%		
 							}
