@@ -72,13 +72,13 @@
 		<table class="center">
  		   	<colgroup>
 		     	<col width="10%">
-		     	<col width="10%">
+		     	<col width="20%">
 		     	<col width="30%">
 		     	<col width="30%">
 	   		 </colgroup> 
    		 	<tr class="bor12" height="40">
 				<th class="p-l-30">NO.</th>
-				<th class="p-l-30">메인 카테고리</th>
+				<th class="p-l-50">메인 카테고리</th>
 				<!-- <th>서브 카테고리</th> -->
 				<th class="p-l-150">생성일자</th>
 				<th class="p-l-150">수정일자</th>
@@ -93,8 +93,8 @@
 				String categoryMainName = URLEncoder.encode(c.getCategoryMainName(), "UTF-8"); 
 			%>
 					
-					<tr class="bor12" height="40">
-						<td class="stext-112 cl8 p-l-30" style="font-size:17px;"><%=c.getCategoryNo()%></td>
+					<tr class="bor12" height="50">
+						<td class="stext-112 cl8 p-l-30" style="font-size:17px; width: 30px"><%=c.getCategoryNo()%></td>
 						<td class="stext-112 cl8 p-l-30" style="font-size:17px;">
 							<a href="<%=request.getContextPath()%>/product/subCategoryList.jsp?categoryMainName=<%=categoryMainName%>" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 								<%=c.getCategoryMainName()%>

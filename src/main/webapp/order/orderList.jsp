@@ -58,7 +58,7 @@
 	System.out.println(currentPage + " <-- currentPage(orderList)");
 	
 	// 페이징 당 출력 행 수 
-	int rowPerPage = 10;
+	int rowPerPage = 5;
 	
 	// 시작 행 번호(beginRow) - 0, 10, 20, ...
 	// ... LIMIT (beginRow, rowPerPage)
@@ -200,7 +200,7 @@
 								     	<col width="*%">
 								     	<col width="*%">
 							   		 </colgroup> -->
-									<tr class="table_head">
+									<tr class="table_head" height="40">
 										<th>주문번호</th>
 										<th>상품번호</th>
 										<th class="p-l-15">ID</th>
@@ -214,7 +214,7 @@
 								<%
 									for (Orders o : list) {
 								%>
-									<tr class="table_head" height="40">
+									<tr class="table_head" height="80">
 										<td class="stext-112 cl8 p-l-15" style="font-size:17px;"><%=o.getOrderNo()%></td>
 										<td class="stext-112 cl8 p-l-15" style="font-size:17px;"><%=o.getProductNo()%></td>
 										<td class="stext-112 cl8" style="font-size:17px;"><%=o.getId()%></td>
