@@ -79,7 +79,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 		<script>
 			$(document).ready(function(){
-				const urlParams  = new URL(location.href).searchParams;
+				const urlParams = new URL(location.href).searchParams;
 				const msg = urlParams.get('msg');
 				if(msg != null){
 					alert(msg);
@@ -108,12 +108,6 @@
 		<%
 			// 로그인 상태이면 cart 테이블에서 데이터 조회
 			if (session.getAttribute("loginId") != null) {
-				// Customer customer = (Customer) session.getAttribute("loginId");
-				// if (request.getParameter("msg") != null) {
-		%>
-				<%-- 	<%=request.getParameter("msg")%> --%>
-		<%
-			//	}
 		%>
 				<form action="<%=request.getContextPath()%>/order/addOrderCart.jsp" method="post" id="cartList" class="bg0 p-t-75 p-b-85">
 					<div class="container">
@@ -126,100 +120,94 @@
 										</h4>	
 										<br>
 									</div>	
-					<table class="table-shopping-cart">
-						<tr class="table_head">
-						   <!--  <th>번호</th> -->
-							<th class="column-3">상품이미지</th>
-							<th class="column-1">상품이름</th>
-							<th class="column-1">가격</th>
-							<!-- <th>수량</th> -->
-							<th class="column-1">총 금액</th>
-							<th class="column-1">수량</th>
-							<th class="column-1">선택</th>
-							<th class="column-1"></th>
-						</tr>
-			<%
-					int totalPrice = 0;
-					for (Cart c : list) {
-					// 상품 이름 조회
-					String productName = cartDao.selectProductName(c.getProductNo());
-					// 상품 가격 조회
-					int productPrice = cartDao.selectProductPrice(c.getProductNo());
-					// 상품 이미지 조회
-					String productImg = cartDao.selectImg(c.getProductNo());
-					
-					totalPrice += productPrice * c.getCartCnt();			
-			%>
-						<tr class="table_head">
-							<%-- <td><%=c.getCartNo()%></td> --%>
-							<td class="column-3">
-								<input type="hidden" id="productNo" name="productNo" value="<%=c.getProductNo()%>">
-								<input type="hidden" id="cartNo" name="cartNo" value="<%=c.getCartNo()%>">
-								<input type="hidden" id="productImg" name="productImg" value="<%=productImg%>">
-								<img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100">
-							</td>
-							<td class="column-1">
-								<input type="hidden" id="productName" name="productName" value="<%=productName%>">
-								<%=productName%>
-							</td>
-							<td class="column-1">
-								<input type="hidden" id="productPrice" name="productPrice" value="<%=productPrice%>">
-								<%=productPrice%>원
-							</td>
-						<%-- 	<td>
-								<input type="hidden" name="orderCnt" value="<%=c.getCartCnt()%>">
-								<%=c.getCartCnt()%>
-							</td> --%>
-							<td class="column-1">
-								<input type="hidden" id="totalPrice" name="totalPrice" value="<%=productPrice * c.getCartCnt()%>">
-								<%=productPrice * c.getCartCnt()%>원
-							</td>
-							<td class="column-3">
-								<div class="wrap-num-product flex-w m-l-auto m-r-0">
-									<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-										<i class="fs-16 zmdi zmdi-minus"></i>
+									<table class="table-shopping-cart">
+										<tr class="table_head">
+										   <!--  <th>번호</th> -->
+											<th class="text-center">상품이미지</th>
+											<th class="text-center">상품이름</th>
+											<th class="text-center">가격</th>
+											<th class="text-center">총 금액</th>
+											<th class="column-1 text-center" >수량</th>
+											<th class="column-5 p-l-30">선택</th>
+											<th class="text-center"></th>
+										</tr>
+							<%
+									int totalPrice = 0;
+									for (Cart c : list) {
+									// 상품 이름 조회
+									String productName = cartDao.selectProductName(c.getProductNo());
+									// 상품 가격 조회
+									int productPrice = cartDao.selectProductPrice(c.getProductNo());
+									// 상품 이미지 조회
+									String productImg = cartDao.selectImg(c.getProductNo());
+									// 총 금액
+									totalPrice += productPrice * c.getCartCnt();			
+							%>
+										<tr class="table_head">
+											<td class="text-center">
+												<input type="hidden" id="productNo" name="productNo" value="<%=c.getProductNo()%>">
+												<input type="hidden" id="cartNo" name="cartNo" value="<%=c.getCartNo()%>">
+												<input type="hidden" id="productImg" name="productImg" value="<%=productImg%>">
+												<img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100">
+											</td>
+											<td class="text-center header-cart-item-txt p-t-8">
+												<input type="hidden" id="productName" name="productName" value="<%=productName%>">
+												<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=c.getProductNo()%>" class="header-cart-item-name m-b-18 hov-cl1 trans-04">	
+													<%=productName%>
+												</a>
+											</td>
+											<td class="text-center">
+												<input type="hidden" id="productPrice" name="productPrice" value="<%=productPrice%>">
+												<%=productPrice%>원
+											</td>
+											<td class="text-center">
+												<input type="hidden" id="totalPrice" name="totalPrice" value="<%=productPrice * c.getCartCnt()%>">
+												<%=productPrice * c.getCartCnt()%>원
+											</td>
+											<td class="column-1 p-l-80">
+												<div class="wrap-num-product flex-w m-l-auto m-r-0">
+													<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+														<i class="fs-16 zmdi zmdi-minus"></i>
+													</div>
+													<input class="mtext-104 cl txt-center num-product" type="number" name="cartCnt" value="<%=c.getCartCnt()%>">
+													<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+														<i class="fs-16 zmdi zmdi-plus"></i>
+													</div>
+												</div>
+											</td> 	
+											<td class="column-5 p-l-100">
+												<input type="checkbox" class="selCart" name="selCart" value="<%=c.getCartNo()%>">
+											</td>
+											<td class="text-center">
+												<a href="<%=request.getContextPath()%>/order/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+													삭제
+												</a>
+											</td>
+										</tr>
+							<%
+									}
+							%>
+									</table>
+									<br>
+									<div style="text-align: right;">
+										총 합계 금액: <%=totalPrice%>원
 									</div>
-									<input class="mtext-104 cl3 txt-center num-product" type="number" name="cartCnt" value="<%=c.getCartCnt()%>">
-									<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-										<i class="fs-16 zmdi zmdi-plus"></i>
+									<br>
+									
+									<div class="flex-w dis-inline-block">
+										<button onclick="$('#cartList').submit()" style="color: #333333">
+											<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+												주문하기
+											</span>
+										</button>
+										
+										&nbsp;
+										<button  type="submit" formaction="<%=request.getContextPath()%>/order/modifyCartAction.jsp" style="color: #333333">
+											<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+												수량 변경
+											</span>
+										</button>
 									</div>
-								</div>
-							
-							<%-- 	<input type="number" id="cartCnt" name="cartCnt" value="<%=c.getCartCnt()%>"> --%>
-								<!-- ?cartNo=<%=c.getCartNo()%>&cartCnt=   -->
-							</td> 	
-							<td class="column-1">
-								<input type="checkbox" class="selCart" name="selCart" value="<%=c.getCartNo()%>">
-							</td>
-							<td class="column-1">
-								<a href="<%=request.getContextPath()%>/order/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									삭제
-								</a>
-							</td>
-						</tr>
-			<%
-					}
-			%>
-					</table>
-					<br>
-					<div>
-						총 합계 금액: <%=totalPrice%>원
-					</div>
-					<br>
-					
-					<div class="flex-w dis-inline-block">
-						<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-							<button onclick="$('#cartList').submit()" style="color: #333333">
-								주문하기
-							</button>
-						</div>
-						&nbsp;
-						<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-							<button  type="submit" formaction="<%=request.getContextPath()%>/order/modifyCartAction.jsp" style="color: #333333">
-								수량 변경
-							</button>
-						</div>
-					</div>
 				
 						
 				
@@ -244,43 +232,49 @@
 										</h4>	
 										<br>
 									</div>		
-						<table class="table-shopping-cart">
-							<tr class="table_head">
-								<th class="column-3">상품이미지</th>
-								<th class="column-1">상품이름</th>
-								<th class="column-1">가격</th>
-								<th class="column-1">총 금액</th>
-								<th class="column-1">수량</th>
-								<th class="column-1"></th>
-							</tr>
-		
-			<%
-				for (Cart c : list) {
-					// 상품 이름 조회
-					String productName = cartDao.selectProductName(c.getProductNo());
-					// 상품 가격 조회
-					int productPrice = cartDao.selectProductPrice(c.getProductNo());
-					// 상품 이미지 조회
-					String productImg = cartDao.selectImg(c.getProductNo());	
-			%>
-					
-					<tr class="table_head">
-						<td class="column-3"><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"></td>
-						<td class="column-1"><%=productName%></td>
-						<td class="column-1"><%=productPrice%></td>
-						<td class="column-1"><%=c.getCartCnt()%></td>
-						<td class="column-1"><%=productPrice * c.getCartCnt()%></td>
-						<td class="column-1">
-							<a href="<%=request.getContextPath()%>/order/removeCartAction.jsp?productNo=<%=c.getProductNo()%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-								삭제
-							</a>
-						</td>
-					</tr>
-				
-			<%
-				}
-			%>
-				</table>
+										<table class="table-shopping-cart">
+											<tr class="table_head">
+												<th class="text-center">상품이미지</th>
+												<th class="text-center">상품이름</th>
+												<th class="text-center">가격</th>
+												<th class="text-center">총 금액</th>
+												<th class="text-center">수량</th>
+												<th></th>
+											</tr>
+						
+							<%
+							int totalPrice = 0;
+								for (Cart c : list) {
+									// 상품 이름 조회
+									String productName = cartDao.selectProductName(c.getProductNo());
+									// 상품 가격 조회
+									int productPrice = cartDao.selectProductPrice(c.getProductNo());
+									// 상품 이미지 조회
+									String productImg = cartDao.selectImg(c.getProductNo());
+									// 총 금액
+									totalPrice += productPrice * c.getCartCnt();
+									
+							%>
+									<tr class="table_head">
+										<td class="text-center"><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"></td>
+										<td class="text-center"><%=productName%></td>
+										<td class="text-center"><%=productPrice%></td>
+										<td class="text-center"><%=productPrice * c.getCartCnt()%></td>
+										<td class="text-center"><%=c.getCartCnt()%></td>
+										<td class="p-l-50">
+											<a href="<%=request.getContextPath()%>/order/removeCartAction.jsp?productNo=<%=c.getProductNo()%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+												삭제
+											</a>
+										</td>
+									</tr>
+							<%
+								}
+							%>
+								</table>
+								<br>
+								<div style="text-align: right;">
+									총 합계 금액: <%=totalPrice%>원
+								</div>
 							</div>
 						</div>
 					</div>
