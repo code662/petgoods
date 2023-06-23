@@ -9,7 +9,7 @@ public class LoginDao {
 	// 관리자,고객 로그인 정보 조회
 	public HashMap<String, Object> selectLogin(String id, String pw) throws Exception{
 		 //반환할 리스트
-		 HashMap<String, Object> map = new HashMap<>();
+		 HashMap<String, Object> map = null;
 		 //db접속
 		 DBUtil dbUtil = new DBUtil();
 		 Connection conn = dbUtil.getConnection();
@@ -23,6 +23,7 @@ public class LoginDao {
 					 stmt.setString(1, id);
 					 ResultSet rs = stmt.executeQuery();
 					 if(rs.next()) {
+						 map = new HashMap<>();
 						 Customer customer = new Customer();
 						 customer.setCstmNo(rs.getInt("cstmNo"));
 						 customer.setId(rs.getString("id"));
@@ -46,6 +47,7 @@ public class LoginDao {
 					 stmt.setString(1, id);
 					 ResultSet rs = stmt.executeQuery();
 					 if(rs.next()) {
+						 map = new HashMap<>();
 						 Employees employees = new Employees();
 						 employees.setEmpNo(rs.getInt("empNo"));
 						 employees.setId(rs.getString("id"));
