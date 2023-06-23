@@ -127,161 +127,164 @@
 				<div class="row">
 					<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
 						<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+				
+							<div class="flex-w flex-sb-m p-b-17">
+								<h4 class="mtext-111 cl2  p-r-20">
+									전체 고객 주문 리스트
+								</h4>
+							<br>
+							</div>
 						<%
 							if (request.getParameter("msg") != null) {
 						%>
-								<%=request.getParameter("msg")%>
+								<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg")%></p>
 						<%
 							}
 						%>
-							<div class="flex-w flex-sb-m p-b-17">
-								<h4 class="mtext-111 cl2  p-r-20">
-								전체 고객 주문 리스트
-							</h4>
-							<br>
-
-		<div style="display:inline-flex;">
-			<label class="m-tb-5">ID 검색 : </label>
-			<input type="text" name="searchId" value="<%=searchId%>" placeholder="id 검색" style="width:80px;">
-			<label class="m-tb-5">주문상태 : </label>
-			<select name="orderStatus">
-				<option value="" <%if(orderStatus.equals("")){ %>selected<%}%>>선택</option>
-				<option value="결제완료" <%if(orderStatus.equals("결제완료")){ %>selected<%}%>>결제완료</option>
-				<option value="주문취소" <%if(orderStatus.equals("주문취소")){ %>selected<%}%>>주문취소</option>
-				<option value="배송완료" <%if(orderStatus.equals("배송완료")){ %>selected<%}%>>배송완료</option>
-				<option value="구매확정" <%if(orderStatus.equals("구매확정")){ %>selected<%}%>>구매확정</option>
-			</select>
-		</div>	
-		<br>
-		<div style="display:inline-flex;">
-			<%
-				//체크검사
-				boolean[] checked = {false, false, false, false, false, false, false, false, false, false, false, false};
-				//for 문 보다는 foreach문을 활용
-				int[] months = {1,2,3,4,5,6,7,8,9,10,11,12};
-				for(int m : months) {
-					if(intCkMonth != null) {
-						// 체크한 월이면 true 대입
-						for(int i : intCkMonth) {
-							if(i == m) {
-								checked[i-1] = true;
-							}
-						}
-					}
-					// ture이면 체크
-					if (checked[m-1] == true) {
-				%> 
-					<input type="checkbox" name="ckMonth" value="<%=m%>" checked="checked" class="rs1-select2 select2-container--open select2-dropdown"><%=m%>월
-				<%	
-					} else {
-				%>
-					<input type="checkbox" name="ckMonth" value="<%=m%>"><%=m%>월
-				<%			
-						}		
-					}
-				%>		
-					
-			</div>
-			<button type="submit" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">검색</button>
-			
-			
-		<table class="table-shopping-cart">
-		<!-- 	<colgroup>
-		     	<col width="8%">
-		     	<col width="8%">
-		     	<col width="10%">
-		     	<col width="10%">
-		     	<col width="8%">
-		     	<col width="10%">
-		     	<col width="10%">
-		     	<col width="*%">
-		     	<col width="*%">
-	   		 </colgroup> -->
-			<tr class="table_head">
-				<th>주문번호</th>
-				<th>상품번호</th>
-				<th>ID</th>
-				<th>주문상태</th>
-				<th>주문수량</th>
-				<th>가격</th>
-				<th>합계금액</th>
-				<th>주문일자</th>
-				<th>수정일자</th>
-			</tr>
-		<%
-			for (Orders o : list) {
-		%>
-			<tr class="table_head">
-				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderNo()%></td>
-				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getProductNo()%></td>
-				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getId()%></td>
-				
-		<%
-			if (o.getOrderStatus().equals("결제완료")) { // 주문상태가 결제완료인 경우 링크 클릭하면 배송완료로 상태 변경
-		%>	
-		  		<td class="stext-112 cl8" style="font-size:17px;">
-		  			<a href="<%=request.getContextPath()%>/order/modifyOrderStatusAction.jsp?orderNo=<%=o.getOrderNo()%>&createdate=<%=o.getCreatedate()%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-		  				결제완료
-	  				</a>
-	  			</td>
-		<%
-			} else {
-		
-		%>
-				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderStatus()%></td>
-		<%
-			}
-		%>		
-				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderCnt()%></td>
-				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderPrice()%>원</td>
-				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderPrice() * o.getOrderCnt()%>원</td>
-				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getCreatedate()%></td>
-				<td class="stext-112 cl8" style="font-size:17px;"><%=o.getUpdatedate()%></td>
-			</tr>
-		<%
-			}
-		%>
-		</table>
-		
-		<!-- Pagination -->
-		<div class="flex-l-m flex-w w-full p-t-10 m-lr--7" style="justify-content: center">
-		<%
-			// minPage가 1보다 클 때만 [이전] 탭 출력
-			if (minPage > 1) {
-		%>	
-				<a href="<%=request.getContextPath()%>/order/orderList.jsp?currentPage=<%=minPage - pagePerPage%>" class="flex-c-m how-pagination1 trans-04 m-all-7">이전</a>
-		<%
-			}
-		%>
-		
-		<%
-			// [이전] [다음] 탭 내에서 반복
-			for (int i = minPage; i <= maxPage; i++) {
-				if (currentPage == i) { // 해당 페이지는 링크 없이 표시 (css 적용 전)
-		%>
-					<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
-						<%=i%>
-					</a>
-		<% 			
-				} else { // 현재 페이지가 아닌 나머지 페이지에는 번호를 링크로 표시 (클릭 시 해당 번호 페이지로 이동)
-		%>
-					<a href="<%=request.getContextPath()%>/order/orderList.jsp?currentPage=<%=i%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
-						<%=i%>
-					</a>
-		<%
-				}
-			}
-		
-			if (maxPage < lastPage) { // [이전] [다음] 탭 사이 가장 큰 숫자가 마지막 페이지보다 작을 때만 [다음] 버튼 생성	
-		%>
-				<a href="<%=request.getContextPath()%>/order/orderList.jsp?currentPage=<%=minPage + pagePerPage%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
-					다음
-				</a>
-		<%
-			}
-		%>
-		
-								</div>
+							<div class="flex-w flex-sb-m p-b-17 p-l-300">
+								<div style="display:inline-flex;">
+									<label class="m-tb-5 p-r-5">ID 검색 : </label>
+									<input class="bor8 p-l-10" type="text" name="searchId" value="<%=searchId%>" placeholder="id 입력" style="width:80px;">
+							
+									<label class="m-tb-5 p-l-20 p-r-5">주문상태 : </label>
+									<select name="orderStatus">
+										<option value="" <%if(orderStatus.equals("")){ %>selected<%}%>>선택</option>
+										<option value="결제완료" <%if(orderStatus.equals("결제완료")){ %>selected<%}%>>결제완료</option>
+										<option value="주문취소" <%if(orderStatus.equals("주문취소")){ %>selected<%}%>>주문취소</option>
+										<option value="배송완료" <%if(orderStatus.equals("배송완료")){ %>selected<%}%>>배송완료</option>
+										<option value="구매확정" <%if(orderStatus.equals("구매확정")){ %>selected<%}%>>구매확정</option>
+									</select>
+								</div>	
+								<br>
+								<div style="display:inline-flex;">
+									<%
+										//체크검사
+										boolean[] checked = {false, false, false, false, false, false, false, false, false, false, false, false};
+										//for 문 보다는 foreach문을 활용
+										int[] months = {1,2,3,4,5,6,7,8,9,10,11,12};
+										for(int m : months) {
+											if(intCkMonth != null) {
+												// 체크한 월이면 true 대입
+												for(int i : intCkMonth) {
+													if(i == m) {
+														checked[i-1] = true;
+													}
+												}
+											}
+											// ture이면 체크
+											if (checked[m-1] == true) {
+										%> 
+											<input type="checkbox" name="ckMonth" value="<%=m%>" checked="checked" class="rs1-select2 select2-container--open select2-dropdown"><%=m%>월
+										<%	
+											} else {
+										%>
+											<input type="checkbox" name="ckMonth" value="<%=m%>"><%=m%>월
+										<%			
+												}		
+											}
+										%>		
+											
+									</div>
+									<button type="submit" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">검색</button>
+									</div>
+									
+								<table class="table-shopping-cart">
+								<!-- 	<colgroup>
+								     	<col width="8%">
+								     	<col width="8%">
+								     	<col width="10%">
+								     	<col width="10%">
+								     	<col width="8%">
+								     	<col width="10%">
+								     	<col width="10%">
+								     	<col width="*%">
+								     	<col width="*%">
+							   		 </colgroup> -->
+									<tr class="table_head">
+										<th>주문번호</th>
+										<th>상품번호</th>
+										<th class="p-l-15">ID</th>
+										<th class="p-l-8">주문상태</th>
+										<th>주문수량</th>
+										<th class="p-l-10">가격</th>
+										<th>합계금액</th>
+										<th class="p-l-50">주문일자</th>
+										<th class="p-l-50">수정일자</th>
+									</tr>
+								<%
+									for (Orders o : list) {
+								%>
+									<tr class="table_head" height="40">
+										<td class="stext-112 cl8 p-l-15" style="font-size:17px;"><%=o.getOrderNo()%></td>
+										<td class="stext-112 cl8 p-l-15" style="font-size:17px;"><%=o.getProductNo()%></td>
+										<td class="stext-112 cl8" style="font-size:17px;"><%=o.getId()%></td>
+										
+								<%
+									if (o.getOrderStatus().equals("결제완료")) { // 주문상태가 결제완료인 경우 링크 클릭하면 배송완료로 상태 변경
+								%>	
+								  		<td class="stext-112 cl8" style="font-size:17px;">
+								  			<a href="<%=request.getContextPath()%>/order/modifyOrderStatusAction.jsp?orderNo=<%=o.getOrderNo()%>&createdate=<%=o.getCreatedate()%>" style="color: #747474; width:90px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+								  				결제완료
+							  				</a>
+							  			</td>
+								<%
+									} else {
+								
+								%>
+										<td class="stext-112 cl8 p-l-5" style="font-size:18px;"><%=o.getOrderStatus()%></td>
+								<%
+									}
+								%>		
+										<td class="stext-112 cl8 p-l-15" style="font-size:17px;"><%=o.getOrderCnt()%></td>
+										<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderPrice()%>원</td>
+										<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderPrice() * o.getOrderCnt()%>원</td>
+										<td class="stext-112 cl8" style="font-size:17px;"><%=o.getCreatedate()%></td>
+										<td class="stext-112 cl8" style="font-size:17px;"><%=o.getUpdatedate()%></td>
+									</tr>
+								<%
+									}
+								%>
+								</table>
+								
+								<!-- Pagination -->
+								<div class="flex-l-m flex-w w-full p-t-10 m-lr--7" style="justify-content: center">
+								<%
+									// minPage가 1보다 클 때만 [이전] 탭 출력
+									if (minPage > 1) {
+								%>	
+										<a href="<%=request.getContextPath()%>/order/orderList.jsp?currentPage=<%=minPage - pagePerPage%>" class="flex-c-m how-pagination1 trans-04 m-all-7">이전</a>
+								<%
+									}
+								%>
+								
+								<%
+									// [이전] [다음] 탭 내에서 반복
+									for (int i = minPage; i <= maxPage; i++) {
+										if (currentPage == i) { // 해당 페이지는 링크 없이 표시 (css 적용 전)
+								%>
+											<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+												<%=i%>
+											</a>
+								<% 			
+										} else { // 현재 페이지가 아닌 나머지 페이지에는 번호를 링크로 표시 (클릭 시 해당 번호 페이지로 이동)
+								%>
+											<a href="<%=request.getContextPath()%>/order/orderList.jsp?currentPage=<%=i%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+												<%=i%>
+											</a>
+								<%
+										}
+									}
+								
+									if (maxPage < lastPage) { // [이전] [다음] 탭 사이 가장 큰 숫자가 마지막 페이지보다 작을 때만 [다음] 버튼 생성	
+								%>
+										<a href="<%=request.getContextPath()%>/order/orderList.jsp?currentPage=<%=minPage + pagePerPage%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+											다음
+										</a>
+								<%
+									}
+								%>
+	
+								
 							</div>
 						</div>
 					</div>
