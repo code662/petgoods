@@ -57,85 +57,84 @@
 							<h4 class="mtext-111 cl2 p-b-30">
 								주문취소
 							</h4>
-							<h6>주문 취소 하시겠습니까?</h6>
-							<br>
-							<input type="hidden" name="orderNo" value="<%=order.getOrderNo()%>">
-							<input type="hidden" name="orderId" value="<%=order.getId()%>">
-							<input type="hidden" name="createdate" value="<%=order.getCreatedate()%>">
-							<div class="flex-w flex-t bor12 p-b-13">
-								<div class="size-208">
+								<h6>주문 취소 하시겠습니까?</h6>
+								<br>
+								<input type="hidden" name="orderNo" value="<%=order.getOrderNo()%>">
+								<input type="hidden" name="orderId" value="<%=order.getId()%>">
+								<input type="hidden" name="createdate" value="<%=order.getCreatedate()%>">
+								<div class="flex-w flex-t bor12 p-b-13">
+									<div class="size-208">
+										<span class="stext-110 cl2" style="font-size:17px">
+											주문코드
+										</span>
+									</div>
+									<div class="size-209">
+										<span class="stext-112 cl8" style="font-size:17px">
+											<%=orderCode%>
+										</span>
+									</div>
+								</div>
+								
+								<div class="flex-w flex-t bor12 p-t-15 p-b-30">
+								<div class="size-208 w-full-ssm">
 									<span class="stext-110 cl2" style="font-size:17px">
-										주문코드
+										상품이름
 									</span>
 								</div>
-								<div class="size-209">
-									<span class="stext-112 cl8" style="font-size:17px">
-										<%=orderCode%>
-									</span>
+								<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+									<p class="stext-112 cl8 p-t-2" style="font-size:17px">
+										<%=productName%>
+									</p>
 								</div>
 							</div>
 							
 							<div class="flex-w flex-t bor12 p-t-15 p-b-30">
 							<div class="size-208 w-full-ssm">
 								<span class="stext-110 cl2" style="font-size:17px">
-									상품이름
+									가격
 								</span>
 							</div>
 							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
 								<p class="stext-112 cl8 p-t-2" style="font-size:17px">
-									<%=productName%>
+									<%=order.getOrderPrice()%>
 								</p>
 							</div>
-						</div>
+							</div>
+							
+							<div class="flex-w flex-t bor12  p-t-15 p-b-30">
+							<div class="size-208 w-full-ssm">
+								<span class="stext-110 cl2" style="font-size:17px">
+									수량
+								</span>
+							</div>
+							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+								<p class="stext-112 cl8 p-t-2" style="font-size:17px">
+									<%=order.getOrderCnt()%>
+								</p>
+							</div>
+							</div>
 						
-						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
-						<div class="size-208 w-full-ssm">
-							<span class="stext-110 cl2" style="font-size:17px">
-								가격
-							</span>
-						</div>
-						<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
-							<p class="stext-112 cl8 p-t-2" style="font-size:17px">
-								<%=order.getOrderPrice()%>
-							</p>
-						</div>
-						</div>
-						
-						<div class="flex-w flex-t bor12  p-t-15 p-b-30">
-						<div class="size-208 w-full-ssm">
-							<span class="stext-110 cl2" style="font-size:17px">
-								수량
-							</span>
-						</div>
-						<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
-							<p class="stext-112 cl8 p-t-2" style="font-size:17px">
-								<%=order.getOrderCnt()%>
-							</p>
-						</div>
-						</div>
-					
-						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
-						<div class="size-208 w-full-ssm">
-							<span class="stext-110 cl2" style="font-size:17px">
-								주문일자
-							</span>
-						</div>
-						<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
-							<p class="stext-112 cl8 p-t-2" style="font-size:17px">
-								<%=order.getCreatedate()%>
-							</p>
-						</div>
-						</div>
-						
-						<br>
-						<div class="flex-w dis-inline-block">
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+							<div class="flex-w flex-t bor12 p-t-15 p-b-30">
+							<div class="size-208 w-full-ssm">
+								<span class="stext-110 cl2" style="font-size:17px">
+									주문일자
+								</span>
+							</div>
+							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+								<p class="stext-112 cl8 p-t-2" style="font-size:17px">
+									<%=order.getCreatedate()%>
+								</p>
+							</div>
+							</div>
+							
+							<br>
+							<div class="flex-w dis-inline-block">
 								<button type="submit" style="color: #333333">
-									주문취소
+									<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+										주문취소
+									</span>
 								</button>
 							</div>
-						</div>
-
 						</div>
 					</div>
 				</div>
