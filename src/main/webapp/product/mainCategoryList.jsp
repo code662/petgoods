@@ -57,7 +57,7 @@
 					<div class="col-sm-12 col-lg-11 col-xl-11 m-lr-auto m-b-50">
 						<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
 							<h4 class="mtext-111 cl2 p-b-30">
-									카테고리 리스트(메인)
+									메인 카테고리 리스트
 								</h4>
 								<br>
 							
@@ -65,28 +65,25 @@
 		<%
 			if (request.getParameter("msg") != null) {
 		%>
-				<%=request.getParameter("msg")%>
+				<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg")%></p>
 		<%
 			}
 		%>
 		<table class="center">
  		   	<colgroup>
-		     	<col width="5%">
 		     	<col width="10%">
-		     	<col width="*">
-		     	<col width="15%">
-		     	<col width="15%">
-		     	<col width="5%">
-		     	<col width="5%">
+		     	<col width="10%">
+		     	<col width="30%">
+		     	<col width="30%">
 	   		 </colgroup> 
-   		 	<tr class="bor12">
-				<th>NO.</th>
-				<th>메인 카테고리</th>
-				<th>서브 카테고리</th>
-				<th>생성일자</th>
-				<th>수정일자</th>
-				<th></th>
-				<th></th>
+   		 	<tr class="bor12" height="40">
+				<th class="p-l-30">NO.</th>
+				<th class="p-l-30">메인 카테고리</th>
+				<!-- <th>서브 카테고리</th> -->
+				<th class="p-l-150">생성일자</th>
+				<th class="p-l-150">수정일자</th>
+			<!-- 	<th></th>
+				<th></th> -->
 			</tr>
 		<%
 			for (Category c : list) {
@@ -96,17 +93,17 @@
 				String categoryMainName = URLEncoder.encode(c.getCategoryMainName(), "UTF-8"); 
 			%>
 					
-					<tr class="bor12">
-						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategoryNo()%></td>
-						<td class="stext-112 cl8" style="font-size:17px;">
+					<tr class="bor12" height="40">
+						<td class="stext-112 cl8 p-l-30" style="font-size:17px;"><%=c.getCategoryNo()%></td>
+						<td class="stext-112 cl8 p-l-30" style="font-size:17px;">
 							<a href="<%=request.getContextPath()%>/product/subCategoryList.jsp?categoryMainName=<%=categoryMainName%>" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 								<%=c.getCategoryMainName()%>
 							</a>
 						</td>
-						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategorySubName()%></td>
-						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCreatedate().substring(0, 10)%></td>
-						<td class="stext-112 cl8" style="font-size:17px;"><%=c.getUpdatedate().substring(0, 10)%></td>
-						<td class="stext-112 cl8" style="font-size:17px;">
+					<%-- 	<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategorySubName()%></td> --%>
+						<td class="stext-112 cl8 p-l-100" style="font-size:17px;"><%=c.getCreatedate()%></td>
+						<td class="stext-112 cl8 p-l-100" style="font-size:17px;"><%=c.getUpdatedate()%></td>
+					<%-- 	<td class="stext-112 cl8" style="font-size:17px;">
 							<a href="<%=request.getContextPath()%>/product/modifyCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474; width:80px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 								수정
 							</a>
@@ -115,7 +112,7 @@
 							<a href="<%=request.getContextPath()%>/product/removeCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474; width:80px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 								삭제
 							</a>
-						</td>
+						</td> --%>
 					</tr>
 		<%
 			}
@@ -123,11 +120,13 @@
 			</table> 
 			<br>
 			<div class="flex-w dis-inline-block">
-				<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+				
 					<a href="<%=request.getContextPath()%>/product/addCategory.jsp" style="color: #333333">
-						새 카테고리 입력
+						<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+							<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-plus"></i>
+							새 카테고리 추가						
+						</span>
 					</a>
-				</div>
 			</div>
 						</div>
 					</div>
