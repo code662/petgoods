@@ -115,135 +115,138 @@
 									나의 주문 리스트
 								</h4>
 							</div>
+					<%
+						if (request.getParameter("msg") != null) {
+					%>
+							<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg")%></p>
+					<%
+						}
+					%>
 							<br>
-
-		<%
-			if (request.getParameter("msg") != null) {
-		%>
-				<%=request.getParameter("msg")%>
-		<%
-			}
-		%>
-		<table class="table-shopping-cart">
-			<tr class="table_head">
-				<th>주문코드</th>
-				<th>상품이름</th>
-				<th>주문상태</th>
-				<th>가격</th>
-				<th>수량</th>
-				<th>주문일자</th>
-				<th>상품이미지</th>
-				<th>기타옵션</th>
-			</tr>
-		<%
-			for (Orders o : list) {
-			// DB 내 주문번호 (orderNo)	
-			int orderNo = o.getOrderNo();
-				
-			// 주문코드 조회
-			String ordersCode = ordersDao.selectOrdersCode(o.getOrderNo());
-			
-			// 상품이름 조회
-			String productName = ordersDao.selectProductName(o.getProductNo());
-			
-			// 상품 이미지 조회
-			String productImg = ordersDao.selectImg(o.getProductNo());
-		%>
-			<tr class="table_head">
-				<td><%=ordersCode%></td>
-				<td><%=productName%></td>
-				<td><%=o.getOrderStatus()%></td>
-				<td><%=o.getOrderPrice()%></td>
-				<td><%=o.getOrderCnt()%></td>
-				<td><%=o.getCreatedate()%></td>
-				<td><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"></td>
-				
-			<%
-				
-				if (o.getOrderStatus().equals("결제완료")) { // 결제완료일 때 주문취소 버튼 노출
-			%>
-					<td>
-						<a href="<%=request.getContextPath()%>/order/removeMyOrder.jsp?orderNo=<%=orderNo%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-							주문취소
-						</a>
-					</td>
-			<%		
-				} else if (o.getOrderStatus().equals("구매확정")) { // 구매확정일 때 리뷰작성 버튼 노출
-			%>
-					<td>
-						<a href="<%=request.getContextPath()%>/customer/addReview.jsp?orderNo=<%=orderNo%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-							리뷰작성
-						</a>
-					</td>
-			<% 	
-				} else if (o.getOrderStatus().equals("배송완료")) { // 배송완료일때 구매확정 버튼 노출	
-			%>
-					<td>
-						<a href="<%=request.getContextPath()%>/order/purchaseAction.jsp?orderNo=<%=orderNo%>&orderStatus=<%=o.getOrderStatus()%>&createdate=<%=o.getCreatedate()%>&orderPrice=<%=o.getOrderPrice()%>&orderCnt=<%=o.getOrderCnt()%>" style="color: #747474; 	width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-							구매확정
-						</a>
-					</td>
-			<%
-				} else {
-			%>
-					<td>&nbsp;</td>
-			<% 		
-				}
-			%>	
-			</tr>
-		<%
-			}
-		%>
-		</table>
-		
-		<br>
-		<div class="flex-w dis-inline-block">
-			<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-				<a href="<%=request.getContextPath()%>/customer/myPage.jsp" style="color: #333333">
-					뒤로가기
-				</a>
-			</div>
-		</div>
-		
-		<!-- Pagination -->
-		<div class="flex-l-m flex-w w-full p-t-10 m-lr--7" style="justify-content: center">
-		<%
-			// minPage가 1보다 클 때만 [이전] 탭 출력
-			if (minPage > 1) {
-		%>
-				<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp?currentPage=<%=minPage - pagePerPage%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
-					이전
-				</a>
-		<%
-			}
-		
-			// [이전] [다음] 탭 내에서 반복
-			for (int i = minPage; i <= maxPage; i += 1) {
-				if (currentPage == i) { // 현재 페이지 번호에는 링크 없이 표시
-		%>
-					<a href="" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
-						<%=i%>
-					</a>
-		<%
-				} else { // 현재 페이지가 아닌 나머지 페이지에는 번호를 링크로 표시 (클릭 시 해당 번호 페이지로 이동)
-		%>
-					<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp?currentPage=<%=i%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
-						<%=i%>
-					</a>
-					
-		<%			
-				}
-			}
-		
-			if (maxPage < lastPage) { // 마지막 페이지보다 maxPage가 작을 때만 다음 버튼 출력
-		%>
-				<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp?currentPage=<%=minPage + pagePerPage%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
-					다음
-				</a>
-		<% 
-			}
-		%>
-		
+							<table class="table-shopping-cart">
+								<tr class="table_head">
+									<th class="text-center">주문코드</th>
+									<th class="text-center">상품이름</th>
+									<th class="text-center">주문상태</th> <!--p-r-10  -->
+									<th class="text-center">가격</th>
+									<th class="text-center">수량</th>
+									<th class="text-center">주문일자</th> <!-- p-l-40 -->
+									<th class="text-center">상품이미지</th> <!-- p-l-20 -->
+									<th class="p-l-35">기타옵션</th> <!-- p-l-20  -->
+								</tr>
+							<%
+								for (Orders o : list) {
+								// DB 내 주문번호 (orderNo)	
+								int orderNo = o.getOrderNo();
+									
+								// 주문코드 조회
+								String ordersCode = ordersDao.selectOrdersCode(o.getOrderNo());
+								
+								// 상품이름 조회
+								String productName = ordersDao.selectProductName(o.getProductNo());
+								
+								// 상품 이미지 조회
+								String productImg = ordersDao.selectImg(o.getProductNo());
+							%>
+								<tr class="table_head">
+									<td class="text-center"><%=ordersCode%></td>
+									<td class="text-center header-cart-item-txt p-t-8">
+										<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=o.getProductNo()%>" class="header-cart-item-name m-b-18 hov-cl1 trans-04">	
+											<%=productName%>
+										</a>
+									</td>
+									<td class="text-center"><%=o.getOrderStatus()%></td> <!-- p-r-10  -->
+									<td class="text-center"><%=o.getOrderPrice()%></td>
+									<td class="text-center"><%=o.getOrderCnt()%></td> <!-- p-l-10 -->
+									<td class="text-center"><%=o.getCreatedate()%></td>
+									<td class="text-center"><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"></td>
+									
+								<%
+									
+									if (o.getOrderStatus().equals("결제완료")) { // 결제완료일 때 주문취소 버튼 노출
+								%>
+										<td class="p-l-20">
+											<a href="<%=request.getContextPath()%>/order/removeMyOrder.jsp?orderNo=<%=orderNo%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+												주문취소
+											</a>
+										</td>
+								<%		
+									} else if (o.getOrderStatus().equals("구매확정")) { // 구매확정일 때 리뷰작성 버튼 노출
+								%>
+										<td class="p-l-20">
+											<a href="<%=request.getContextPath()%>/customer/addReview.jsp?orderNo=<%=orderNo%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+												리뷰작성
+											</a>
+										</td>
+								<% 	
+									} else if (o.getOrderStatus().equals("배송완료")) { // 배송완료일때 구매확정 버튼 노출	
+								%>
+										<td class="p-l-20">
+											<a href="<%=request.getContextPath()%>/order/purchaseAction.jsp?orderNo=<%=orderNo%>&orderStatus=<%=o.getOrderStatus()%>&createdate=<%=o.getCreatedate()%>&orderPrice=<%=o.getOrderPrice()%>&orderCnt=<%=o.getOrderCnt()%>" style="color: #747474; 	width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+												구매확정
+											</a>
+										</td>
+								<%
+									} else {
+								%>
+										<td>&nbsp;</td>
+								<% 		
+									}
+								%>	
+								</tr>
+							<%
+								}
+							%>
+							</table>
+							
+							<br>
+							<div class="flex-w dis-inline-block">
+								<a href="<%=request.getContextPath()%>/customer/myPage.jsp" style="color: #333333">
+									<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+										뒤로가기
+									</span>
+								</a>
+							</div>
+							
+							<!-- Pagination -->
+							<div class="flex-l-m flex-w w-full p-t-10 m-lr--7" style="justify-content: center">
+							<%
+								// minPage가 1보다 클 때만 [이전] 탭 출력
+								if (minPage > 1) {
+							%>
+									<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp?currentPage=<%=minPage - pagePerPage%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+										이전
+									</a>
+							<%
+								}
+							
+								// [이전] [다음] 탭 내에서 반복
+								for (int i = minPage; i <= maxPage; i += 1) {
+									if (currentPage == i) { // 현재 페이지 번호에는 링크 없이 표시
+							%>
+										<a href="" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+											<%=i%>
+										</a>
+							<%
+									} else { // 현재 페이지가 아닌 나머지 페이지에는 번호를 링크로 표시 (클릭 시 해당 번호 페이지로 이동)
+							%>
+										<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp?currentPage=<%=i%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+											<%=i%>
+										</a>
+										
+							<%			
+									}
+								}
+							
+								if (maxPage < lastPage) { // 마지막 페이지보다 maxPage가 작을 때만 다음 버튼 출력
+							%>
+									<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp?currentPage=<%=minPage + pagePerPage%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+										다음
+									</a>
+							<% 
+								}
+							%>
+							
 							</div>
 						</div>
 					</div>
