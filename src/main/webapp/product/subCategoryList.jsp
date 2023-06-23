@@ -69,7 +69,7 @@
 					<div class="col-sm-12 col-lg-11 col-xl-11 m-lr-auto m-b-50">
 						<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
 							<h4 class="mtext-111 cl2 p-b-30">
-								카테고리 리스트(서브)
+								서브 카테고리 리스트
 							</h4>
 		<%
 			if (request.getParameter("msg") != null) {
@@ -100,7 +100,7 @@
 		<%
 			for (Category c : list) {
 		%>
-				<tr class="bor12">
+				<tr class="bor12" height="40">
 					<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategoryNo()%></td>
 					<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategoryMainName()%></td>
 					<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategorySubName()%></td>
@@ -123,11 +123,11 @@
 		</table>
 		<br>
 		<div class="flex-w dis-inline-block">
-			<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-				<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp" style="color: #333333">
+			<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp" style="color: #333333">
+				<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 					메인 카테고리로
-				</a>
-			</div>
+				</span>
+			</a>
 		</div>			
 						</div>
 					</div>
