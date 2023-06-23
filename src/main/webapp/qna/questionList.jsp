@@ -41,7 +41,7 @@
 	<!-- breadcrumb -->
 	<div class="container">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-			<a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
+			<a href="<%=request.getContextPath()%>/home.jsp" class="stext-109 cl8 hov-cl1 trans-04">
 				Home
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
@@ -61,7 +61,18 @@
 							<h4 class="mtext-111 cl2  p-r-20">
 								상품 문의 리스트
 							</h4>
-	
+							<div class="fs-18 cl11 stext-102 flex-w m-r--5">
+								<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+									<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+									<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+									Search
+								</div>
+								<a href="<%=request.getContextPath()%>/discount/addDiscount.jsp" class="flex-c-m stext-106 cl6 size-102 bor4 pointer hov-btn3 trans-04 m-tb-4 m-l-8">
+									<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-plus"></i>
+										버튼
+								</a>
+							</div>
+						</div>
 							<!-- 할인상품리스트 -->
 							<table class="table-shopping-cart">
 								<tr class="table_head" >
@@ -137,7 +148,6 @@
 							<%
 								}
 							%>
-							</div>
 						</div>
 					</div>
 				</div>
