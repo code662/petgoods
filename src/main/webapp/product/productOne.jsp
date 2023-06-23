@@ -13,8 +13,54 @@
 	ProductDao pDao = new ProductDao();
 	CategoryDao cDao = new CategoryDao();
 	DiscountDao dDao = new DiscountDao();
+	ReviewDao rDao = new ReviewDao();
+	QuestionDao qDao = new QuestionDao();
+	AnswerDao aDao = new AnswerDao();
+	
 	Product product = pDao.selectProductOne(productNo);
 	Category category = cDao.selectCategoryOne(product.getCategoryNo());
+	
+	// 리뷰 페이징
+	// 리뷰 현재페이지
+	int reviewCurrentPage = 1;
+	if(request.getParameter("reviewCurrentPage") != null) {
+		reviewCurrentPage = Integer.parseInt(request.getParameter("reviewCurrentPage"));
+	}
+	// 상품의 전체 리뷰 행의 수
+	int reviewTotalRow = rDao.reviewCnt(productNo);
+	// 리뷰 페이지 당 행의 수
+	int reviewRowPerPage = 5;
+	// 리뷰 시작 행 번호
+	int reviewBeginRow = (reviewCurrentPage-1) * reviewRowPerPage;
+	// 리뷰 마지막 페이지 번호
+	int reviewLastPage = reviewTotalRow / reviewRowPerPage;
+	// 표시하지 못한 행이 있을 경우 페이지 + 1
+	if(reviewTotalRow % reviewRowPerPage != 0) {
+		reviewLastPage = reviewLastPage + 1;
+	}
+	// 상품의 리뷰 리스트
+	ArrayList<HashMap<String,Object>> reviewList = rDao.selectReview(productNo, reviewBeginRow, reviewRowPerPage);
+	
+	// 상품 문의 페이징
+	// 문의 현재페이지
+	int questionCurrentPage = 1;
+	if(request.getParameter("questionCurrentPage") != null) {
+		questionCurrentPage = Integer.parseInt(request.getParameter("questionCurrentPage"));
+	}
+	// 전체 문의 행의 수
+	int questionTotalRow = qDao.selectQuestionCnt(product.getProductNo());
+	// 문의 페이지 당 행의 수
+	int questionRowPerPage = 5;
+	// 문의 시작 행 번호
+	int questionBeginRow = (questionCurrentPage-1) * questionRowPerPage;
+	// 문의 마지막 페이지 번호
+	int questionLastPage = questionTotalRow / questionRowPerPage;
+	// 표시하지 못한 행이 있을 경우 페이지 + 1
+	if(questionTotalRow % questionRowPerPage != 0) {
+		questionLastPage = questionLastPage + 1;
+	}
+	// 상품의 문의 리스트
+	ArrayList<Question> questionList = qDao.selectQuestion(product.getProductNo(), questionBeginRow, questionRowPerPage);
 %>
 <!DOCTYPE html>
 <html>
@@ -29,6 +75,18 @@
 		if(msg != null){
 			alert(msg);
 		}
+		
+		$('#addQuestionBtn').click(function(){
+			if($('#questionTitle').val() == ''){
+				alert('문의 제목을 작성해주세요');
+			}else if($('#questionCategory').val() == ''){
+				alert('카테고리를 선택해주세요');
+			}else if($('#questionContent').val() == ''){
+				alert('문의 내용을 작성해주세요');
+			}else {
+				$('#addQuestion').submit();
+			}
+		});
 	});
 </script>
 </head>
@@ -39,18 +97,17 @@
 	%>
 			<jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
 			<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+
 	<%	
 		// 아니면 고객용 헤더 표시
 		} else {
 	%>
 			<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
 			<jsp:include page="/inc/sidebar.jsp"></jsp:include>
-			<jsp:include page="/inc/cart.jsp"></jsp:include>
-	
+		<jsp:include page="/inc/cart.jsp"></jsp:include>
 	<%		
 		}
 	%>
-
 	
 	<!-- breadcrumb -->
 	<div class="container">
@@ -91,7 +148,6 @@
 					<div class="p-l-25 p-r-30 p-lr-0-lg">
 						<div class="wrap-slick3 flex-sb flex-w">
 							<div class="wrap-slick3"></div>
-
 							<div class="slick3 gallery-lb">
 								<div class="item-slick3" data-thumb="<%=request.getContextPath()%>/pimg/<%=pDao.selectProductImg(product.getProductNo()).getProductSaveFilename()%>">
 									<div class="wrap-pic-w pos-relative">
@@ -257,32 +313,89 @@
 								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
 									<div class="p-b-30 m-lr-15-sm">
 										<!-- Review -->
-										<div class="flex-w flex-t p-b-68">
-											<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-												<img src="<%=request.getContextPath()%>/temp/images/avatar-01.jpg" alt="AVATAR">
-											</div>
-
-											<div class="size-207">
-												<div class="flex-w flex-sb-m p-b-17">
-													<span class="mtext-107 cl2 p-r-20">
-														ID
-													</span>
+										<%
+											for(HashMap<String, Object> r : reviewList) {
+												int reviewNo = (Integer) r.get("reviewNo");
+										%>
+												<div class="flex-w flex-t p-b-10 bor12">
+													<div class="wrap-pic-s size-208">
+														<img src="<%=request.getContextPath()%>/rimg/<%=rDao.selectReviewImgSaveFilename(reviewNo) %>" alt="AVATAR">
+													</div>
+		
+													<div class="size-209">
+														<div class="flex-w flex-sb-m p-b-17">
+															<span class="mtext-107 cl2 p-r-20">
+																<%=r.get("id") %>
+															</span>
+															
+															<span class="stext-102 cl6">
+																<%=((String)r.get("createdate")).substring(0, 16) %>
+															</span>
+														</div>
+														
+														<div class="flex-w flex-sb-m p-b-17">
+															<span class="mtext-107 cl2 p-r-20">
+																<%=r.get("reviewTitle") %>
+															</span>					
+														</div>
+		
+														<p class="stext-102 cl6">
+															<%=r.get("reviewContent") %>
+														</p>
+													</div>
 												</div>
-												
-												<div class="flex-w flex-sb-m p-b-17">
-													<span class="mtext-107 cl2 p-r-20">
-														리뷰제목
-													</span>
-													
-													<span class="stext-102 cl6">
-														작성시간
-													</span>
-												</div>
-
-												<p class="stext-102 cl6">
-													리뷰 내용
-												</p>
-											</div>
+										<%		
+											}
+										%>
+										
+										
+										<!-- Pagination -->
+										<div class="flex-l-m flex-w w-full p-t-10 m-lr--7" style="justify-content: center">
+										<%
+											// 페이징 수
+											int reviewPagePerPage = 5;
+											// 최소 페이지
+											int reviewMinPage = ((questionCurrentPage-1) / reviewPagePerPage) * reviewPagePerPage + 1;
+											// 최대 페이지
+											int reviewMaxPage = reviewMinPage + reviewPagePerPage - 1;
+											// 최대 페이지가 마지막 페이지 보다 크면 최대 페이지 = 마지막 페이지
+											if(reviewMaxPage > reviewLastPage) {
+												reviewMaxPage = reviewLastPage;
+											}
+											// 이전 페이지
+											// 최소 페이지가 1보타 클 경우 이전 페이지 표시
+											//이전 페이지 버튼
+											if(reviewMinPage >1){
+										%>
+									 				<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=productNo%>&reviewCurrentPage=<%=reviewMinPage-reviewPagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									 					이전 
+									 				</a>
+									   	<%
+											}
+									        for(int i = reviewMinPage; i <= reviewMaxPage; i++){
+									        	if(i == reviewCurrentPage){
+									    %>
+									    			<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+									       				<%=i %>
+									       			</a>
+									    <%
+									        	}else{
+									   	%>
+									       			<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=productNo%>&reviewCurrentPage=<%=i %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									       				<%=i %>
+									       			</a>
+									    <%
+									       		}
+									        }
+									    	//다음 페이지 버튼
+									    	if(reviewMaxPage != reviewLastPage){
+									    %>
+												<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=productNo%>&reviewCurrentPage=<%=reviewMinPage+reviewPagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+													다음
+												</a>
+										<%
+											}
+										%>
 										</div>
 									</div>
 								</div>
@@ -294,56 +407,151 @@
 							<div class="row">
 								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
 									<div class="p-b-30 m-lr-15-sm">
-										<!-- Add review -->
-										<form class="w-full">
-											<h5 class="mtext-108 cl2 p-b-7">
-												문의하기
-											</h5>
-
-											<div class="row p-b-25">
-												<div class="col-sm-6 p-b-5">
-													<label class="stext-102 cl3" for="name">ID</label>
-													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name">
+									<%
+										if(session.getAttribute("loginId") instanceof Customer){
+											Customer c = (Customer)session.getAttribute("loginId");
+											
+									%>
+											<!-- 상품 문의 추가 -->
+											<form action="<%=request.getContextPath()%>/qna/addQuestionAction.jsp" method="post" class="w-full bor12" id="addQuestion">
+												<div class="row p-b-25">
+													<div class="col-sm-6 p-b-5">
+														<input type="hidden" name="productNo" value="<%=productNo%>">
+														<span class="mtext-108 cl2 p-b-7"><%=c.getId() %></span>
+														<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="questionTitle" type="text" name="questionTitle" placeholder="문의 제목">
+													</div>
+													<div class="col-sm-6 p-b-5">
+														<div class="p-b-25"></div>
+														<div class="rs1-select2 rs2-select2 bor8 bg0">
+															<select class="js-select2" id="questionCategory" name="questionCategory">
+																<option value="">===문의 카테고리===</option>
+																<option value="상품">상품</option>
+																<option value="'교환/환불">교환/환불</option>
+																<option value="배송">배송</option>
+																<option value="기타">기타</option>
+															</select>
+															<div class="dropDownSelect2"></div>
+														</div>
+													</div>
+													
+													<div class="col-12 p-b-5">
+														<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="questionContent" name="questionContent" placeholder="문의 내용"></textarea>
+													</div>
 												</div>
-
+	
+												<button id="addQuestionBtn" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
+													문의하기
+												</button>
+											</form>	
+									<%		
+										} 
+									%>
+										
+											<%
+												for(Question q : questionList) {
+													Answer answer = aDao.selectAnswerOne(q.getqNo());
+											%>
+											<!-- 상품 문의 내역 -->
+											<div class="flex-w flex-t p-b-5 p-t-20 bor12">
+													<div class="size-109 flex-w flex-sb-m p-b-7">
+														<span class="stext-109 cl11 p-r-10">
+																<%=q.getqStatus()%>
+														</span>
+													</div>
+		
+													<div class="size-207">
+														<div class="flex-w flex-sb-m p-b-7">
+															<span class="mtext-107 cl2 p-r-20">
+																<%=q.getId()%>
+															</span>
+															<span class="stext-102 cl6">
+																<%=q.getCreatedate().substring(0, 16) %>
+															</span>
+														</div>
+														<div class="flex-w flex-sb-m p-b-7">
+															<span class="mtext-107 cl2 p-r-20">
+																<%=q.getqTitle() %>
+															</span>
+														</div>
+														<p class="stext-102 cl6 p-b-7">
+															<%=q.getqContent() %>
+														</p>
+													</div>
+											<%
+													if(answer != null){
+											%>
+													<div class="size-109 flex-w flex-sb-m p-b-7">
+														<span class="stext-109 cl11 p-r-10">
+															답변내용	
+														</span>
+													</div>
+		
+													<div class="size-207">
+														<div class="flex-w flex-sb-m p-b-7">
+															<span class="mtext-107 cl2 p-r-20">
+																관리자
+															</span>
+														</div>
+														<p class="stext-102 cl6 p-b-7">
+															<%=answer.getaContent() %>
+														</p>
+													</div>
 												
-												<div class="col-12 p-b-5">
-													<label class="stext-102 cl3" for="review">문의 내용</label>
-													<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="review"></textarea>
+											<%		
+													}
+											%>
 												</div>
-											</div>
-
-											<button class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
-												등록
-											</button>
-										</form>	
-										<!-- Review -->
-										<div class="flex-w flex-t p-b-68">
-											<div class="size-109 flex-w flex-sb-m p-b-17">
-												<span class="mtext-104 cl2 p-r-20">
-														답변대기
-													</span>
-											</div>
-
-											<div class="size-207">
-												<div class="flex-w flex-sb-m p-b-17">
-													<span class="mtext-107 cl2 p-r-20">
-														ID
-													</span>
-												</div>
-												<div class="flex-w flex-sb-m p-b-17">
-													<span class="mtext-107 cl2 p-r-20">
-														문의 제목
-													</span>
-
-													<span class="stext-102 cl6">
-														작성 시간
-													</span>
-												</div>
-												<p class="stext-102 cl6">
-													 문의 내용
-												</p>
-											</div>
+											<%
+												}
+											%>
+										
+										<!-- Pagination -->
+										<div class="flex-l-m flex-w w-full p-t-10 m-lr--7" style="justify-content: center">
+										<%
+											// 페이징 수
+											int questionPagePerPage = 5;
+											// 최소 페이지
+											int questionMinPage = ((questionCurrentPage-1) / questionPagePerPage) * questionPagePerPage + 1;
+											// 최대 페이지
+											int questionMaxPage = questionMinPage + questionPagePerPage - 1;
+											// 최대 페이지가 마지막 페이지 보다 크면 최대 페이지 = 마지막 페이지
+											if(questionMaxPage > questionLastPage) {
+												questionMaxPage = questionLastPage;
+											}
+											// 이전 페이지
+											// 최소 페이지가 1보타 클 경우 이전 페이지 표시
+											//이전 페이지 버튼
+											if(questionMinPage >1){
+										%>
+									 				<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=productNo%>&questionCurrentPage=<%=questionMinPage-questionPagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									 					이전 
+									 				</a>
+									   	<%
+											}
+									        for(int i = questionMinPage; i <= questionMaxPage; i++){
+									        	if(i == questionCurrentPage){
+									    %>
+									    			<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+									       				<%=i %>
+									       			</a>
+									    <%
+									        	}else{
+									   	%>
+									       			<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=productNo%>&questionCurrentPage=<%=i %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									       				<%=i %>
+									       			</a>
+									    <%
+									       		}
+									        }
+									    	//다음 페이지 버튼
+									    	if(questionMaxPage != questionLastPage){
+									    %>
+												<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=productNo%>&questionCurrentPage=<%=questionMinPage+questionPagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+													다음
+												</a>
+										<%
+											}
+										%>
 										</div>
 									</div>
 								</div>
@@ -354,8 +562,8 @@
 			</div>
 		</div>
 	</section>
-	<jsp:include page="/inc/footer.jsp"></jsp:include>
-	<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
-	<jsp:include page="/inc/script.jsp"></jsp:include>
+<jsp:include page="/inc/footer.jsp"></jsp:include>
+<jsp:include page="/inc/backToTheTop.jsp"></jsp:include>
+<jsp:include page="/inc/script.jsp"></jsp:include>
 </body>
 </html>
