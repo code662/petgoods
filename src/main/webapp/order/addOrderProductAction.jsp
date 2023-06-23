@@ -54,7 +54,8 @@
 	order.setOrderPrice(productPrice);
 	
 	String msg = "";
-	// 포인트 처리 (유효값 입력 시 주문할 때 처리)
+	/*
+	// 포인트 처리 (유효값 입력 시 주문할 때 처리) -> addOrderProduct에서 javascript로 처리
 	// 0보다 작은 수 또는 보유 포인트보다 큰 수를 입력했을 경우 메시지와 함께 유효값을 입력하라는 메시지 리다이렉트 
 	// 나의 포인트 조회
 	int myPoint = customerDao.selectMyPoint(id);
@@ -64,6 +65,7 @@
 		response.sendRedirect(request.getContextPath() + "/order/addOrderProduct.jsp?productPrice=" + productPrice + "&cnt=" + cnt + "&productNo=" + productNo + "&msg=" + msg);
 		return;
 	}
+	*/
 	
 	// 재고량 비교 -> 재고량보다 많은 수량을 주문하면 메시지와 함께 해당 상품 상세 페이지로 리다이렉트 
 	int stock = ordersDao.selectProductStock(productNo); // 재고량 조회
