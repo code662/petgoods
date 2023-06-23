@@ -50,18 +50,19 @@
 		if(session.getAttribute("loginId") instanceof Employees) {
 	%>
 			<jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
+			<jsp:include page="/inc/sidebar.jsp"></jsp:include>
 	<%	
 		// 아니면 고객용 헤더 표시
 		} else {
 	%>
 			<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+			<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+			<jsp:include page="/inc/cart.jsp"></jsp:include>
 	<%		
 		}
 	%>
-	<jsp:include page="/inc/sidebar.jsp"></jsp:include>
-	<jsp:include page="/inc/cart.jsp"></jsp:include>
 	
-		<!-- Product -->
+	<!-- Product -->
 	<div class="bg0 m-t-23 p-b-140">
 		<div class="container">
 			<div class="flex-w flex-sb-m p-b-52">

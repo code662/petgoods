@@ -16,7 +16,7 @@
 <body>
 <jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
-<jsp:include page="/inc/cart.jsp"></jsp:include>
+
 
 	<!-- breadcrumb -->
 	<div class="container">
