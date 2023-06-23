@@ -12,7 +12,6 @@
 	// 배송완료 -> 구매확정으로 변경하는 기능
 	// 포인트 적립 기능 -> 구매금액의 등급(브, 실, 골)에 따라 1 / 5 / 10 퍼센트
 	
-	
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 	
@@ -43,9 +42,6 @@
 	String createdate = request.getParameter("createdate");
 	int orderPrice = Integer.parseInt(request.getParameter("orderPrice"));
 	int orderCnt = Integer.parseInt(request.getParameter("orderCnt"));
-	
-	// 구매확정을 위한 변수
-	// String status = "구매확정";
 	
 	// 디버깅
 	System.out.println(orderNo + " <-- orderNo(purchaseAction)");
