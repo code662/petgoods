@@ -7,6 +7,37 @@ import vo.*;
 
 
 public class QuestionDao {
+	// 내 문의 조회
+	public ArrayList<Question> selectMyQuestion(String id, int beginRow, int rowPerPage) throws Exception {
+		ArrayList<Question> list = new ArrayList<>();
+		
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		String sql = "SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_title qTitle, q_content qContent, q_status qStatus, createdate, updatedate FROM question WHERE id = ? ORDER BY createdate DESC LIMIT ?, ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
+		
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			Question question = new Question();
+			question.setqNo(rs.getInt("qNo"));
+			question.setProductNo(rs.getInt("productNo"));
+			question.setId(rs.getString("id"));
+			question.setqCategory(rs.getString("qCategory"));
+			question.setqTitle(rs.getString("qTitle"));
+			question.setqContent(rs.getString("qContent"));
+			question.setqStatus(rs.getString("qStatus"));
+			question.setCreatedate(rs.getString("createdate"));
+			question.setUpdatedate(rs.getString("updatedate"));
+			list.add(question);
+		}
+
+		return list;
+	}
 	
 	// 관리자 문의 상세 조회
 	public Question selectQuestionOne(int questionNo) throws Exception {
