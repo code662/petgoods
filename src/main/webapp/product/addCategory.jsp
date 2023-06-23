@@ -47,7 +47,7 @@
 		<% 
 			if (request.getParameter("msg") != null) {
 		%>
-				<%=request.getParameter("msg") %>
+				<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg") %></p>
 		<%
 			}
 		%>
@@ -79,11 +79,11 @@
 				
 				<br>
 				<div class="flex-w dis-inline-block">
-					<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-						<button type="submit" style="color: #333333">
-							카테고리 추가
-						</button>
-					</div>
+					<button type="submit" style="color: #333333">
+						<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+							입력
+						</span>
+					</button>
 				</div>
 						
 					</div>

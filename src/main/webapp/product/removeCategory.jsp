@@ -148,11 +148,11 @@
 					
 					<br>
 					<div class="flex-w dis-inline-block">
-						<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-							<button type="submit" style="color: #333333">
+						<button type="submit" style="color: #333333">
+							<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 								카테고리 삭제
-							</button>
-						</div>
+							</span>
+						</button>
 					</div>
 						</div>
 					</div>
@@ -174,11 +174,11 @@
 							
 						<br>
 						<div class="flex-w dis-inline-block">
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-								<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp" style="color: #333333">
+							<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp" style="color: #333333">
+								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									메인 카테고리로
-								</a>
-							</div>
+								</span>
+							</a>
 						</div>
 					</div>
 				</div>

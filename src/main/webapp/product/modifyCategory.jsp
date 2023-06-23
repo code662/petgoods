@@ -77,6 +77,14 @@
 						<h4 class="mtext-111 cl2 p-b-30">
 							카테고리 정보 수정
 						</h4>
+						
+						<%
+							if (request.getParameter("msg") != null) {
+						%>
+								<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg")%></p>
+						<%
+							}
+						%>
 						<input type="hidden" name="categoryNo" value="<%=category.getCategoryNo()%>">
 						<div class="flex-w flex-t bor12 p-b-13">
 							<div class="size-208">
@@ -118,11 +126,11 @@
 					</div>
 					<br>
 					<div class="flex-w dis-inline-block">
-						<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-							<button type="submit" style="color: #333333">
+						<button type="submit" style="color: #333333">
+							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 								카테고리 수정
-							</button>
-						</div>
+							</div>
+						</button>
 					</div>
 						</div>
 					</div>
@@ -144,11 +152,11 @@
 							
 						<br>
 						<div class="flex-w dis-inline-block">
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-								<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp" style="color: #333333">
+							<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp" style="color: #333333">
+								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									메인 카테고리로
-								</a>
-							</div>
+								</span>
+							</a>
 						</div>
 					</div>
 				</div>
