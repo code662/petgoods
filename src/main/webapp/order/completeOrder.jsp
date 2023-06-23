@@ -58,22 +58,23 @@
 							결제 완료	
 						</h4>
 						<div class="flex-w dis-inline-block cen">
-						<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 							<a href="<%=request.getContextPath()%>/product/productList.jsp" style="color: #333333">
-								쇼핑 계속하기
+								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+								 	쇼핑계속하기
+								</span>
 							</a>
-						</div>
+						
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						
-						<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-							<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp" style="color: #333333">
+						<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp" style="color: #333333">
+							<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 								주문내역 확인
-							</a>
-						</div>
+							</span>
+						</a>
 					</div>
 					</div>
 				</div>
