@@ -212,51 +212,6 @@ public class OrdersDao {
 		}
 		
 		return list;
-
-		/*
-		if (!searchId.equals("") && orderStatus.equals("")) { // id검색값만 존재
-			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE id LIKE ? ORDER BY createdate DESC LIMIT ?, ?";
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, "%" + searchId + "%");
-			stmt.setInt(2, beginRow);
-			stmt.setInt(3, rowPerPage); 
-		} else if (searchId.equals("") && !orderStatus.equals("")) { // 주문상태만 존재
-			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE order_status = ? ORDER BY createdate DESC LIMIT ?, ?";
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, orderStatus);
-			stmt.setInt(2, beginRow);
-			stmt.setInt(3, rowPerPage); 
-		} else if (!searchId.equals("") && !orderStatus.equals("")) { // id, 주문상태 모두 존재
-			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders WHERE order_status = ? AND id LIKE ? ORDER BY createdate DESC LIMIT ?, ?";
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, orderStatus);
-			stmt.setString(2, "%" + searchId + "%");
-			stmt.setInt(3, beginRow);
-			stmt.setInt(4, rowPerPage);
-		} else { // 별도 입력값이 없음
-			sql = "SELECT order_no orderNo, product_no productNo, id, order_status orderStatus, order_cnt orderCnt, order_price orderPrice, createdate, updatedate FROM orders ORDER BY createdate DESC LIMIT ? ,?";
-			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, beginRow);
-			stmt.setInt(2, rowPerPage);
-		}
-		
-		ResultSet rs = stmt.executeQuery();
-		while (rs.next()) {
-			Orders orders = new Orders();
-			orders.setOrderNo(rs.getInt("orderNo"));
-			orders.setProductNo(rs.getInt("productNo"));
-			orders.setId(rs.getString("id"));
-			orders.setOrderStatus(rs.getString("orderStatus"));
-			orders.setOrderPrice(rs.getInt("orderPrice"));
-			orders.setOrderCnt(rs.getInt("orderCnt"));
-			orders.setCreatedate(rs.getString("createdate"));
-			orders.setUpdatedate(rs.getString("updatedate"));
-			list.add(orders);
-		}
-		
-		return list;
-		*/
-		
 	}
 
 	// 내 주문 조회
@@ -364,8 +319,6 @@ public class OrdersDao {
 		return totalOrdersPrice;
 	}
 
-	//
-
 	// 주문 추가 (결제완료)
 	public int addOrders(Orders orders) throws Exception {
 		// sql 실행시 영향받은 행의 수
@@ -394,37 +347,37 @@ public class OrdersDao {
 	
 	
 	// 포인트 사용 주문 추가 (결제완료)
-		public int addOrders(Orders orders, int point) throws Exception {
-			// sql 실행시 영향받은 행의 수
-			int row = 0;
-			int key = 0;
-			// db 접속
-			DBUtil dbUtil = new DBUtil();
-			Connection conn = dbUtil.getConnection();
-			String sql = "INSERT INTO orders(product_no, id, order_status, order_cnt, order_price, createdate, updatedate) VALUES(?, ?, '결제완료', ?, ?, NOW(), NOW())";
-			PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); //
-			stmt.setInt(1, orders.getProductNo());
-			stmt.setString(2, orders.getId());
-			stmt.setInt(3, orders.getOrderCnt());
-			stmt.setInt(4, orders.getOrderPrice());
-			row = stmt.executeUpdate();
-			ResultSet rs = stmt.getGeneratedKeys();
-			if (rs.next()) {
-				key = rs.getInt(1);
-			}
-			
-			System.out.println(key + "key");
-			row = modifyProductStock(key);
-				
-			orders.setOrderNo(key); // key: auto_increment key (orderNo)
-			CustomerDao customerDao = new CustomerDao();
-			if (row == 1) {
-				row = customerDao.addMinusPoint(orders, point);
-			}
-			
-			return row;
+	public int addOrders(Orders orders, int point) throws Exception {
+		// sql 실행시 영향받은 행의 수
+		int row = 0;
+		int key = 0;
+		// db 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "INSERT INTO orders(product_no, id, order_status, order_cnt, order_price, createdate, updatedate) VALUES(?, ?, '결제완료', ?, ?, NOW(), NOW())";
+		PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); //
+		stmt.setInt(1, orders.getProductNo());
+		stmt.setString(2, orders.getId());
+		stmt.setInt(3, orders.getOrderCnt());
+		stmt.setInt(4, orders.getOrderPrice());
+		row = stmt.executeUpdate();
+		ResultSet rs = stmt.getGeneratedKeys();
+		if (rs.next()) {
+			key = rs.getInt(1);
 		}
-	
+		
+		System.out.println(key + "key");
+		row = modifyProductStock(key);
+			
+		orders.setOrderNo(key); // key: auto_increment key (orderNo)
+		CustomerDao customerDao = new CustomerDao();
+		if (row == 1) {
+			row = customerDao.addMinusPoint(orders, point);
+		}
+		
+		return row;
+	}
+
 	
 
 	// 주문코드 (createdate(연/월/일/시/분/초) + orderNo(4자리)) 조회
