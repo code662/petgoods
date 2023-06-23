@@ -52,7 +52,7 @@
 	%>
 		<form action="<%=request.getContextPath()%>/order/addOrderCart.jsp" method="post">
 			<div class="header-cart-content flex-w js-pscroll">
-				<ul class="header-cart-wrapitem w-full" style="overflow: auto; height: 600px;">
+				<ul class="header-cart-wrapitem w-full" style="overflow: auto; height: 500px;">
 		<% 
 				for (Cart c : list) {
 					// 상품 이름 조회
@@ -114,7 +114,7 @@
 				
 		%>	
 			<div class="header-cart-content flex-w js-pscroll">
-				<ul class="header-cart-wrapitem w-full" style="overflow: auto; height: 550px;">
+				<ul class="header-cart-wrapitem w-full" style="overflow: auto; height: 450px;">
 		<% 
 				for (Cart c : list) {
 					// 상품 이름 조회
