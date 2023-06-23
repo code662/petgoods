@@ -182,7 +182,7 @@
 									<%=(int)(discount.getDiscountRate() * 100)%>%&nbsp;
 								</span>
 								<span class="stext-105 cl7" style="text-decoration:line-through"><%=product.getProductPrice()%>원</span>	
-								<%=(int)(product.getProductPrice()*discount.getDiscountRate())%>원
+								<%=(int)(product.getProductPrice()*(1-discount.getDiscountRate()))%>원
 							</span>
 <%								
 						}

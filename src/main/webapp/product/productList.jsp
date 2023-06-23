@@ -382,7 +382,7 @@
 														<span class="stext-109 cl7" style="text-decoration:line-through">
 															<%=p.getProductPrice()%>원
 														</span>	
-														 &nbsp;&nbsp;<%=(int)(p.getProductPrice() * discount.getDiscountRate())%>원
+														 &nbsp;&nbsp;<%=(int)(p.getProductPrice() * (1-discount.getDiscountRate()))%>원
 													</span>	
 												</div>
 			<%		
