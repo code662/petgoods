@@ -3,6 +3,13 @@
 <%@ page import="dao.*" %>
 <%@ page import="java.util.*" %>
 <%
+	// 로그인 아이디 유효성 검사
+	if(session.getAttribute("loginId") == null
+		|| !(session.getAttribute("loginId") instanceof Employees)) {
+		response.sendRedirect(request.getContextPath()+"/home.jsp");
+		return;
+	}
+
 	// 현재페이지
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null) {
