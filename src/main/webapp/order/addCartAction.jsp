@@ -22,8 +22,14 @@
 	} 
 
 	// 넘어온 productNo, cartCnt 값
+	String msg = "";
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	int cartCnt = Integer.parseInt(request.getParameter("cnt"));
+	if (cartCnt == 0) {
+		msg = URLEncoder.encode("1개 이상의 수량을 입력해주세요.", "UTF-8");
+		response.sendRedirect(request.getContextPath() + "/product/productOne.jsp?productNo=" + productNo+ "&msg=" + msg);
+		return;
+	}
 	
 	System.out.println(productNo + " <-- productNo(addCartAction)");
 	System.out.println(cartCnt + " <-- cartCnt(addCartAction)");
@@ -32,7 +38,6 @@
 	CartDao cartDao = new CartDao();
 	
 	// 로그인 상태이면 cart 테이블에 상품 추가
-	String msg = "";
 	String id = "";
 	if (session.getAttribute("loginId") != null) {
 		// 현재 로그인 id	
