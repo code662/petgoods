@@ -57,6 +57,7 @@
 				for (Cart cart : sessionCart) {
 					newCart = new Cart();
 					newCart.setProductNo(cart.getProductNo());
+					newCart.setCartCnt(cart.getCartCnt());
 					newCart.setId(id);
 					
 					// 상품명 중복 확인
