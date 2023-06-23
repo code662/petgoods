@@ -12,8 +12,6 @@
 	}
 	
 	CartDao cartDao = new CartDao();
-	
-	System.out.println("==============customerHeader.jsp==============");
 %>
 
 <!DOCTYPE html>
@@ -58,10 +56,10 @@
 				if (session.getAttribute("loginId") != null) { // 로그인 상태일 경우 카드 DB 내 개수 가져오기
 					cnt = cartDao.myCartCnt(id);
 					System.out.println(cnt + " <-- cnt(customerHeader)");
-				} else { // 세션 장바구니에 값이 있을 경우
+				} else { // 세션 장바구니에 값이 있을 경우 ArrayList의 크기 가져오기
 					ArrayList<Cart> sessionCart = new ArrayList<>();
 					cnt = 0;
-					if((ArrayList<Cart>) session.getAttribute("sessionCart") != null) {
+					if ((ArrayList<Cart>) session.getAttribute("sessionCart") != null) {
 						sessionCart = (ArrayList<Cart>) session.getAttribute("sessionCart");
 						cnt = sessionCart.size();
 					}	
