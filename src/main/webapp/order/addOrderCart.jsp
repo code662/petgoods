@@ -144,9 +144,18 @@
 			$(document).ready(function(){
 				const urlParams  = new URL(location.href).searchParams;
 				const msg = urlParams.get('msg');
-				if(msg != null){
+				if (msg != null) {
 					alert(msg);
 				}
+				
+				const myPoint = <%=myPoint%>;
+				$('#btn').click(function(){
+					if ($('#inputValue').val() > myPoint || $('#inputValue').val() < 0) {
+						alert('유효값(0 ~ ' + myPoint + ')을 입력해주세요.');
+					} else {
+						$('#addOrderCart').submit();
+					}
+				});
 			});
 		</script>
 
@@ -181,7 +190,7 @@
 		<%		
 			}
 		%> 
-		<form action="<%=request.getContextPath()%>/order/addOrderCartAction.jsp" method="post" class="bg0 p-t-75 p-b-85">
+		<form action="<%=request.getContextPath()%>/order/addOrderCartAction.jsp" method="post" class="bg0 p-t-75 p-b-85" id="addOrderCart">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
@@ -192,71 +201,70 @@
 								</h4>
 								<br>	
 							</div>
-			<table class="table-shopping-cart">
-				<tr class="table_head">
-					<th class="column-1">상품이미지</th>
-					<th class="column-1">상품이름</th>
-					<th class="column-1">상품가격</th>
-					<th class="column-1">개수</th>
-					<th class="column-1">주문인 이름</th>
-					<th class="column-1">배송지</th>
-					<th class="column-1">합계금액</th>
-				</tr>
-			<%
-				int allTotalPrice = 0; // 전체 주문금액	
-			
-				for (int i = 0; i < cartNo.length; i += 1) { // 장바구니 목록 내 제품 개수만큼 반복
-					for (int j = 0; j < selCart.length; j += 1) { // 선택된 제품 개수만큼 반복
-						if (cartNo[i].equals(selCart[j])) { // 장바구니 번호와 체크된 체크박스의 번호가 일치하면
-			%>
-				<tr class="table_head">
-					<td class="column-1"><img src="<%=request.getContextPath()%>/pimg/<%=productImg[i]%>" width="100" height="100"></td>
-					<td class="column-1">
-						<input type="hidden" name="productNo" value="<%=productNo[i]%>">
-						<input type="hidden" name="cartNo" value="<%=cartNo[i]%>">
-						<%=productName[i]%>
-					</td>
-					<td class="column-1">
-						<input type="hidden" name="productPrice" value="<%=productPrice[i]%>">
-						<%=productPrice[i]%>원
-					</td>
-					<td class="column-1">
-						<input type="hidden" name="cartCnt" value="<%=cartCnt[i]%>">
-						<%=cartCnt[i]%>
-					</td>
-					<td class="column-1"><%=myName%></td>
-					<td class="column-1"><%=myAdd%></td>
-					<td class="column-1">
-						<input type="hidden" name="totalPrice" value="<%=totalPrice[i]%>">
-						<%=totalPrice[i]%>원
-					</td>
-				</tr>
-			<%
-							allTotalPrice += Integer.parseInt(totalPrice[i]);
-						}
-					}
-				} 
-			%>
-		</table>
-		<br>
-		<div>
-			총 합계 금액: <%=allTotalPrice%>원
-		</div>
-<%-- 		사용할 포인트 입력: <input type="number" id="inputValue" placeholder="보유 포인트: <%=myPoint%>" name="point" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5">	
-		<div>
-			<button type="submit">결제</button> 
-		</div> --%>
-		
-		<div class="flex-w dis-inline-block">
-			<input type="number" id="inputValue" placeholder="포인트 입력 : 최대 <%=myPoint%>" name="point" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5">	
-			&nbsp;
-			<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-				<button  type="submit" style="color: #333333">
-					결제
-				</button>
-			</div>
-		</div>
-		
+								<table class="table-shopping-cart">
+									<tr class="table_head">
+										<th class="text-center">상품이미지</th>
+										<th class="text-center">상품이름</th>
+										<th class="text-center">상품가격</th>
+										<th class="text-center">수량</th>
+										<th class="text-center">주문인 이름</th>
+										<th class="text-center">배송지</th>
+										<th class="text-center">합계금액</th>
+									</tr>
+								<%
+									int allTotalPrice = 0; // 전체 주문금액	
+								
+									for (int i = 0; i < cartNo.length; i += 1) { // 장바구니 목록 내 제품 개수만큼 반복
+										for (int j = 0; j < selCart.length; j += 1) { // 선택된 제품 개수만큼 반복
+											if (cartNo[i].equals(selCart[j])) { // 장바구니 번호와 체크된 체크박스의 번호가 일치하면
+								%>
+									<tr class="table_head">
+										<td class="text-center"><img src="<%=request.getContextPath()%>/pimg/<%=productImg[i]%>" width="100" height="100"></td>
+										<td class="text-center">
+											<input type="hidden" name="productNo" value="<%=productNo[i]%>">
+											<input type="hidden" name="cartNo" value="<%=cartNo[i]%>">
+											<%=productName[i]%>
+										</td>
+										<td class="text-center">
+											<input type="hidden" name="productPrice" value="<%=productPrice[i]%>">
+											<%=productPrice[i]%>원
+										</td>
+										<td class="text-center">
+											<input type="hidden" name="cartCnt" value="<%=cartCnt[i]%>">
+											<%=cartCnt[i]%>
+										</td>
+										<td class="text-center"><%=myName%></td>
+										<td class="text-center"><%=myAdd%></td>
+										<td class="text-center">
+											<input type="hidden" name="totalPrice" value="<%=totalPrice[i]%>">
+											<%=totalPrice[i]%>원
+										</td>
+									</tr>
+								<%
+												allTotalPrice += Integer.parseInt(totalPrice[i]);
+											}
+										}
+									} 
+								%>
+							</table>
+							<br>
+							<div style="text-align: right;">
+								총 합계 금액: <%=allTotalPrice%>원
+							</div>
+					<%-- 		사용할 포인트 입력: <input type="number" id="inputValue" placeholder="보유 포인트: <%=myPoint%>" name="point" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5">	
+							<div>
+								<button type="submit">결제</button> 
+							</div> --%>
+							
+							<div class="flex-w dis-inline-block">
+								<input type="number" id="inputValue" placeholder="포인트 입력 : 최대 <%=myPoint%>" name="point" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5">	
+								&nbsp;
+								<button id="btn" type="button" style="color: #333333">
+									<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+										결제
+									</span>
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>

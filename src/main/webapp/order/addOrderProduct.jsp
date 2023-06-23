@@ -14,6 +14,12 @@
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 	
+	// 파일 바로 실행 시 상품 리스트로 이동
+	if (request.getParameter("productNo") == null) {
+		response.sendRedirect(request.getContextPath() + "/product/productList.jsp");
+		return;
+	}
+
 	// 상품번호(productNo) 요청값 디버깅
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	System.out.println(productNo + " <-- productNo(addOrder)");
@@ -69,8 +75,9 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>addOrder</title>
+		<title>addOrderProduct</title>
 		<jsp:include page="/inc/link.jsp"></jsp:include>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 		<script>
 			$(document).ready(function(){
 				const urlParams  = new URL(location.href).searchParams;
@@ -78,30 +85,17 @@
 				if(msg != null){
 					alert(msg);
 				}
-			});
-		</script>
-<%-- 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-		<script>
-			$(document).ready(function() {
-				var minValue = 0;
-				var maxValue = <%=myPoint%>;
-				
-				$('input[type=number]').on('input', function() {
-					var value = parseInt($(this).val());
-					if (isNaN(value)) {
-					      value = minValue;
+			
+				const myPoint = <%=myPoint%>;
+				$('#btn').click(function() {
+					if ($('#inputValue').val() > myPoint || $('#inputValue').val() < 0) {
+						alert('유효값(0 ~ ' + myPoint + ')을 입력해주세요.');
 					} else {
-					      value = Math.max(minValue, Math.min(value, maxValue));
-				    }
-					
-					$(this).val(value);
-					
-					if (value < minValue || value > maxValue) {
-					      alert('입력값이 허용된 범위를 벗어납니다.');
+						$('#addOrderProduct').submit();
 					}
 				});
 			});
-		</script> --%>
+		</script>
 	</head>
 	<body>
 		<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
@@ -136,7 +130,7 @@
 		<%		
 			}
 		%>
-		<form action="<%=request.getContextPath()%>/order/addOrderProductAction.jsp" method="post" class="bg0 p-t-75 p-b-85">
+		<form action="<%=request.getContextPath()%>/order/addOrderProductAction.jsp" method="post" class="bg0 p-t-75 p-b-85" id="addOrderProduct">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
@@ -147,43 +141,43 @@
 								</h4>
 								<br>	
 							</div>
-			<input type="hidden" name="productNo" value="<%=productNo%>">
-			<table class="table-shopping-cart">
-				<tr class="table_head">
-					<th class="column-1">상품이미지</th>
-					<th class="column-1">상품이름</th>
-					<th class="column-1">상품가격</th>
-					<th class="column-1">개수</th>
-					<th class="column-1">주문인 이름</th>
-					<th class="column-1">배송지</th>
-					<th class="column-1">합계금액</th>
-				</tr>
-				<tr class="table_head">
-					<td class="column-1"><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"></td>
-					<td class="column-1"><%=productName%></td>
-					<td class="column-1">
-						<input type="hidden" name="productPrice" value="<%=productPrice%>">
-						<%=productPrice%>원
-					</td>
-					<td class="column-1">
-						<input type="hidden" name="cnt" value="<%=cnt%>">
-						<%=cnt%>
-					</td>
-					<td class="column-1"><%=myName%></td>
-					<td class="column-1"><%=myAdd%>(최근 등록 주소)</td>
-					<td class="column-1"><%=productPrice * cnt%>원</td>
-				</tr>
-		</table>
-		<br>
-		<div class="flex-w dis-inline-block">
-			<input type="number" id="inputValue" placeholder="포인트 입력 : 최대 <%=myPoint%>" name="point" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5">	
-			&nbsp;
-			<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-				<button  type="submit" style="color: #333333">
-					결제
-				</button>
-			</div>
-		</div>
+							<input type="hidden" name="productNo" value="<%=productNo%>">
+							<table class="table-shopping-cart">
+								<tr class="table_head">
+									<th class="text-center">상품이미지</th>
+									<th class="text-center">상품이름</th>
+									<th class="text-center">상품가격</th>
+									<th class="text-center">수량</th>
+									<th class="text-center">주문인 이름</th>
+									<th class="text-center">배송지</th>
+									<th class="text-center">합계금액</th>
+								</tr>
+								<tr class="table_head">
+									<td class="text-center"><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"></td>
+									<td class="text-center"><%=productName%></td>
+									<td class="text-center">
+										<input type="hidden" name="productPrice" value="<%=productPrice%>">
+										<%=productPrice%>원
+									</td>
+									<td class="text-center">
+										<input type="hidden" name="cnt" value="<%=cnt%>">
+										<%=cnt%>
+									</td>
+									<td class="text-center"><%=myName%></td>
+									<td class="text-center" ><%=myAdd%></td>
+									<td class="text-center"><%=productPrice * cnt%>원</td>
+								</tr>
+						</table>
+						<br>
+						<div class="flex-w dis-inline-block">
+							<input type="number" id="inputValue" placeholder="포인트 입력 : 최대 <%=myPoint%>" name="point" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5">	
+							&nbsp;
+							<button id="btn" type="button" style="color: #333333">
+								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+									결제
+								</span>
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
