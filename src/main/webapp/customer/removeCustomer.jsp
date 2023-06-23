@@ -18,6 +18,18 @@
 <title>회원탈퇴</title>
 <jsp:include page="/inc/link.jsp"></jsp:include>
 </head>
+<script>
+	// 입력폼 유효성 검사
+	$(document).ready(function(){
+		$('#btn').click(function(){
+			if($('#pw').val() == ''){
+				alert('비밀번호를 입력해주세요');
+			}else {
+				$('#removeCustomer').submit();
+			}
+		});
+	});
+</script>
 <body>
 <jsp:include page="/inc/customerHeader.jsp"></jsp:include>
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
@@ -48,8 +60,8 @@
 	<section class="bg0 p-t-75 p-b-116">
 		<div class="container">
 			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md cen">
-				<form action="<%=request.getContextPath()%>/customer/removeCustomerAction.jsp" method="post">
-					<h4 class="mtext-109 cl2 txt-center p-b-30">
+				<form action="<%=request.getContextPath()%>/customer/removeCustomerAction.jsp" method="post" id="removeCustomer">
+					<h4 class="mtext-109 cl2 txt-center p-b-30" style="color: #F24182;">
 						회원탈퇴 하시겠습니까?
 					</h4>
 					<h4 class="mtext-109 cl2 txt-center p-b-30">
@@ -69,9 +81,9 @@
 					</div>
 					
 					<div class="bor8 m-b-20 how-pos4-parent">
-						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30"  type="password" name="pw" required="required" placeholder="Enter your password">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30"  type="password" name="pw" id="pw" placeholder="Enter your password">
 					</div>
-					<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+					<button id="btn" type="button" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
 						Submit
 					</button>
 				</form>

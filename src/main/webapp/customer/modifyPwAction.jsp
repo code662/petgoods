@@ -18,8 +18,7 @@
 			|| request.getParameter("currentPw").equals("")
 			|| request.getParameter("changePw").equals("")
 			|| request.getParameter("confirmPw").equals("")){
-		msg = URLEncoder.encode("현재 비밀번호 또는 변경할 비밀번호를 입력해주세요", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/customer/modifyPw.jsp?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/customer/modifyPw.jsp");
 		return;
 	}
 	

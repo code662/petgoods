@@ -13,6 +13,24 @@
 <title>사원 등록</title>
 <jsp:include page="/inc/link.jsp"></jsp:include>
 </head>
+<script>
+	// 입력폼 유효성 검사
+	$(document).ready(function(){
+		$('#btn').click(function(){
+			if($('#id').val() == ''){
+				alert('아이디를 입력해주세요');
+			}else if($('#pw').val() == ''){
+				alert('비밀번호를 입력해주세요');
+			}else if($('#empName').val() == ''){
+				alert('이름을 입력해주세요');
+			}else if($('#empLevel').val() == ''){
+				alert('권한 등급을 입력해주세요');
+			}else {
+				$('#addEmployee').submit();
+			}
+		});
+	});
+</script>
 <body>
 <jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
@@ -39,7 +57,7 @@
 	<section class="bg0 p-t-75 p-b-116">
 		<div class="container">
 			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md cen">
-				<form action="<%=request.getContextPath()%>/employees/addEmployeeAction.jsp" method="post">
+				<form action="<%=request.getContextPath()%>/employees/addEmployeeAction.jsp" method="post" id="addEmployee">
 					<h4 class="mtext-111 cl2 txt-center p-b-30">
 						사원 등록
 					</h4>
@@ -57,19 +75,19 @@
 					</div>
 						
 					<div class="bor8 m-b-20 how-pos4-parent">
-						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="id" placeholder="Enter ID">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="id" id="id" placeholder="Enter ID">
 					</div>
 					<div class="bor8 m-b-20 how-pos4-parent">
-						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30"  type="password" name="pw" placeholder="Enter password">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30"  type="password" name="pw" id="pw" placeholder="Enter password">
 					</div>
 					<div class="bor8 m-b-20 how-pos4-parent">
-						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="empName" placeholder="Enter name">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="empName" id="empName" placeholder="Enter name">
 					</div>
 					<div class="bor8 m-b-20 how-pos4-parent">
-						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="empLevel" placeholder="Enter level">
+						<input class="mtext-107 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="empLevel" id="empLevel" placeholder="Enter level">
 					</div>
 
-					<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+					<button id="btn" type="button" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
 						Submit
 					</button>
 				</form>

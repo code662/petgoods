@@ -20,8 +20,7 @@
 	String msg = null;
 	if(request.getParameter("pw") == null
 			|| request.getParameter("pw").equals("")){
-		msg = URLEncoder.encode("비밀번호를 입력해주세요", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/customer/removeCustomer.jsp?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/customer/removeCustomer.jsp");
 		return;
 	}
 	

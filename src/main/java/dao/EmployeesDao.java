@@ -148,7 +148,7 @@ public class EmployeesDao {
 		 stmt.setString(1, employees.getEmpName());
 		 stmt.setInt(2, employees.getEmpNo());
 		 stmt.setString(3, employees.getEmpName());
-		 
+		 row = stmt.executeUpdate();
 		 
 		 IdDao idDao = new IdDao();
 		 if(!beforePw.equals(employees.getPw())) {
@@ -157,7 +157,7 @@ public class EmployeesDao {
 			 id.setLastPw(employees.getPw());
 			 int pwRow = idDao.modifyLastPw(id);
 			 if(pwRow == 1) {
-				 row = stmt.executeUpdate();
+				 row = pwRow;
 			 }
 		 }
 		 

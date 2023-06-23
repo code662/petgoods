@@ -43,10 +43,10 @@
 	
 	String msg = null;
 	if(row == 1){ // 변경 성공한 경우
-		msg = URLEncoder.encode("사원레벨이 변경되었습니다", "utf-8");
+		msg = URLEncoder.encode("권한등급이 변경되었습니다", "utf-8");
 		response.sendRedirect(request.getContextPath()+"/employees/modifyEmployee.jsp?empNo="+empNo+"&msg="+msg);
 	} else { // 변경 실패한 경우
-		msg = URLEncoder.encode("사원레벨 변경에 실패하였습니다", "utf-8");
+		msg = URLEncoder.encode("권한등급 변경에 실패하였습니다", "utf-8");
 		response.sendRedirect(request.getContextPath()+"/employees/modifyEmployee.jsp?empNo="+empNo+"&msg="+msg);
 	}
 	

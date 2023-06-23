@@ -41,6 +41,25 @@
 <title>리뷰수정</title>
 <jsp:include page="/inc/link.jsp"></jsp:include>
 </head>
+<script>
+	// 입력폼 유효성 검사
+	$(document).ready(function(){
+		let extension = $('#productImg').val().substr($('#productImg').val().lastIndexOf(".")+1);
+		$('#btn').click(function(){
+			if($('#reviewImg').val() == ''){
+				alert('리뷰 이미지를 추가해주세요');
+			}else if(extension != 'png' && extension != 'jpg' && extension != 'jpeg'){
+				alert('이미지 파일을 올려주세요');
+			}else if($('#reviewTitle').val() == ''){
+				alert('리뷰 제목을 입력해주세요');
+			}else if($('#reviewContent').val() == ''){
+				alert('리뷰 내용을 입력해주세요');
+			}else {
+				$('#modifyReview').submit();
+			}
+		});
+	});
+</script>
 <body>
 <jsp:include page="/inc/customerHeader.jsp"></jsp:include>
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
@@ -71,7 +90,7 @@
 	<section class="bg0 p-t-75 p-b-116">
 		<div class="container">
 			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md cen">
-				<form class="w-full" action="<%=request.getContextPath()%>/customer/modifyReviewAction.jsp" method="post" enctype="multipart/form-data">
+				<form class="w-full" action="<%=request.getContextPath()%>/customer/modifyReviewAction.jsp" method="post" enctype="multipart/form-data" id="modifyReview">
 					<h4 class="mtext-111 cl2 txt-center p-b-30">
 						리뷰 수정
 					</h4>
@@ -100,23 +119,23 @@
 						</div>
 						<div class="col-sm-9 p-b-5">
 							<label class="stext-102 cl3" >File</label>
-							<input class="size-111 bor8 stext-102 cl2 p-lr-20" type="file" name="reviewImg" required="required" style="border:none;">
+							<input class="size-111 bor8 stext-102 cl2 p-lr-20" type="file" name="reviewImg" id="reviewImg" accept=".jpeg,.jpg,.png" style="border:none;">
 						</div>
 						<div class="col-12 p-b-5">
 							<span class="stext-102 cl3 m-r-16">
 								Review Title
 							</span>
 							<span class="fs-18 cl11 pointer">
-								<input class="size-111 bor8 mtext-107 cl2 p-lr-30" type="text" name="reviewTitle" value="<%=review.getReviewTitle() %>"> 
+								<input class="size-111 bor8 mtext-107 cl2 p-lr-30" type="text" name="reviewTitle" id="reviewTitle" value="<%=review.getReviewTitle() %>"> 
 							</span>
 						</div>
 						<div class="col-12 p-b-5">
 							<label class="stext-102 cl3">Your review</label>
-							<textarea class="size-110 bor8 mtext-107 cl2 p-lr-30 p-tb-10" name="reviewContent"><%=review.getReviewContent() %></textarea>
+							<textarea class="size-110 bor8 mtext-107 cl2 p-lr-30 p-tb-10" name="reviewContent" id="reviewContent"><%=review.getReviewContent() %></textarea>
 						</div>
 					</div>
 	
-					<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+					<button id="btn" type="button" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
 						Submit
 					</button>
 				</form>

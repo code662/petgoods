@@ -27,8 +27,7 @@
 			|| request.getParameter("cstmName").equals("")
 			|| request.getParameter("cstmEmail").equals("")
 			|| request.getParameter("currentPw").equals("")){
-		msg = URLEncoder.encode("정보를 입력해주세요","utf-8");
-		response.sendRedirect(request.getContextPath()+"/customer/modifyCustomer.jsp?msg="+msg+"&cstmNo="+request.getParameter("cstmNo"));
+		response.sendRedirect(request.getContextPath()+"/customer/modifyCustomer.jsp?cstmNo="+request.getParameter("cstmNo"));
 		return;
 	}
 

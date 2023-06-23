@@ -38,6 +38,18 @@
 <title>권한등급 변경</title>
 <jsp:include page="/inc/link.jsp"></jsp:include>
 </head>
+<script>
+	// 입력폼 유효성 검사
+	$(document).ready(function(){
+		$('#btn').click(function(){
+			if($('#empLevel').val() == ''){
+				alert('권한 등급을 입력해주세요');
+			}else {
+				$('#modifyEmployee').submit();
+			}
+		});
+	});
+</script>
 <body>
 <jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
@@ -67,7 +79,7 @@
 	<section class="bg0 p-t-104 p-b-116">
 		<div class="container">
 			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md cen">
-				<form action="<%=request.getContextPath()%>/employees/modifyEmployeeAction.jsp" method="post">
+				<form action="<%=request.getContextPath()%>/employees/modifyEmployeeAction.jsp" method="post" id="modifyEmployee">
 					<h4 class="mtext-111 cl2 txt-center p-b-30">
 						권한등급 변경
 					</h4>
@@ -89,7 +101,7 @@
 							사원번호
 						</span>
 						<span class="fs-18 cl11 pointer">
-							<input class="mtext-107 bor8 stext-102 cl2 p-lr-95" type="text" name="empNo" value="<%=employees.getEmpNo() %>" style="border:none;"> 
+							<input class="mtext-107 bor8 stext-102 cl2 p-lr-95" type="text" name="empNo" value="<%=employees.getEmpNo() %>" readonly="readonly" style="border:none;"> 
 						</span>
 					</div>
 					<div class="col-12 p-b-5">
@@ -97,7 +109,7 @@
 							사원이름
 						</span>
 						<span class="fs-18 cl11 pointer">
-							<input class="mtext-107 bor8 stext-102 cl2 p-lr-95" type="text" name="empName" value="<%=employees.getEmpName() %>" style="border:none;"> 
+							<input class="mtext-107 bor8 stext-102 cl2 p-lr-95" type="text" name="empName" value="<%=employees.getEmpName() %>" readonly="readonly" style="border:none;"> 
 						</span>
 					</div>
 					<div class="col-12 p-b-5">
@@ -105,11 +117,11 @@
 							권한등급
 						</span>
 						<span class="fs-18 cl11 pointer">
-							<input class="stext-1120 bor8 stext-102 cl2 p-lr-95" type="text" name="empLevel" value="<%=employees.getEmpLevel() %>"> 
+							<input class="stext-1120 bor8 stext-102 cl2 p-lr-95" type="text" name="empLevel" id="empLevel" value="<%=employees.getEmpLevel() %>"> 
 						</span>
 					</div>
 					<br>
-					<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+					<button id="btn" type="button" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
 						Submit
 					</button>
 				</form>

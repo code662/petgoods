@@ -13,6 +13,24 @@
 <title>할인 상품 추가</title>
 <jsp:include page="/inc/link.jsp"></jsp:include>
 </head>
+<script>
+	// 입력폼 유효성 검사
+	$(document).ready(function(){
+		$('#btn').click(function(){
+			if($('#productNo').val() == ''){
+				alert('상품번호를 입력해주세요');
+			}else if($('#discountStart').val() == ''){
+				alert('할인 시작일을 입력해주세요');
+			}else if($('#discountEnd').val() == ''){
+				alert('할인 종료일을 입력해주세요');
+			}else if($('#discountRate').val() == ''){
+					alert('할인율을 입력해주세요');
+			}else {
+				$('#addDiscount').submit();
+			}
+		});
+	});
+</script>
 <body>
 <jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
@@ -37,7 +55,7 @@
 	<section class="bg0 p-t-75 p-b-116">
 		<div class="container">
 			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md cen">
-				<form class="w-full" action="<%=request.getContextPath()%>/discount/addDiscountAction.jsp" method="post">
+				<form class="w-full" action="<%=request.getContextPath()%>/discount/addDiscountAction.jsp" method="post" id="addDiscount">
 					<h4 class="mtext-111 cl2 txt-center p-b-30">
 						할인 상품 추가
 					</h4>
@@ -62,7 +80,7 @@
 								상품 번호
 							</span>
 							<span class="fs-18 cl11 pointer">
-								<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="text" name="productNo"> 
+								<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="text" name="productNo" id="productNo"> 
 							</span>
 						</div>
 						<div class="col-12 p-b-5">
@@ -70,7 +88,7 @@
 								할인 시작일
 							</span>
 							<span class="fs-18 cl11 pointer">
-								<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="date" name="discountStart"> 
+								<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="date" name="discountStart" id="discountStart"> 
 							</span>
 						</div>
 						<div class="col-12 p-b-5">
@@ -78,7 +96,7 @@
 								할인 종료일
 							</span>
 							<span class="fs-18 cl11 pointer">
-								<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="date" name="discountEnd"> 
+								<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="date" name="discountEnd" id="discountEnd"> 
 							</span>
 						</div>
 						<div class="col-12 p-b-5">
@@ -86,11 +104,11 @@
 								할인율 
 							</span>
 							<span class="fs-18 cl11 pointer">
-								<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="text" name="discountRate"> 
+								<input class="size-111 bor8 stext-102 cl2 p-lr-95" type="text" name="discountRate" id="discountRate"> 
 							</span>
 						</div>
 					</div>
-					<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+					<button id="btn" type="button" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
 						Submit
 					</button>
 				</form>

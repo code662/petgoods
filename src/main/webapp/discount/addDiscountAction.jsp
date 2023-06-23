@@ -20,8 +20,7 @@
 			|| request.getParameter("discountStart").equals("")
 			|| request.getParameter("discountEnd").equals("")
 			|| request.getParameter("discountRate").equals("")){
-		msg = URLEncoder.encode("정보를 입력해주세요","utf-8");
-		response.sendRedirect(request.getContextPath()+"/discount/addDiscount.jsp?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/discount/addDiscount.jsp");
 		return;
 	}
 

@@ -20,8 +20,7 @@
 			|| request.getParameter("pw").equals("")
 			|| request.getParameter("empName").equals("")
 			|| request.getParameter("empLevel").equals("")){
-		msg = URLEncoder.encode("정보를 입력해주세요","utf-8");
-		response.sendRedirect(request.getContextPath()+"/employees/addEmployee.jsp?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/employees/addEmployee.jsp");
 		return;
 	}
 
