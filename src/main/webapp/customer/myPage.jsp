@@ -109,32 +109,38 @@
 						<br>
 						<div class="flex-w dis-inline-block">
 							<a href="<%=request.getContextPath()%>/customer/modifyCustomer.jsp?cstmNo=<%=customer.getCstmNo()%>">
-								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+								<span class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 								정보 수정
 								</span>
 							</a>
 							&nbsp;
 							<a href="<%=request.getContextPath()%>/customer/modifyPw.jsp">
-								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+								<span class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									비밀번호 변경
 								</span>
 							</a>
 							&nbsp;
 							<a href="<%=request.getContextPath()%>/customer/myOrderList.jsp">
-								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+								<span class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									주문 조회
 								</span>
 							</a>
 							&nbsp;
 							<a href="<%=request.getContextPath()%>/customer/addressList.jsp">
-								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+								<span class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									배송지 관리
 								</span>
 							</a>
 							&nbsp;
 							<a href="<%=request.getContextPath()%>/customer/reviewList.jsp">
-								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+								<span class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									리뷰 관리
+								</span>
+							</a>
+							&nbsp;
+							<a href="<%=request.getContextPath()%>/qna/myQuestionList.jsp">
+								<span class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+									문의 내역
 								</span>
 							</a>
 						</div>
