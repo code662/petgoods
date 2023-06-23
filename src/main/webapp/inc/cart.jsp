@@ -27,8 +27,6 @@
 			list = (ArrayList<Cart>) session.getAttribute("sessionCart");
 		}
 	}
-
-	System.out.println("==============cart.jsp==============");
 %>
 
 <!DOCTYPE html>
@@ -46,67 +44,112 @@
 			<i class="zmdi zmdi-close"></i>
 		</div>
 	</div>
-	
-	
-	
-		<form action="<%=request.getContextPath()%>/order/addOrderCart.jsp" method="post">
+		
 	<%
 		int totalPrice = 0;
 		// 로그인 상태이면 cart 테이블에서 데이터 조회
 		if (session.getAttribute("loginId") != null) {
 	%>
-			
+		<form action="<%=request.getContextPath()%>/order/addOrderCart.jsp" method="post">
 			<div class="header-cart-content flex-w js-pscroll">
-			<ul class="header-cart-wrapitem w-full">
-	<% 
-			for (Cart c : list) {
-				// 상품 이름 조회
-				String productName = cartDao.selectProductName(c.getProductNo());
-				// 상품 가격 조회
-				int productPrice = cartDao.selectProductPrice(c.getProductNo());
-				// 상품 이미지 조회
-				String productImg = cartDao.selectImg(c.getProductNo());
-				// 총 금액
-				totalPrice += productPrice * c.getCartCnt();
-	%>			
+				<ul class="header-cart-wrapitem w-full" style="overflow: auto; height: 600px;">
+		<% 
+				for (Cart c : list) {
+					// 상품 이름 조회
+					String productName = cartDao.selectProductName(c.getProductNo());
+					// 상품 가격 조회
+					int productPrice = cartDao.selectProductPrice(c.getProductNo());
+					// 상품 이미지 조회
+					String productImg = cartDao.selectImg(c.getProductNo());
+					// 총 금액
+					totalPrice += productPrice * c.getCartCnt();
+		%>			
+					<li class="header-cart-item flex-w flex-t m-b-12">	
+						<a href="<%=request.getContextPath()%>/order/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>">
+							<div class="header-cart-item-img">
+								<img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" alt="IMG">
+							</div>
+						</a>
+						<div class="fs-35 lh-10 cl2 p-lr-6 hov-cl1 trans-04">
+							<input type="hidden" id="productNo" name="productNo" value="<%=c.getProductNo()%>">
+							<input type="hidden" id="cartCnt" name="cartCnt" value="<%=c.getCartCnt()%>">
+							<input type="hidden" id="productImg" name="productImg" value="<%=productImg%>">
+							<input type="hidden" id="productName" name="productName" value="<%=productName%>">
+							<input type="hidden" id="productPrice" name="productPrice" value="<%=productPrice%>">
+							<input type="hidden" id="totalPrice" name="totalPrice" value="<%=productPrice * c.getCartCnt()%>">
+							<input type="hidden" id="cartNo" name="cartNo" value="<%=c.getCartNo()%>">
+							<input type="checkbox" class="selCart" name="selCart" value="<%=c.getCartNo()%>">	
+						</div>
+						<div class="header-cart-item-txt p-t-8">
+							<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=c.getProductNo()%>" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+								<%=productName%>
+							</a>
+							<span class="header-cart-item-info">
+								 <%=productPrice%> x <%=c.getCartCnt()%> 	
+							</span>
+							<hr>
+						</div>
+					</li>
+		<%
+				}
+		%>
+				</ul>
+				<div class="w-full">
+					<div class="header-cart-total w-full p-tb-40">
+						Total: <%=totalPrice%>원
+					</div>
+					<div class="header-cart-buttons flex-w w-full">
+						<a href="<%=request.getContextPath()%>/order/cartList.jsp" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+							View Cart
+						</a>
+						<button type="submit" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+							Check Out
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+		<%
+			} else { // 비로그인 상태에서는 세션에서 값 조회
+				
+		%>	
+			<div class="header-cart-content flex-w js-pscroll">
+				<ul class="header-cart-wrapitem w-full" style="overflow: auto; height: 550px;">
+		<% 
+				for (Cart c : list) {
+					// 상품 이름 조회
+					String productName = cartDao.selectProductName(c.getProductNo());
+					// 상품 가격 조회
+					int productPrice = cartDao.selectProductPrice(c.getProductNo());
+					// 상품 이미지 조회
+					String productImg = cartDao.selectImg(c.getProductNo());
+					// 총 금액
+					totalPrice += productPrice * c.getCartCnt();
+		%>
 				<li class="header-cart-item flex-w flex-t m-b-12">	
-					<a href="<%=request.getContextPath()%>/order/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>">
+					<a href="<%=request.getContextPath()%>/order/removeCartAction.jsp?productNo=<%=c.getProductNo()%>">
 						<div class="header-cart-item-img">
 							<img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" alt="IMG">
 						</div>
-					</a>
+					</a>	
 					
-					<div class="fs-35 lh-10 cl2 p-lr-6 hov-cl1 trans-04">
-						<input type="hidden" id="productNo" name="productNo" value="<%=c.getProductNo()%>">
-						<input type="hidden" id="cartCnt" name="cartCnt" value="<%=c.getCartCnt()%>">
-						<input type="hidden" id="productImg" name="productImg" value="<%=productImg%>">
-						<input type="hidden" id="productName" name="productName" value="<%=productName%>">
-						<input type="hidden" id="productPrice" name="productPrice" value="<%=productPrice%>">
-						<input type="hidden" id="totalPrice" name="totalPrice" value="<%=productPrice * c.getCartCnt()%>">
-						<input type="hidden" id="cartNo" name="cartNo" value="<%=c.getCartNo()%>">
-						<input type="checkbox" class="selCart" name="selCart" value="<%=c.getCartNo()%>">	
-					</div>
-					
+					<div class="fs-35 lh-10 cl2 p-lr-6 hov-cl1 trans-04"></div>
 
 					<div class="header-cart-item-txt p-t-8">
 						<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=c.getProductNo()%>" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
 							<%=productName%>
 						</a>
-
 						<span class="header-cart-item-info">
-							 <%=productPrice%> x <%=c.getCartCnt()%> 
-							
+							 <%=productPrice%> x <%=c.getCartCnt()%> 	
 						</span>
-						<br>
+						<hr>
 					</div>
-				
 				</li>
-	<%
-			}
-		}
-	%>
-	</ul>
-			<div class="w-full">
+		<% 
+				}
+		%>
+				</ul>
+				<div class="w-full">
 				<div class="header-cart-total w-full p-tb-40">
 					Total: <%=totalPrice%>원
 				</div>
@@ -115,13 +158,14 @@
 					<a href="<%=request.getContextPath()%>/order/cartList.jsp" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
 						View Cart
 					</a>
-
-					<button type="submit" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-						Check Out
-					</button>
+					<a href="<%=request.getContextPath()%>/login.jsp" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+						Login
+					</a>
 				</div>
+		<% 
+			}
+		%>
 			</div>
 		</div>
-		</form>
 	</div>
 </div>
