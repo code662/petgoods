@@ -64,6 +64,12 @@
 				System.out.println(cartCnt[i] + " <-- cartCnt(addOrderCart)"); // 수량
 				System.out.println(productPrice[i] + " <-- productPrice(addOrderCart)"); // 상품 가격
 				System.out.println(totalPrice[i] + " <-- totalPrice(addOrderCart)"); // 총 가격
+				
+				if (Integer.parseInt(cartCnt[i]) == 0) {
+					msg = URLEncoder.encode("1개 이상의 수량을 입력해주세요.", "UTF-8"); 
+					response.sendRedirect(request.getContextPath() + "/order/cartList.jsp?msg=" + msg);
+					return;
+				}
 			}
 		}
 	} 

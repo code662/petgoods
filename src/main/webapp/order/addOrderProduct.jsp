@@ -33,15 +33,20 @@
 	}
 	
 	// 요청값 설정 및 디버깅
+	String msg = "";
 	String productImg = request.getParameter("productImg");
 	String productName = request.getParameter("productName");
 	int productPrice = Integer.parseInt(request.getParameter("productPrice"));
 	int cnt = Integer.parseInt(request.getParameter("cnt"));
+	if (cnt == 0) {
+		msg = URLEncoder.encode("1개 이상의 수량을 입력해주세요.", "UTF-8");
+		response.sendRedirect(request.getContextPath() + "/product/productOne.jsp?productNo=" + productNo + "&msg=" + msg);
+		return;
+	}
 	
 	// id 확인 및 디버깅
 	// 로그인 상태가 아니면 메시지와 함께 로그인 화면으로 이동
 	String id = "";
-	String msg = "";
 	if (session.getAttribute("loginId") != null) {
  		Customer customer = (Customer) session.getAttribute("loginId");
  		id = customer.getId();
