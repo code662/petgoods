@@ -5,7 +5,7 @@
 <%@ page import="dao.*" %> 
 
 <%
-	// 내가 주문한 리스트 (주문날짜 최신순) 
+	// 나의 주문 리스트 (주문날짜 최신순) 
 	// 결제완료일 때 주문취소 버튼 노출 
 	// 구매확정일 때 리뷰작성 버튼 노출 
 	
@@ -105,7 +105,6 @@
 			</div>
 		</div>
 		
-		
 		 <form class="bg0 p-t-75 p-b-85">
 			<div class="container">
 				<div class="row">
@@ -132,7 +131,7 @@
 									<th class="text-center">가격</th>
 									<th class="text-center">수량</th>
 									<th class="text-center">사용포인트</th>
-									<th class="text-center">적립포인트</th>
+									<th class="text-center">적립</th>
 									<th class="text-center">주문일자</th> <!-- p-l-40 -->
 									<th class="text-center">상품이미지</th> <!-- p-l-20 -->
 									<th class="p-l-35">기타옵션</th> <!-- p-l-20  -->

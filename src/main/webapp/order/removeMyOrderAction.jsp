@@ -60,7 +60,7 @@
 	System.out.println(row + " <-- row(removeMyOrderAction)");
 	
 	String msg = "";
-	if (row == 1) {
+	if (row >= 1) { // 주문일자가 시/분/초까지 일치할 경우(함께 주문한 상품이면) 함께 주문취소
 		System.out.println("주문 취소 성공");
 		int row2 = customerDao.revertPlusPoint(order);
 		System.out.println(row2 + " <-- row2(removeMyOrderAction)");

@@ -45,7 +45,7 @@
 	System.out.println(row + " <-- row(modifyOrderStatusAction)");
 	
 	String msg = "";
-	if (row == 1) {
+	if (row >= 1) { // 주문일자가 시/분/초까지 일치할 경우(함께 주문한 상품이면) 함께 배송완료 처리
 		System.out.println("주문상태 변경 성공");
 		msg = URLEncoder.encode("주문상태를 변경했습니다.", "UTF-8");
 	} else {

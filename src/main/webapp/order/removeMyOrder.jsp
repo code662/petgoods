@@ -57,7 +57,7 @@
 							<h4 class="mtext-111 cl2 p-b-30">
 								주문취소
 							</h4>
-								<h6>주문 취소 하시겠습니까?</h6>
+								<h6 style="color: #F24182; font-weight:bolder;">주문을 취소하시겠습니까?</h6>
 								<br>
 								<input type="hidden" name="orderNo" value="<%=order.getOrderNo()%>">
 								<input type="hidden" name="orderId" value="<%=order.getId()%>">

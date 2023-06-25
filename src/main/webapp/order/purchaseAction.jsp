@@ -68,7 +68,7 @@
 	int row = ordersDao.modifyOrdersStatus(order);
 	System.out.println(row + " <-- row(purchaseAction)");
 	
-	if (row == 1) {
+	if (row >= 1) { // 주문일자가 시/분/초까지 일치할 경우(함께 주문한 상품이면) 함께 구매확정
 		System.out.println("구매확정 성공");
 		msg = URLEncoder.encode("구매확정 및 포인트 적립이 완료되었습니다.", "UTF-8");
 		
