@@ -188,7 +188,7 @@
 					  if (event.keyCode === 13) { // 엔터키 눌렀을 때
 					    event.preventDefault(); // 기본 동작 방지
 					  };
-					});
+				  });
 
 				  function validateForm() {
 				    if ($('#inputValue').val() > myPoint || $('#inputValue').val() < 0) {
@@ -223,14 +223,6 @@
 			</div>
 		</div>
 		
-		
- 	<%-- 	<%
-			if (request.getParameter("msg") != null) {
-		%>
-				<%=request.getParameter("msg")%>
-		<%		
-			}
-		%>  --%>
 		<form action="<%=request.getContextPath()%>/order/addOrderCartAction.jsp" method="post" class="bg0 p-t-75 p-b-85" id="addOrderCart">
 			<div class="container">
 				<div class="row">
@@ -260,10 +252,14 @@
 											if (cartNo[i].equals(selCart[j])) { // 장바구니 번호와 체크된 체크박스의 번호가 일치하면
 								%>
 									<tr class="table_head">
-										<td class="text-center"><img src="<%=request.getContextPath()%>/pimg/<%=productImg[i]%>" width="100" height="100"></td>
+										<td class="text-center">
+											<input type="hidden" name="productImg" value="<%=productImg[i]%>">
+											<img src="<%=request.getContextPath()%>/pimg/<%=productImg[i]%>" width="100" height="100">
+										</td>
 										<td class="text-center">
 											<input type="hidden" name="productNo" value="<%=productNo[i]%>">
 											<input type="hidden" name="cartNo" value="<%=cartNo[i]%>">
+											<input type="hidden" name="productName" value="<%=productName[i]%>">
 											<%=productName[i]%>
 										</td>
 										<td class="text-center">

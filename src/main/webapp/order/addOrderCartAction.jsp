@@ -39,6 +39,8 @@
 	// 요청값 설정 및 디버깅
 	String[] cartNo = request.getParameterValues("cartNo");
 	String[] productNo = request.getParameterValues("productNo");
+	String[] productImg = request.getParameterValues("productImg");
+	String[] productName = request.getParameterValues("productName");
 	String[] productPrice = request.getParameterValues("productPrice");
 	String[] cartCnt = request.getParameterValues("cartCnt");
 	int point = 0; // 공백값 또는 null 입력될 경우 포인트는 0
@@ -49,9 +51,18 @@
 	for (int i = 0; i < cartNo.length; i += 1) {
 		System.out.println(cartNo[i] + " <-- cartNo(addOrderCartAction)");
 		System.out.println(productNo[i] + " <-- productNo(addOrderCartAction)");
+		System.out.println(productImg[i] + " <-- productImg(addOrderCartAction)");
+		System.out.println(productName[i] + " <-- productName(addOrderCartAction)");
 		System.out.println(productPrice[i] + " <-- productPrice(addOrderCartAction)");
 		System.out.println(cartCnt[i] + " <-- cartCnt(addOrderCartAction)");
 	}
+	
+	// 세션에 요청값 저장 -> 주문완료 폼에서 해당 정보 출력
+	session.setAttribute("productImg", productImg);		
+	session.setAttribute("productName", productName);	
+	session.setAttribute("productPrice", productPrice);
+	session.setAttribute("cartCnt", cartCnt);
+	session.setAttribute("point", point);	
 	
 	// model 
 	OrdersDao ordersDao = new OrdersDao();
@@ -135,7 +146,7 @@
 	}
 	
 	// 주문 처리 성공 여부 관계없이 메시지와 함께 completeOrder.jsp로 이동
-	response.sendRedirect(request.getContextPath() + "/order/completeOrder.jsp?msg=" + msg);
+	response.sendRedirect(request.getContextPath() + "/order/completeOrderCart.jsp?msg=" + msg);
 	
 	System.out.println("==============addOrderCartAction.jsp==============");
 %>
