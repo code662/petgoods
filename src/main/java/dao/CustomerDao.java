@@ -104,13 +104,11 @@ public class CustomerDao {
 		return row;
 	}
 	
-	// 포인트 추가
-	// 주문 목록에서 구매확정 클릭 시 적립 -> orderNo에 해당하는 구매금액(orderPrice * orderCnt)의 1% (등급에 따라 5%, 10% 변경)
-	public int addPlusPoint(Orders order) throws Exception {
-		int row = 0;
+	// 구매확정 시 적립될 포인트
+	public int plusPoint(Orders order) throws Exception {
+		int point = 0;
 		String rank = selectMyRank(order.getId());
-		System.out.println(rank);
-		int point = order.getOrderPrice() * order.getOrderCnt();
+		point = order.getOrderPrice() * order.getOrderCnt();
 		if (rank.equals("BRONZE")) {
 			point = (int) (point * 0.01);
 		} else if (rank.equals("SILVER")) {
@@ -118,8 +116,15 @@ public class CustomerDao {
 		} else {
 			point = (int) (point * 0.1);
 		}
-		System.out.println(point);
 		
+		return point;
+	}
+	
+	
+	// 주문 목록에서 구매확정 클릭 시 적립 -> orderNo에 해당하는 구매금액(orderPrice * orderCnt)의 1% (등급에 따라 5%, 10% 변경)
+	public int addPlusPoint(Orders order) throws Exception {
+		int row = 0;
+		int point = plusPoint(order);
 		System.out.println(order.getOrderNo());
 			
 		// DB 연결
