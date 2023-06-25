@@ -70,7 +70,7 @@
 	
 	if (row == 1) {
 		System.out.println("구매확정 성공");
-		msg = URLEncoder.encode("구매확정이 완료되었습니다.", "UTF-8");
+		msg = URLEncoder.encode("구매확정 및 포인트 적립이 완료되었습니다.", "UTF-8");
 		
 		int row2 = customerDao.addPlusPoint(order);
 		System.out.println(row2 + " <-- row2(purchaseAction)");
