@@ -183,11 +183,12 @@
 				  $('#btn').click(function() {
 				    validateForm();
 				  });
-
-				  $('#addOrderCart').submit(function(event) {
-				    event.preventDefault(); // 폼 제출 시 기본 동작 방지
-				    validateForm();
-				  });
+				  
+				  $('#inputValue').keydown(function() {
+					  if (event.keyCode === 13) { // 엔터키 눌렀을 때
+					    event.preventDefault(); // 기본 동작 방지
+					  };
+					});
 
 				  function validateForm() {
 				    if ($('#inputValue').val() > myPoint || $('#inputValue').val() < 0) {
@@ -223,13 +224,13 @@
 		</div>
 		
 		
- 		<%
+ 	<%-- 	<%
 			if (request.getParameter("msg") != null) {
 		%>
 				<%=request.getParameter("msg")%>
 		<%		
 			}
-		%> 
+		%>  --%>
 		<form action="<%=request.getContextPath()%>/order/addOrderCartAction.jsp" method="post" class="bg0 p-t-75 p-b-85" id="addOrderCart">
 			<div class="container">
 				<div class="row">

@@ -96,19 +96,20 @@
 				    validateForm();
 				  });
 	
-				  $('#addOrderProduct').submit(function(event) {
-				    event.preventDefault(); // 폼 제출 시 기본 동작 방지
-				    validateForm();
+				  $('#inputValue').keydown(function() {
+					  if (event.keyCode === 13) { // 엔터키 눌렀을 때
+					    event.preventDefault(); // 기본 동작 방지
+					  };
 				  });
 	
 				  function validateForm() {
 				    if ($('#inputValue').val() > myPoint || $('#inputValue').val() < 0) {
 				      alert('유효값(0 ~ ' + myPoint + ')을 입력해주세요.');
 				    } else {
-				      $('#addOrderCart').submit();
+				      $('#addOrderProduct').submit();
 				    }
 				  }
-				});
+			});
 	<%-- 		$(document).ready(function(){
 				const urlParams  = new URL(location.href).searchParams;
 				const msg = urlParams.get('msg');
@@ -153,13 +154,13 @@
 			</div>
 		</div>
 		
-		<%
+<%-- 		<%
 			if (request.getParameter("msg") != null) {
 		%>
 				<%=request.getParameter("msg")%>
 		<%		
 			}
-		%>
+		%> --%>
 		<form action="<%=request.getContextPath()%>/order/addOrderProductAction.jsp" method="post" class="bg0 p-t-75 p-b-85" id="addOrderProduct">
 			<div class="container">
 				<div class="row">
