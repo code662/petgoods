@@ -31,6 +31,8 @@
 	
 	// 요청값 설정 및 디버깅
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
+	String productName = request.getParameter("productName");
+	String productImg = request.getParameter("productImg"); 
 	int cnt = Integer.parseInt(request.getParameter("cnt"));
 	int productPrice = Integer.parseInt(request.getParameter("productPrice"));
 	int point = 0;
@@ -39,9 +41,19 @@
 	}
 	
 	System.out.println(productNo + " <-- productNo(addOrderProductAction)");
+	System.out.println(productName + " <-- productName(addOrderProductAction)");
+	System.out.println(productImg + " <-- productImg(addOrderProductAction)");
 	System.out.println(cnt + " <-- cnt(addOrderProductAction)");
 	System.out.println(productPrice + " <-- productPrice(addOrderProductAction)");
 	System.out.println(point + " <-- point(addOrderProductAction)");
+	
+	// 세션에 요청값 저장 -> 주문완료 폼에서 해당 정보 출력
+	session.setAttribute("productNo", productNo);
+	session.setAttribute("productName", productName);
+	session.setAttribute("productImg", productImg);
+	session.setAttribute("cnt", cnt);
+	session.setAttribute("productPrice", productPrice);
+	session.setAttribute("point", point);
 	
 	// model
 	OrdersDao ordersDao = new OrdersDao();
@@ -75,7 +87,7 @@
 		response.sendRedirect(request.getContextPath() + "/product/productOne.jsp?productNo=" + productNo + "&msg=" + msg);
 		return;
 	}
-	
+		
 	// 주문 처리
 	if (point == 0) { // 주문(포인트를 사용하지 않은 경우) 
 		int row = ordersDao.addOrders(order);
@@ -84,10 +96,12 @@
 		if (row == 1) {
 			System.out.println("주문 처리 완료");
 			msg = URLEncoder.encode("주문이 완료되었습니다.", "UTF-8"); 
+			response.sendRedirect(request.getContextPath() + "/order/completeOrderProduct.jsp?msg=" + msg);
 			
 		} else {
 			System.out.println("주문 처리 실패");
 			msg = URLEncoder.encode("주문에 실패했습니다.", "UTF-8"); 
+			response.sendRedirect(request.getContextPath() + "/product/productOne.jsp?productNo=" + productNo + "&msg=" + msg);
 		}
 	} else { // 주문(포인트를 사용한 경우)
 		int row = ordersDao.addOrders(order, point);
@@ -96,14 +110,13 @@
 		if (row == 1) {
 			System.out.println("주문 처리 완료");
 			msg = URLEncoder.encode("주문이 완료되었습니다.", "UTF-8"); 
+			response.sendRedirect(request.getContextPath() + "/order/completeOrderProduct.jsp?msg=" + msg);
 		} else {
 			System.out.println("주문 처리 실패");
 			msg = URLEncoder.encode("주문에 실패했습니다.", "UTF-8"); 
+			response.sendRedirect(request.getContextPath() + "/product/productOne.jsp?productNo=" + productNo + "&msg=" + msg);
 		}
 	}
-	
-	// 주문 처리 성공 여부 관계없이 메시지와 함께 completeOrder.jsp로 이동
-	response.sendRedirect(request.getContextPath() + "/order/completeOrder.jsp?msg=" + msg);
 	
 	System.out.println("==============addOrderProductAction.jsp==============");
 %>

@@ -173,6 +173,7 @@
 								<br>	
 							</div>
 							<input type="hidden" name="productNo" value="<%=productNo%>">
+							<input type="hidden" name="productName" value="<%=productName%>">
 							<table class="table-shopping-cart">
 								<tr class="table_head">
 									<th class="text-center">상품이미지</th>
@@ -184,7 +185,10 @@
 									<th class="text-center">합계금액</th>
 								</tr>
 								<tr class="table_head">
-									<td class="text-center"><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"></td>
+									<td class="text-center">
+										<input type="hidden" name="productImg" value="<%=productImg%>">
+										<img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100">
+									</td>
 									<td class="text-center"><%=productName%></td>
 									<td class="text-center">
 										<input type="hidden" name="productPrice" value="<%=productPrice%>">
