@@ -30,6 +30,20 @@
 %>
 
 <!DOCTYPE html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script>		
+	$(document).ready(function() {
+		$('#check_all').click(function() {
+			let checked = $('#check_all').is(':checked');
+			if (checked){
+				$('input:checkbox').prop('checked',true);
+			} else {
+				$('input:checkbox').prop('checked',false);
+			}
+		});
+	});
+</script>
+
 <!-- Cart -->
 <div class="wrap-header-cart js-panel-cart">
 	<div class="s-full js-hide-cart"></div>
@@ -39,7 +53,6 @@
 			<span class="mtext-103 cl2">
 				Your Cart
 			</span>
-
 		<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
 			<i class="zmdi zmdi-close"></i>
 		</div>
@@ -51,6 +64,7 @@
 		if (session.getAttribute("loginId") != null) {
 	%>
 		<form action="<%=request.getContextPath()%>/order/addOrderCart.jsp" method="post">
+			<input type="checkbox" name="check_all" id="check_all" value="Y"><br>
 			<div class="header-cart-content flex-w js-pscroll">
 				<ul class="header-cart-wrapitem w-full" style="overflow: auto; height: 500px;">
 		<% 
