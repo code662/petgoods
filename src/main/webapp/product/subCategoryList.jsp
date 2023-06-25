@@ -17,7 +17,19 @@
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 
+	//	세션 유효성 검사 - 로그인 상태가 아니면 home.jsp로 리다이렉션
+	String id = "";
+	if (session.getAttribute("loginId") == null) {
+		response.sendRedirect(request.getContextPath()+ "/home.jsp");
+		return;
+	} else { // 관리자 로그인 시 로그인된 사용자의 id값을 새 id 변수에 지정
+		Employees employee = (Employees) session.getAttribute("loginId");
+		id = employee.getId();
+		System.out.println(id + " <-- id(orderList)");
+	}	
+
 	// 유효성 검사 
+	// 메인 카테고리명을 선택해 들어오지 않았을 경우 mainCategoryList.jsp로 리다이렉트
 	if (request.getParameter("categoryMainName") == null
 	|| request.getParameter("categoryMainName").equals("")) { 
 		response.sendRedirect(request.getContextPath() + "/product/mainCategoryList.jsp");
@@ -71,64 +83,64 @@
 							<h4 class="mtext-111 cl2 p-b-30">
 								서브 카테고리 리스트
 							</h4>
-		<%
-			if (request.getParameter("msg") != null) {
-		%>
-				<%=request.getParameter("msg")%>
-		<%
-			}
-		%>
-		<table class="center">
-			<colgroup>
-		     	<col width="5%">
-		     	<col width="10%">
-		     	<col width="15%">
-		     	<col width="20%">
-		     	<col width="20%">
-		     	<col width="10%">
-		     	<col width="10%">
-	   		 </colgroup>
-	 		<tr class="bor12" height="40">
-				<th>NO.</th>
-				<th>메인 카테고리</th>
-				<th>서브 카테고리</th>
-				<th>생성일자</th>
-				<th>수정일자</th>
-				<th></th>
-				<th></th>
-			</tr>
-		<%
-			for (Category c : list) {
-		%>
-				<tr class="bor12" height="40">
-					<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategoryNo()%></td>
-					<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategoryMainName()%></td>
-					<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategorySubName()%></td>
-					<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCreatedate().substring(0, 10)%></td>
-					<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCreatedate().substring(0, 10)%></td>
-					<td class="stext-112 cl8" style="font-size:17px;">
-						<a href="<%=request.getContextPath()%>/product/modifyCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-							수정
-						</a>
-					</td>
-					<td class="stext-112 cl8" style="font-size:17px;">
-						<a href="<%=request.getContextPath()%>/product/removeCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-							삭제
-						</a>
-					</td>
-				</tr>
-	 	<%
-			}
-		%>
-		</table>
-		<br>
-		<div class="flex-w dis-inline-block">
-			<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp" style="color: #333333">
-				<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-					메인 카테고리로
-				</span>
-			</a>
-		</div>			
+							<%
+								if (request.getParameter("msg") != null) {
+							%>
+									<%=request.getParameter("msg")%>
+							<%
+								}
+							%>
+							<table class="center">
+								<colgroup>
+							     	<col width="5%">
+							     	<col width="10%">
+							     	<col width="15%">
+							     	<col width="20%">
+							     	<col width="20%">
+							     	<col width="10%">
+							     	<col width="10%">
+						   		 </colgroup>
+						 		<tr class="bor12" height="40">
+									<th>NO.</th>
+									<th>메인 카테고리</th>
+									<th>서브 카테고리</th>
+									<th>생성일자</th>
+									<th>수정일자</th>
+									<th></th>
+									<th></th>
+								</tr>
+							<%
+								for (Category c : list) {
+							%>
+									<tr class="bor12" height="40">
+										<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategoryNo()%></td>
+										<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategoryMainName()%></td>
+										<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategorySubName()%></td>
+										<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCreatedate().substring(0, 10)%></td>
+										<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCreatedate().substring(0, 10)%></td>
+										<td class="stext-112 cl8" style="font-size:17px;">
+											<a href="<%=request.getContextPath()%>/product/modifyCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+												수정
+											</a>
+										</td>
+										<td class="stext-112 cl8" style="font-size:17px;">
+											<a href="<%=request.getContextPath()%>/product/removeCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+												삭제
+											</a>
+										</td>
+									</tr>
+						 	<%
+								}
+							%>
+							</table>
+							<br>
+							<div class="flex-w dis-inline-block">
+								<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp" style="color: #333333">
+									<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+										메인 카테고리로
+									</span>
+								</a>
+							</div>			
 						</div>
 					</div>
 				</div>

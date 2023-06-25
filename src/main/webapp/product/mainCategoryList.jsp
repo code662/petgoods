@@ -16,6 +16,17 @@
 	
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
+		
+	// 세션 유효성 검사 - 로그인 상태가 아니면 home.jsp로 리다이렉션
+	String id = "";
+	if (session.getAttribute("loginId") == null) {
+		response.sendRedirect(request.getContextPath()+ "/home.jsp");
+		return;
+	} else { // 관리자 로그인 시 로그인된 사용자의 id값을 새 id 변수에 지정
+		Employees employee = (Employees) session.getAttribute("loginId");
+		id = employee.getId();
+		System.out.println(id + " <-- id(orderList)");
+	}
 
 	// CategoryDao 클래스 객체 생성 -> SQL 메소드 이용
 	CategoryDao cateDao = new CategoryDao();
