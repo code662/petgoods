@@ -25,7 +25,7 @@
 	|| request.getParameterValues("productName") == null
 	|| request.getParameterValues("productPrice") == null
 	|| request.getParameterValues("cartCnt") == null
-	|| request.getParameterValues("totalPrice") == null
+	// || request.getParameterValues("totalPrice") == null
 	|| request.getParameterValues("selCart") == null) {
 		System.out.println("유효성 검사 확인(addOrderCart)");
 		msg = URLEncoder.encode("체크박스 선택 후 주문 가능합니다.", "UTF-8"); 
@@ -50,7 +50,7 @@
 	String[] productName = request.getParameterValues("productName");
 	String[] productPrice = request.getParameterValues("productPrice");
 	String[] selCart = request.getParameterValues("selCart");
-	String[] totalPrice = request.getParameterValues("totalPrice");
+	// String[] totalPrice = request.getParameterValues("totalPrice");
 	String[] cartCnt = request.getParameterValues("cartCnt");
 
 	// 요청값 디버깅
@@ -63,7 +63,7 @@
 				System.out.println(productName[i] + " <-- productName(addOrderCart)"); // 상품 이름
 				System.out.println(cartCnt[i] + " <-- cartCnt(addOrderCart)"); // 수량
 				System.out.println(productPrice[i] + " <-- productPrice(addOrderCart)"); // 상품 가격
-				System.out.println(totalPrice[i] + " <-- totalPrice(addOrderCart)"); // 총 가격
+				// System.out.println(totalPrice[i] + " <-- totalPrice(addOrderCart)"); // 총 가격
 				
 				if (Integer.parseInt(cartCnt[i]) == 0) {
 					msg = URLEncoder.encode("1개 이상의 수량을 입력해주세요.", "UTF-8"); 
@@ -273,12 +273,12 @@
 										<td class="text-center"><%=myName%></td>
 										<td class="text-center"><%=myAdd%></td>
 										<td class="text-center">
-											<input type="hidden" name="totalPrice" value="<%=totalPrice[i]%>">
-											<%=totalPrice[i]%>원
+											<%-- <input type="hidden" name="totalPrice" value="<%=totalPrice[i]%>"> --%>
+											<%=Integer.parseInt(productPrice[i]) * Integer.parseInt(cartCnt[i])%>원
 										</td>
 									</tr>
 								<%
-												allTotalPrice += Integer.parseInt(totalPrice[i]);
+												allTotalPrice += Integer.parseInt(productPrice[i]) * Integer.parseInt(cartCnt[i]);
 											}
 										}
 									} 
