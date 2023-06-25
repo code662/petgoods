@@ -22,8 +22,9 @@
  		System.out.println(id + " <-- id(myOrderList)");
  	}
 	
-	// OrdersDao 클래스 객체 생성 -> SQL 메소드 이용
+	// model
 	OrdersDao ordersDao = new OrdersDao();
+	CustomerDao customerDao = new CustomerDao();
 	
 	// 현재 페이지 번호
 	// currentPage가 null값이 아니면서 공백값이 아닌 경우 (유효값이 있는 경우)가 아닐 시 기본 1페이지 설정
@@ -130,6 +131,8 @@
 									<th class="text-center">주문상태</th> <!--p-r-10  -->
 									<th class="text-center">가격</th>
 									<th class="text-center">수량</th>
+									<th class="text-center">사용포인트</th>
+									<th class="text-center">적립포인트</th>
 									<th class="text-center">주문일자</th> <!-- p-l-40 -->
 									<th class="text-center">상품이미지</th> <!-- p-l-20 -->
 									<th class="p-l-35">기타옵션</th> <!-- p-l-20  -->
@@ -145,6 +148,12 @@
 								// 상품이름 조회
 								String productName = ordersDao.selectProductName(o.getProductNo());
 								
+								// 사용 포인트 조회
+								int point = customerDao.usedPoint(o.getOrderNo());
+								
+								// 적립 예정 포인트 조회
+								int plusPoint = customerDao.plusPoint(o);
+								
 								// 상품 이미지 조회
 								String productImg = ordersDao.selectImg(o.getProductNo());
 							%>
@@ -158,6 +167,8 @@
 									<td class="text-center"><%=o.getOrderStatus()%></td> <!-- p-r-10  -->
 									<td class="text-center"><%=o.getOrderPrice()%></td>
 									<td class="text-center"><%=o.getOrderCnt()%></td> <!-- p-l-10 -->
+									<td class="text-center"><%=point%></td>
+									<td class="text-center"><%=plusPoint%></td>
 									<td class="text-center"><%=o.getCreatedate()%></td>
 									<td class="text-center"><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"></td>
 									
