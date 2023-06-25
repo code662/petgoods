@@ -39,6 +39,7 @@
 		<meta charset="UTF-8">
 		<title>modifyCategory</title>
 		<jsp:include page="/inc/link.jsp"></jsp:include>
+		<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 	</head>
 	<body>
 		<jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
@@ -70,97 +71,106 @@
 		if (cnt == 0) {
 	%>
 		<form class="bg0 p-t-75 p-b-85" action="<%=request.getContextPath()%>/product/modifyCategoryAction.jsp" method="post">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
-					<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">	 	
-						<h4 class="mtext-111 cl2 p-b-30">
-							카테고리 정보 수정
-						</h4>
-						
-						<%
-							if (request.getParameter("msg") != null) {
-						%>
-								<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg")%></p>
-						<%
-							}
-						%>
-						<input type="hidden" name="categoryNo" value="<%=category.getCategoryNo()%>">
-						<div class="flex-w flex-t bor12 p-b-13">
-							<div class="size-208">
-								<span class="stext-110 cl2" style="font-size:17px">
-									카테고리 번호
-								</span>
-								</div>
-								<div class="size-209">
-									<span class="stext-112 cl8" style="font-size:17px">
-										<%=category.getCategoryNo()%>
-									</span>
-								</div>
-							</div>
-							
-						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
-							<div class="size-208 w-full-ssm">
-								<span class="stext-110 cl2" style="font-size:17px">
-									메인 카테고리명
-								</span>
-							</div>
-							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
-								<p class="stext-112 cl8 p-t-2" style="font-size:17px">
-									<input type="text" name="categoryMainName" value="<%=category.getCategoryMainName()%>">
-								</p>
-							</div>
-						</div>
-						
-						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
-						<div class="size-208 w-full-ssm">
-							<span class="stext-110 cl2" style="font-size:17px">
-								서브 카테고리명
-							</span>
-						</div>
-						<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
-							<p class="stext-112 cl8 p-t-2" style="font-size:17px">
-								<input type="text" name="categorySubName" value="<%=category.getCategorySubName()%>">
-							</p>
-						</div>
-					</div>
-					<br>
-					<div class="flex-w dis-inline-block">
-						<button type="submit" style="color: #333333">
-							<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-								카테고리 수정
-							</div>
-						</button>
-					</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-	<%	
-		} else { // 값이 있는 경우 수정 불가
-	%>	
-			<form class="bg0 p-t-75 p-b-85">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
 						<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">	 	
 							<h4 class="mtext-111 cl2 p-b-30">
-								상품이 존재하는 카테고리입니다. 변경할 수 없습니다. <br>
-								<%=category.getCategoryMainName()%>-<%=category.getCategorySubName()%> 내 상품 개수: <%=cnt%>
+								카테고리 정보 수정
 							</h4>
 							
+							<%
+								if (request.getParameter("msg") != null) {
+							%>
+									<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg")%></p>
+							<%
+								}
+							%>
+							<input type="hidden" name="categoryNo" value="<%=category.getCategoryNo()%>">
+							<div class="flex-w flex-t bor12 p-b-13">
+								<div class="size-208">
+									<span class="stext-110 cl2" style="font-size:17px">
+										카테고리 번호
+									</span>
+									</div>
+									<div class="size-209">
+										<span class="stext-112 cl8" style="font-size:17px">
+											<%=category.getCategoryNo()%>
+										</span>
+									</div>
+								</div>
+								
+							<div class="flex-w flex-t bor12 p-t-15 p-b-30">
+								<div class="size-208 w-full-ssm">
+									<span class="stext-110 cl2" style="font-size:17px">
+										메인 카테고리명
+									</span>
+								</div>
+								<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+									<p class="stext-112 cl8 p-t-2" style="font-size:17px">
+										<input type="text" name="categoryMainName" value="<%=category.getCategoryMainName()%>">
+									</p>
+								</div>
+							</div>
+							
+							<div class="flex-w flex-t bor12 p-t-15 p-b-30">
+							<div class="size-208 w-full-ssm">
+								<span class="stext-110 cl2" style="font-size:17px">
+									서브 카테고리명
+								</span>
+							</div>
+							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+								<p class="stext-112 cl8 p-t-2" style="font-size:17px">
+									<input type="text" name="categorySubName" value="<%=category.getCategorySubName()%>">
+								</p>
+							</div>
+						</div>
 						<br>
 						<div class="flex-w dis-inline-block">
-							<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp" style="color: #333333">
-								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-									메인 카테고리로
-								</span>
-							</a>
+							<button type="submit" style="color: #333333">
+								<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+									카테고리 수정
+								</div>
+							</button>
+						</div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</form>
+		<%	
+			} else { // 값이 있는 경우 수정 불가
+		%>	
+				<form class="bg0 p-t-75 p-b-85">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
+							<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">	 	
+								<%-- <h4 class="mtext-111 cl2 p-b-30">
+									상품이 존재하는 카테고리입니다. 변경할 수 없습니다. <br>
+									<%=category.getCategoryMainName()%>-<%=category.getCategorySubName()%> 내 상품 개수: <%=cnt%>
+								</h4> --%>
+								
+								<script>
+									$(document).ready(function() {
+										var url = '<%=request.getContextPath()%>/product/mainCategoryList.jsp'; // 이동할 링크
+										alert(<%=cnt%> + '개의 상품이 존재하므로 카테고리를 수정할 수 없습니다.');
+										window.location.href = url; // alert() 출력 후 url 변수의 링크로 이동 
+									});
+									
+								</script>
+								
+							<br>
+					<%-- 		<div class="flex-w dis-inline-block">
+								<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp" style="color: #333333">
+									<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
+										메인 카테고리로
+									</span>
+								</a>
+							</div> --%>
+						</div>
+					</div>
+				</div>
 			</div>
 		</form>	
 	<%

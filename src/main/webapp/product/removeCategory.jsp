@@ -167,19 +167,24 @@
 				<div class="row">
 					<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
 						<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">	 	
-							<h4 class="mtext-111 cl2 p-b-30">
+						<%-- 	<h4 class="mtext-111 cl2 p-b-30">
 								상품이 존재하는 카테고리입니다. 삭제할 수 없습니다. <br>
 								<%=category.getCategoryMainName()%>-<%=category.getCategorySubName()%> 내 상품 개수: <%=cnt%>
-							</h4>
-							
-						<br>
-						<div class="flex-w dis-inline-block">
+							</h4> --%>
+						<script>
+							$(document).ready(function() {
+								var url = '<%=request.getContextPath()%>/product/mainCategoryList.jsp'; // 이동할 링크
+								alert(<%=cnt%> + '개의 상품이 존재하므로 카테고리를 삭제할 수 없습니다.');
+								window.location.href = url; // alert() 출력 후 url 변수의 링크로 이동 
+							});
+						</script>
+					<%-- 	<div class="flex-w dis-inline-block">
 							<a href="<%=request.getContextPath()%>/product/mainCategoryList.jsp" style="color: #333333">
 								<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 									메인 카테고리로
 								</span>
 							</a>
-						</div>
+						</div> --%>
 					</div>
 				</div>
 			</div>
