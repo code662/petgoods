@@ -103,6 +103,14 @@
 		maxPage = lastPage;
 	}
 	
+	String check = "";
+	if (intCkMonth != null) { // intCkMonth가 null이 아니면 -> 선택된 월이 있으면
+		for (int i = 0; i < intCkMonth.length; i += 1) {
+			// check += "&ckMonth=" + intCkMonth[i];
+			check = check + "&ckMonth=" + intCkMonth[i];
+		}
+	}
+	
 	// ArrayList<Orders> list 생성 후 값 추가
 	ArrayList<Orders> list = new ArrayList<>();	
 	list = ordersDao.selectOrdersByIdStatus(intCkMonth, searchId, orderStatus, beginRow, rowPerPage);
@@ -263,7 +271,7 @@
 									// minPage가 1보다 클 때만 [이전] 탭 출력
 									if (minPage > 1) {
 								%>	
-										<a href="<%=request.getContextPath()%>/order/orderList.jsp?currentPage=<%=minPage - pagePerPage%>" class="flex-c-m how-pagination1 trans-04 m-all-7">이전</a>
+										<a href="<%=request.getContextPath()%>/order/orderList.jsp?currentPage=<%=minPage - pagePerPage%>&searchId=<%=searchId%>&orderStatus=<%=orderStatus%><%=check%>" class="flex-c-m how-pagination1 trans-04 m-all-7">이전</a>
 								<%
 									}
 								%>
@@ -279,7 +287,7 @@
 								<% 			
 										} else { // 현재 페이지가 아닌 나머지 페이지에는 번호를 링크로 표시 (클릭 시 해당 번호 페이지로 이동)
 								%>
-											<a href="<%=request.getContextPath()%>/order/orderList.jsp?currentPage=<%=i%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+											<a href="<%=request.getContextPath()%>/order/orderList.jsp?currentPage=<%=i%>&searchId=<%=searchId%>&orderStatus=<%=orderStatus%><%=check%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
 												<%=i%>
 											</a>
 								<%
@@ -288,7 +296,7 @@
 								
 									if (maxPage < lastPage) { // [이전] [다음] 탭 사이 가장 큰 숫자가 마지막 페이지보다 작을 때만 [다음] 버튼 생성	
 								%>
-										<a href="<%=request.getContextPath()%>/order/orderList.jsp?currentPage=<%=minPage + pagePerPage%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+										<a href="<%=request.getContextPath()%>/order/orderList.jsp?currentPage=<%=minPage + pagePerPage%>&searchId=<%=searchId%>&orderStatus=<%=orderStatus%><%=check%>" class="flex-c-m how-pagination1 trans-04 m-all-7">
 											다음
 										</a>
 								<%

@@ -16,8 +16,6 @@
     // CartDao cDao = new CartDao();
     // session.setAttribute("cartList", cartList);
  
-   	
-   
 	/* // 상품 이름 조회
 	String productName1 = cDao.selectProductName(cart.getProductNo());
 	// 상품 가격 조회
@@ -246,18 +244,18 @@
 												<th class="text-center">수량</th>
 												<th></th>
 											</tr>
-							<%
-								int totalPrice = 0;
-									for (Cart c : list) {
-										// 상품 이름 조회
-										String productName = cartDao.selectProductName(c.getProductNo());
-										// 상품 가격 조회
-										int productPrice = cartDao.selectProductPrice(c.getProductNo());
-										// 상품 이미지 조회
-										String productImg = cartDao.selectImg(c.getProductNo());
-										// 총 금액
-										totalPrice += productPrice * c.getCartCnt();
-							%>
+									<%
+										int totalPrice = 0;
+											for (Cart c : list) {
+												// 상품 이름 조회
+												String productName = cartDao.selectProductName(c.getProductNo());
+												// 상품 가격 조회
+												int productPrice = cartDao.selectProductPrice(c.getProductNo());
+												// 상품 이미지 조회
+												String productImg = cartDao.selectImg(c.getProductNo());
+												// 총 금액
+												totalPrice += productPrice * c.getCartCnt();
+									%>
 											<tr class="table_head">
 												<td class="text-center"><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"></td>
 												<td class="text-center"><%=productName%></td>
