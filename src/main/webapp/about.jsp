@@ -15,16 +15,18 @@
 		if(session.getAttribute("loginId") instanceof Employees) {
 	%>
 			<jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
+			<jsp:include page="/inc/sidebar.jsp"></jsp:include>
 	<%	
 		// 아니면 고객용 헤더 표시
 		} else {
 			%>
 			<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
+			<jsp:include page="/inc/sidebar.jsp"></jsp:include>
+			<jsp:include page="/inc/cart.jsp"></jsp:include>
 	<%		
 		}
 	%>
-	<jsp:include page="/inc/sidebar.jsp"></jsp:include>
-	<jsp:include page="/inc/cart.jsp"></jsp:include>
+
 	
 	<!-- 제목 -->
 	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('<%=request.getContextPath()%>/img/bg-02.jpg');">
