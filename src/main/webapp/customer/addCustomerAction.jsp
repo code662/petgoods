@@ -25,7 +25,7 @@
 			|| request.getParameter("cstmBirth").equals("")
 			|| request.getParameter("cstmGender").equals("")
 			|| request.getParameter("agree_all").equals("")){
-		response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp");
+		response.sendRedirect(request.getContextPath()+"/login.jsp");
 		return;
 	}
 

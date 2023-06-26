@@ -34,8 +34,8 @@
 <script>
 	// 입력폼 유효성 검사
 	$(document).ready(function(){
-		let extension = $('#productImg').val().substr($('#productImg').val().lastIndexOf(".")+1);
 		$('#btn').click(function(){
+			let extension = $('#reviewImg').val().substr($('#reviewImg').val().lastIndexOf(".")+1);
 			if($('#reviewImg').val() == ''){
 				alert('리뷰 이미지를 추가해주세요');
 			}else if(extension != 'png' && extension != 'jpg' && extension != 'jpeg'){
