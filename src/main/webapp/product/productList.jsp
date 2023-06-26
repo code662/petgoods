@@ -43,6 +43,18 @@
 <meta charset="UTF-8">
 <title>상품 목록</title>
 <jsp:include page="/inc/link.jsp"></jsp:include>
+<script>
+	$(document).ready(function(){
+<%
+		if(request.getParameter("loadMore") != null) {
+%> 
+			const scrollTop = $('#p<%=rowPerPage-8%>').offset().top-100;
+			$('html, body').animate({ scrollTop: scrollTop }, 800);	
+<%		
+		}
+%>
+	});
+</script>
 </head>
 <body>
 	<%
@@ -331,10 +343,11 @@
 			</div>
 			<div class="row isotope-grid">
 			<%
+				int i = 1;
 				for(Product p : productList){
 					if(session.getAttribute("loginId") instanceof Employees) {
 			%>
-						<div id="p<%=p.getProductNo()%>" class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategoryMainName()%> <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategorySubName()%>">
+						<div id="p<%=i%>" class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategoryMainName()%> <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategorySubName()%>">
 							<!-- Block2 -->
 							<div class="block2">
 								<div class="block2-pic hov-img0">
@@ -395,7 +408,7 @@
 					} else {
 						if(p.getProductStatus().equals("판매중")){
 			%>
-							<div id="p<%=p.getProductNo()%>" class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategoryMainName()%> <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategorySubName()%>">
+							<div id="p<%=i%>" class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategoryMainName()%> <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategorySubName()%>">
 								<!-- Block2 -->
 								<div class="block2">
 									<div class="block2-pic hov-img0">
@@ -444,6 +457,7 @@
 			<%		
 						}			
 					}
+					i += 1;
 				}
 			%>
 			</div>
@@ -452,23 +466,13 @@
 			<%
 				if (rowPerPage < productCnt) {
 			%>
-					<a href="<%=request.getContextPath()%>/product/productList.jsp?rowPerPage=<%=rowPerPage+8%>&mainCategory=<%=mainCategory%>&subCategory=<%=subCategory%>&loadMore=true" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04" onclick="$('html, body').animate({scrollTop: $('#loadMore').offset().top}, 500)">
+					<a href="<%=request.getContextPath()%>/product/productList.jsp?rowPerPage=<%=rowPerPage+8%>&mainCategory=<%=mainCategory%>&subCategory=<%=subCategory%>&loadMore=true" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
 						Load More
 					</a>
 			<%		
 				}
 			%>
 				</div>
-			<%
-				if(request.getParameter("loadMore") != null) {
-			%> 
-					<script>
-						const scrollTop = $('#p<%=rowPerPage-8%>').offset().top-100;
-						$('html, body').animate({ scrollTop: scrollTop }, 800);
-					</script>
-			<%		
-				}
-			%>
 		</div>
 	</div>
 	<jsp:include page="/inc/footer.jsp"></jsp:include>
