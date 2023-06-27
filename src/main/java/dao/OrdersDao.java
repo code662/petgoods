@@ -281,6 +281,33 @@ public class OrdersDao {
 
 		return row;
 	}
+	
+	// 주문 상태가 변경된 상품들 조회
+	// orderNo, orderCnt, orderPrice select 하는 메소드
+	public ArrayList<Orders> selectStatusNew(Orders order) throws Exception {
+		// 반환할 ArrayList<Orders> 생성
+		ArrayList<Orders> list = new ArrayList<>();
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// 실행 쿼리문
+		String sql = "SELECT order_no, id, order_cnt, order_price FROM orders WHERE id = ? AND createdate = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, order.getId());
+		stmt.setString(2, order.getCreatedate());
+		
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			Orders o = new Orders();
+			o.setOrderNo(rs.getInt("order_no"));
+			o.setId(rs.getString("id"));
+			o.setOrderCnt(rs.getInt("order_cnt"));
+			o.setOrderPrice(rs.getInt("order_price"));
+			list.add(o);
+		}
+		
+		return list;
+	}
 
 	// 고객 id 조회 (관리자 페이지에서 주문상태 변경에 사용)
 	public String selectCstmId(int orderNo) throws Exception {
