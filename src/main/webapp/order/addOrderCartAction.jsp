@@ -120,8 +120,16 @@
 			}
 		}
 	} else { // 주문 (포인트를 사용한 경우)
+		int count = 0;
 		for (Orders o : oList) {
-			int row = ordersDao.addOrders(o, point);
+			int row = 0;
+			if (count == 0) { // count가 1일 때 -> 장바구니 목록 첫 번째 상품에만 사용 포인트 적용
+				row = ordersDao.addOrders(o, point);
+				count += 1;
+			} else {
+				row = ordersDao.addOrders(o);	
+			}
+			
 			System.out.println(row + " <-- row(addOrderCartAction)");
 			if (row == 1) {
 				msg = URLEncoder.encode("주문이 완료되었습니다.", "UTF-8"); 
