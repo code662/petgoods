@@ -11,6 +11,10 @@
 	String mainCategory = "전체";
 	String subCategory = "전체";
 	
+	// 필터 변수
+	String sort = "ORDER BY createdate DESC";
+	String word = "WHERE product_name LIKE %?%";
+	
 	// 유효성 검사 
 	if(request.getParameter("rowPerPage") != null) {
 		rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
@@ -24,10 +28,18 @@
 		subCategory = request.getParameter("subCategory");
 	}
 	
+	if(request.getParameter("sort") != null) {
+		sort = request.getParameter("sort");
+	}
+	
+	if(request.getParameter("word") != null) {
+		word = request.getParameter("word");
+	}
+	
 	// Dao 객체 생성
 	CategoryDao cDao = new CategoryDao();
 	ProductDao pDao = new ProductDao();
-	DiscountDao dDao = new DiscountDao();
+
 	// 상품 개수
 	int productCnt = pDao.productCnt(mainCategory, subCategory);
 	// 카테고리 리스트
@@ -159,85 +171,24 @@
 							<div class="mtext-102 cl2 p-b-15">
 								Sort By
 							</div>
-
 							<ul>
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Default
+									<a href="createdate DESC" class="filter-link stext-106 trans-04">
+										최신순
 									</a>
 								</li>
 
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Popularity
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Average rating
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										Newness
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Price: Low to High
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Price: High to Low
-									</a>
-								</li>
 							</ul>
 						</div>
 
 						<div class="filter-col2 p-r-15 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
-								Price
+								&nbsp;
 							</div>
-
 							<ul>
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										All
-									</a>
-								</li>
-
-								<li class="p-b-6">
 									<a href="#" class="filter-link stext-106 trans-04">
-										$0.00 - $50.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$50.00 - $100.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$100.00 - $150.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$150.00 - $200.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$200.00+
+										판매량순
 									</a>
 								</li>
 							</ul>
@@ -245,67 +196,12 @@
 
 						<div class="filter-col3 p-r-15 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
-								Color
+								&nbsp;
 							</div>
-
 							<ul>
 								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #222;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
 									<a href="#" class="filter-link stext-106 trans-04">
-										Black
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #4272d7;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										Blue
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #b3b3b3;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Grey
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #00ad5f;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Green
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #fa4251;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Red
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #aaa;">
-										<i class="zmdi zmdi-circle-o"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										White
+										낮은가격순
 									</a>
 								</li>
 							</ul>
@@ -313,30 +209,15 @@
 
 						<div class="filter-col4 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
-								Tags
+								&nbsp;
 							</div>
-
-							<div class="flex-w p-t-4 m-r--5">
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Fashion
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Lifestyle
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Denim
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Streetstyle
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Crafts
-								</a>
-							</div>
+							<ul>
+								<li class="p-b-6">
+									<a href="#" class="filter-link stext-106 trans-04">
+										높은가격순
+									</a>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -345,9 +226,10 @@
 			<%
 				int i = 1;
 				for(Product p : productList){
+					System.out.println(p.getProductStatus());
 					if(session.getAttribute("loginId") instanceof Employees) {
 			%>
-						<div id="p<%=i%>" class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategoryMainName()%> <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategorySubName()%>">
+						<div id="p<%=i%>" class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%=p.getCategoryMainname()%> <%=p.getCategorySubname()%>">
 							<!-- Block2 -->
 							<div class="block2">
 								<div class="block2-pic hov-img0">
@@ -370,8 +252,7 @@
 
 								<div class="block2-txt flex-w flex-t p-t-14">
 			<%
-											Discount discount = dDao.selectDiscountOneNow(p.getProductNo());
-											if(discount == null) {
+											if(p.getDiscountRate() == 0) {
 			%>
 												<div class="block2-txt-child1 flex-col-l">
 													<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
@@ -392,10 +273,11 @@
 													
 													
 													<span class="stext-105 cl3">
-														<span class="stext-109 cl7" style="text-decoration:line-through">
-															<%=p.getProductPrice()%>원
-														</span>	
-														 &nbsp;&nbsp;<%=(int)(p.getProductPrice() * (1-discount.getDiscountRate()))%>원
+														<span style="font-size: 15px; color: red;">
+																<%=(int)(p.getDiscountRate() * 100)%>%
+														</span>
+														<span class="stext-109 cl7" style="text-decoration:line-through"><%=p.getProductPrice()%>원</span>	
+														 &nbsp;&nbsp;<%=p.getProductDiscountPrice()%>원
 													</span>	
 												</div>
 			<%		
@@ -408,7 +290,7 @@
 					} else {
 						if(p.getProductStatus().equals("판매중")){
 			%>
-							<div id="p<%=i%>" class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategoryMainName()%> <%=cDao.selectCategoryOne(p.getCategoryNo()).getCategorySubName()%>">
+							<div id="p<%=i%>" class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%=p.getCategoryMainname()%> <%=p.getCategorySubname()%>">
 								<!-- Block2 -->
 								<div class="block2">
 									<div class="block2-pic hov-img0">
@@ -419,8 +301,7 @@
 
 									<div class="block2-txt flex-w flex-t p-t-14">
 			<%
-												Discount discount = dDao.selectDiscountOneNow(p.getProductNo());
-												if(discount == null) {
+												if(p.getDiscountRate() == 0) {
 			%>
 													<div class="block2-txt-child1 flex-col-l">
 														<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
@@ -442,10 +323,10 @@
 														
 														<span class="stext-105 cl3">
 															<span style="font-size: 15px; color: red;">
-																<%=(int)(discount.getDiscountRate() * 100)%>%
+																<%=(int)(p.getDiscountRate() * 100)%>%
 															</span>
 															<span class="stext-109 cl7" style="text-decoration:line-through"><%=p.getProductPrice()%>원</span>	
-															<%=(int)(p.getProductPrice() * discount.getDiscountRate())%>원
+															<%=p.getProductDiscountPrice()%>원
 														</span>	
 													</div>
 			<%		

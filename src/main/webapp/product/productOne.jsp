@@ -11,14 +11,11 @@
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	
 	ProductDao pDao = new ProductDao();
-	CategoryDao cDao = new CategoryDao();
-	DiscountDao dDao = new DiscountDao();
 	ReviewDao rDao = new ReviewDao();
 	QuestionDao qDao = new QuestionDao();
 	AnswerDao aDao = new AnswerDao();
 	
 	Product product = pDao.selectProductOne(productNo);
-	Category category = cDao.selectCategoryOne(product.getCategoryNo());
 	
 	// 리뷰 페이징
 	// 리뷰 현재페이지
@@ -122,13 +119,13 @@
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
 
-			<a href="<%=request.getContextPath()%>/product/productList.jsp?mainCategory=<%=category.getCategoryMainName()%>" class="stext-109 cl8 hov-cl1 trans-04">
-				<%=category.getCategoryMainName()%>
+			<a href="<%=request.getContextPath()%>/product/productList.jsp?mainCategory=<%=product.getCategoryMainname()%>" class="stext-109 cl8 hov-cl1 trans-04">
+				<%=product.getCategoryMainname()%>
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
 			
-			<a href="<%=request.getContextPath()%>/product/productList.jsp?mainCategory=<%=category.getCategoryMainName()%>&subCategory=<%=category.getCategorySubName()%>" class="stext-109 cl8 hov-cl1 trans-04">
-				<%=category.getCategorySubName()%>
+			<a href="<%=request.getContextPath()%>/product/productList.jsp?mainCategory=<%=product.getCategorySubname()%>&subCategory=<%=product.getCategorySubname()%>" class="stext-109 cl8 hov-cl1 trans-04">
+				<%=product.getCategorySubname()%>
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
 
@@ -168,8 +165,7 @@
 							<%=product.getProductName()%>
 						</h4>
 <%
-						Discount discount = dDao.selectDiscountOneNow(product.getProductNo());
-						if(discount == null) {
+						if(product.getDiscountRate() == 0) {
 %>
 							<span class="mtext-106 cl2">
 								<%=product.getProductPrice()%>원
@@ -179,10 +175,10 @@
 %>
 							<span class="mtext-106 cl2">
 								<span style="font-size: 20px; color: red;">
-									<%=(int)(discount.getDiscountRate() * 100)%>%&nbsp;
+									<%=(int)(product.getDiscountRate() * 100)%>%&nbsp;
 								</span>
 								<span class="stext-105 cl7" style="text-decoration:line-through"><%=product.getProductPrice()%>원</span>	
-								<%=(int)(product.getProductPrice()*(1-discount.getDiscountRate()))%>원
+								<%=product.getProductDiscountPrice()%>원
 							</span>
 <%								
 						}
