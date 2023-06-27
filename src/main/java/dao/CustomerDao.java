@@ -236,6 +236,25 @@ public class CustomerDao {
 		return row;
 	}
 
+	// 내 포인트 조회 다시 생성
+	public int selectMyPointNew(String id) throws Exception {
+		// 반환할 변수 선언
+		int myPoint = 0;
+		// db 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 영향받은 행의 수 반환받아 저장
+		String sql = "SELECT cstm_point FROM customer WHERE id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()) {
+			myPoint = rs.getInt(1);
+		}
+		
+		return myPoint;
+	}
+	
 	// 내 포인트 조회
 	public int selectMyPoint(String id) throws Exception {
 		// 반환할 변수 선언
