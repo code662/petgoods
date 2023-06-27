@@ -92,7 +92,7 @@
 	CustomerDao customerDao = new CustomerDao();
 
 	// 나의 포인트 조회
-	int myPoint = customerDao.selectMyPoint(id);
+	int myPoint = customerDao.selectMyPointNew(id);
 	System.out.println(myPoint + " <-- myPoint(addOrderCart)");
 	
 	// 이름 조회
