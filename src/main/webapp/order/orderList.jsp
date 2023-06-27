@@ -10,7 +10,7 @@
 	// 필터 : 아이디, 상태, 날짜 (기본정렬 주문일자 최신순)
 	// 아이디 검색 / 주문상태 선택 / 날짜 범위 선택
 	
-	// 주문상태 수정 -> 옵션 : 결제완료 / 취소 / 배송완료 / 구매확정 -> modifyOrderStatusAction.jsp 파일에서 실행
+	// 주문상태 수정 -> '결제완료' 일 경우 '배송완료' 설정 -> modifyOrderStatusAction.jsp 파일에서 실행
 
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
@@ -45,7 +45,6 @@
 	if (request.getParameter("searchId") != null) {
 		searchId = request.getParameter("searchId");
 	}
-	
 	
 	// 주문상태 선택 
 	String orderStatus = "";
@@ -190,7 +189,7 @@
 													}
 												}
 											}
-											// ture이면 체크
+											// true이면 체크
 											if (checked[m-1] == true) {
 										%> 
 											<input type="checkbox" name="ckMonth" value="<%=m%>" checked="checked" class="rs1-select2 select2-container--open select2-dropdown"><%=m%>월
@@ -205,7 +204,7 @@
 											
 									</div>
 									<button type="submit" style="color: #747474" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">검색</button>
-									</div>
+								</div>
 									
 								<table class="table-shopping-cart">
 								<!-- 	<colgroup>
@@ -248,7 +247,6 @@
 							  			</td>
 								<%
 									} else {
-								
 								%>
 										<td class="stext-112 cl8 p-l-5" style="font-size:18px;"><%=o.getOrderStatus()%></td>
 								<%
@@ -274,9 +272,7 @@
 										<a href="<%=request.getContextPath()%>/order/orderList.jsp?currentPage=<%=minPage - pagePerPage%>&searchId=<%=searchId%>&orderStatus=<%=orderStatus%><%=check%>" class="flex-c-m how-pagination1 trans-04 m-all-7">이전</a>
 								<%
 									}
-								%>
-								
-								<%
+
 									// [이전] [다음] 탭 내에서 반복
 									for (int i = minPage; i <= maxPage; i++) {
 										if (currentPage == i) { // 해당 페이지는 링크 없이 표시 (css 적용 전)
