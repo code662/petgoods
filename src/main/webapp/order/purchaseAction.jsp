@@ -65,6 +65,9 @@
 	order.setOrderPrice(orderPrice);
 	order.setOrderCnt(orderCnt);
 	
+	ArrayList<Orders> list = new ArrayList<>();
+	list = ordersDao.selectStatusNew(order);
+	
 	int row = ordersDao.modifyOrdersStatus(order);
 	System.out.println(row + " <-- row(purchaseAction)");
 	
@@ -72,10 +75,15 @@
 		System.out.println("구매확정 성공");
 		msg = URLEncoder.encode("구매확정 및 포인트 적립이 완료되었습니다.", "UTF-8");
 		
-		int row2 = customerDao.addPlusPoint(order);
+		int row2 = 0;
+		for (Orders o : list) {
+			row2 += customerDao.addPlusPoint(o); 
+		}
+		
+		// int row2 = customerDao.addPlusPoint(order);
 		System.out.println(row2 + " <-- row2(purchaseAction)");
 		
-		if (row2 == 1) {
+		if (row2 >= 1) {
 			System.out.println("포인트 적립 성공");
 		} else {
 			System.out.println("포인트 적립 실패");
