@@ -44,7 +44,7 @@
 <jsp:include page="/inc/link.jsp"></jsp:include>
 </head>
 <body>
-<jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
+<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
 <jsp:include page="/inc/cart.jsp"></jsp:include>
 
@@ -55,7 +55,10 @@
 				Home
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
-	
+			<a href="<%=request.getContextPath()%>/customer/myPage.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				MyPage
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
 			<span class="stext-109 cl4">
 				QuestionList
 			</span>
@@ -71,40 +74,29 @@
 							<h4 class="mtext-111 cl2  p-r-20">
 								상품 문의 리스트
 							</h4>
-							<div class="fs-18 cl11 stext-102 flex-w m-r--5">
-								<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
-									<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
-									<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-									Search
-								</div>
-								<a href="<%=request.getContextPath()%>/discount/addDiscount.jsp" class="flex-c-m stext-106 cl6 size-102 bor4 pointer hov-btn3 trans-04 m-tb-4 m-l-8">
-									<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-plus"></i>
-										할인 상품 추가
-								</a>
-							</div>
 						</div>
 							<!-- 할인상품리스트 -->
 							<table class="table-shopping-cart">
 								<tr class="table_head" >
-									<th class="column-1" style="width: 10%">아이디</th>
-									<th class="column-1" style="width: 25%">상품이름</th>
-									<th class="column-1" style="width: 10%">문의유형</th>
-									<th class="column-1" style="width: 25%">문의제목</th>
-									<th class="column-1" style="width: 15%">문의상태</th>
+									<th class="column-7-10">아이디</th>
+									<th class="column-7-25">상품이름</th>
+									<th class="column-7-10">문의유형</th>
+									<th class="column-7-25">문의제목</th>
+									<th class="column-7-15">문의상태</th>
 								</tr>
 							<%
 								for(Question q : list) {
 							%>
 									<tr class="table_head" style="height: 100px;">
-										<td class="column-1" style="width: 10%"><%=q.getId() %></td>
-										<td class="column-1" style="width: 25%" ><%=pDao.selectProductOne(q.getProductNo()).getProductName() %></td>
-										<td class="column-1" style="width: 10%"><%=q.getqCategory() %></td>
-										<td class="column-1" style="width: 25%">
+										<td class="column-7-10"><%=q.getId() %></td>
+										<td class="column-7-25"><%=pDao.selectProductOne(q.getProductNo()).getProductName() %></td>
+										<td class="column-7-10"><%=q.getqCategory() %></td>
+										<td class="column-7-25">
 											<a href="<%=request.getContextPath()%>/qna/myQuestionOne.jsp?questionNo=<%=q.getqNo()%>" class="cl5">
 												<%=q.getqTitle() %>
 											</a>	
 										</td>
-										<td class="column-1" style="width: 15%"><%=q.getqStatus() %></td>
+										<td class="column-7-15"><%=q.getqStatus() %></td>
 									</tr>
 							<%		
 								}
@@ -112,7 +104,7 @@
 							</table>
 							
 							<!-- Pagination -->
-							<div class="flex-l-m flex-w w-full p-t-10 m-lr--7" style="justify-content: center">
+							<div class="flex-l-m flex-w w-full p-t-10 m-lr--7 cen">
 							<%
 								// 페이징 수
 								int pagePerPage = 5;

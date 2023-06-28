@@ -1978,8 +1978,20 @@ input.num-product::-webkit-inner-spin-button {
   text-align: center;
 }
 
+.table-shopping-cart .column-7-15 {
+  width: 15%;
+  padding-left: 40px;
+  text-align: center;
+}
+
 .table-shopping-cart .column-7-20 {
   width: 20%;
+  padding-left: 40px;
+  text-align: center;
+}
+
+.table-shopping-cart .column-7-25 {
+  width: 25%;
   padding-left: 40px;
   text-align: center;
 }
