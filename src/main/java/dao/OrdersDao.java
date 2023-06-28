@@ -86,7 +86,7 @@ public class OrdersDao {
 		return list;
 	}
 
-	// 고객아이디별 + 주문상태별 주문리스트 조회
+	// 고객아이디별 + 주문상태별 + 월별 주문리스트 조회
 	public ArrayList<Orders> selectOrdersByIdStatus(int[] intCkMonth,String searchId, String orderStatus, int beginRow, int rowPerPage) throws Exception {
 		// 반환할 ArrayList<Orders> 생성
 		ArrayList<Orders> list = new ArrayList<>();
@@ -213,7 +213,109 @@ public class OrdersDao {
 		
 		return list;
 	}
-
+	
+	// 고객아이디별 + 주문상태별 + 월별 주문리스트 행 수 조회 (페이징)
+		public int selectOrdersByIdStatusCnt(int[] intCkMonth,String searchId, String orderStatus) throws Exception {
+			// 반환할 cnt값 생성
+			int cnt = 0;
+			// DB 접속
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			String sql = null;
+			PreparedStatement stmt = null;
+			// 경우의 수에 따라 쿼리문 분기 
+			// 1) 입력값 없음
+			// 2) id검색값만 존재 
+			// 3) 주문상태만 존재 
+			// 4) 월값만 존재
+			// 5) id검색값, 주문상태만 존재
+			// 6) id검색값, 월값만 존재
+			// 7) 주문상태, 월값만 존재
+			// 8) 모든 값 존재
+			
+			if (intCkMonth == null && searchId.equals("") && orderStatus.equals("")) { // 입력값 없음
+				sql = "SELECT COUNT(*) FROM orders";
+				stmt = conn.prepareStatement(sql);
+			} else if (intCkMonth == null && orderStatus.equals("")) { // id검색값만 존재
+				sql = "SELECT COUNT(*) FROM orders WHERE id LIKE ?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, "%" + searchId + "%");
+			} else if (intCkMonth == null && searchId.equals("")) { // 주문상태만 존재
+				sql = "SELECT COUNT(*) FROM orders WHERE order_status = ?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, orderStatus);
+			} else if (searchId.equals("") && orderStatus.equals("")) { // 월값만 존재
+				sql = "SELECT COUNT(*) FROM orders WHERE MONTH(createdate) IN (?";
+				// 쿼리의 ? 개수 설정
+				for (int i = 1; i < intCkMonth.length; i += 1) {
+					sql += ", ?";
+				}
+				sql += ")";
+				stmt = conn.prepareStatement(sql);
+				// 쿼리에 ? 값 설정
+				for (int i = 0; i < intCkMonth.length; i += 1) {
+					stmt.setInt(i + 1, intCkMonth[i]);
+				}
+			} else if (intCkMonth == null) { // id검색값, 주문상태만 존재
+				sql = "SELECT COUNT(*) FROM orders WHERE order_status = ? AND id LIKE ?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, orderStatus);
+				stmt.setString(2, "%" + searchId + "%");
+			} else if (orderStatus.equals("")) { // id검색값, 월값만 존재
+				sql = "SELECT COUNT(*) FROM orders WHERE MONTH(createdate) IN (?";
+				// 쿼리의 ? 개수 설정
+				for (int i = 1; i < intCkMonth.length; i += 1) {
+					sql += ", ?";
+				}
+				sql += ") AND id LIKE ?";
+				
+				stmt = conn.prepareStatement(sql);
+				// 쿼리에 ? 값 설정
+				for (int i = 0; i < intCkMonth.length; i += 1) {
+					stmt.setInt(i + 1, intCkMonth[i]);
+				}
+				stmt.setString(intCkMonth.length + 1, "%" + searchId + "%");
+			
+			} else if (searchId.equals("")) { // 주문상태, 월값만 존재
+				sql = "SELECT COUNT(*) FROM orders WHERE MONTH(createdate) IN (?";
+				// 쿼리의 ? 개수 설정
+				for (int i  = 1; i < intCkMonth.length; i += 1) {
+					sql += ", ?";
+				}
+				sql += ") AND order_status = ?";
+				
+				stmt = conn.prepareStatement(sql);
+				// 쿼리에 ? 값 설정
+				for (int i = 0; i < intCkMonth.length; i += 1) {
+					stmt.setInt(i + 1, intCkMonth[i]);
+				}
+				stmt.setString(intCkMonth.length + 1, orderStatus);
+				
+			} else { // 모든 값 존재
+				sql = "SELECT COUNT(*) FROM orders WHERE MONTH(createdate) IN (?";
+				// 쿼리의 ? 개수 설정
+				for (int i  = 1; i < intCkMonth.length; i += 1) {
+					sql += ", ?";
+				}
+				sql += ") AND order_status = ? AND id LIKE ?";
+				
+				stmt = conn.prepareStatement(sql);
+				// 쿼리에 ? 값 설정
+				for (int i = 0; i < intCkMonth.length; i += 1) {
+					stmt.setInt(i + 1, intCkMonth[i]);
+				}
+				stmt.setString(intCkMonth.length + 1, orderStatus);
+				stmt.setString(intCkMonth.length + 2, "%" + searchId + "%");
+			}
+			
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				cnt = rs.getInt(1);
+			}
+			
+			return cnt;
+		}
+	
 	// 내 주문 조회
 	public ArrayList<Orders> selectMyOrders(String id, int beginRow, int rowPerPage) throws Exception {
 		// 반환할 ArrayList<Order> 생성
