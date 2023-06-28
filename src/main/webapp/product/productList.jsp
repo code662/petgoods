@@ -4,7 +4,7 @@
 <%@ page import="vo.*" %>
 <%
 	// 시작 번호
-	int beginRow = 0;
+	int beginRow = 1;
 	// 페이지 당 상품 개수
 	int rowPerPage = 16;
 	// 카테고리 변수
@@ -39,13 +39,12 @@
 	// Dao 객체 생성
 	CategoryDao cDao = new CategoryDao();
 	ProductDao pDao = new ProductDao();
-
 	// 상품 개수
 	int productCnt = pDao.productCnt(mainCategory, subCategory);
 	// 카테고리 리스트
 	ArrayList<Category> categoryMainList = cDao.selectMainCategory();
 	// 상품 리스트
-	ArrayList<Product> productList = pDao.selectProductList(beginRow, rowPerPage, mainCategory, subCategory);
+	ArrayList<Product> productList = pDao.selectProductList(sort, beginRow, rowPerPage, mainCategory, subCategory);
 	
 		
 %>
@@ -91,7 +90,7 @@
 		<div class="container">
 			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-				<form action="<%=request.getContextPath()%>/product/productList.jsp?rowPerPage=<%=rowPerPage%>" id="전체">
+				<form action="<%=request.getContextPath()%>/product/productList.jsp" id="전체">
 					<input name="mainCategory" type="hidden" value="전체">
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter="*" onclick="$('#전체').submit()">
 						전체
@@ -101,7 +100,7 @@
 					if(mainCategory.equals("전체")){
 						for(Category c : categoryMainList) {
 				%>
-							<form action="<%=request.getContextPath()%>/product/productList.jsp?rowPerPage=<%=rowPerPage%>" id="<%=c.getCategoryMainName()%>">
+							<form action="<%=request.getContextPath()%>/product/productList.jsp" id="<%=c.getCategoryMainName()%>">
 								<input name="mainCategory" type="hidden" value="<%=c.getCategoryMainName()%>">
 								<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".<%=c.getCategoryMainName()%>" onclick="$('<%=c.getCategoryMainName()%>').submit()">
 									<%=c.getCategoryMainName()%>
@@ -113,7 +112,7 @@
 						ArrayList<Category> categorySubList = cDao.selectSubCategory(mainCategory);
 						for(Category c : categorySubList) {
 				%>
-							<form action="<%=request.getContextPath()%>/product/productList.jsp?rowPerPage=<%=rowPerPage%>">
+							<form action="<%=request.getContextPath()%>/product/productList.jsp">
 								<input name="mainCategory" type="hidden" value="<%=mainCategory%>">
 								<input name="subCategory" type="hidden" value="<%=c.getCategorySubName()%>">
 								<button id="<%=c.getCategorySubName()%>" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".<%=c.getCategorySubName()%>" onclick="$('<%=c.getCategorySubName()%>').submit()">
@@ -173,7 +172,7 @@
 							</div>
 							<ul>
 								<li class="p-b-6">
-									<a href="createdate DESC" class="filter-link stext-106 trans-04">
+									<a href="<%=request.getContextPath()%>/product/productList.jsp?mainCategory=<%=mainCategory%>&subCategory=<%=subCategory%>&sort=ORDER BY createdate DESC" class="filter-link stext-106 trans-04">
 										최신순
 									</a>
 								</li>
@@ -187,34 +186,34 @@
 							</div>
 							<ul>
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										판매량순
-									</a>
-								</li>
-							</ul>
-						</div>
-
-						<div class="filter-col3 p-r-15 p-b-27">
-							<div class="mtext-102 cl2 p-b-15">
-								&nbsp;
-							</div>
-							<ul>
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
+									<a href="<%=request.getContextPath()%>/product/productList.jsp?mainCategory=<%=mainCategory%>&subCategory=<%=subCategory%>&sort=ORDER BY productDiscountPrice ASC" class="filter-link stext-106 trans-04">
 										낮은가격순
 									</a>
 								</li>
 							</ul>
 						</div>
 
-						<div class="filter-col4 p-b-27">
+						<div class="filter-col3 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
 								&nbsp;
 							</div>
 							<ul>
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
+									<a href="<%=request.getContextPath()%>/product/productList.jsp?mainCategory=<%=mainCategory%>&subCategory=<%=subCategory%>&sort=ORDER BY productDiscountPrice DESC" class="filter-link stext-106 trans-04">
 										높은가격순
+									</a>
+								</li>
+							</ul>
+						</div>
+						
+							<div class="filter-col4 p-r-15 p-b-27">
+							<div class="mtext-102 cl2 p-b-15">
+								&nbsp;
+							</div>
+							<ul>
+								<li class="p-b-6">
+									<a href="" class="filter-link stext-106 trans-04">
+										
 									</a>
 								</li>
 							</ul>
@@ -347,7 +346,7 @@
 			<%
 				if (rowPerPage < productCnt) {
 			%>
-					<a href="<%=request.getContextPath()%>/product/productList.jsp?rowPerPage=<%=rowPerPage+8%>&mainCategory=<%=mainCategory%>&subCategory=<%=subCategory%>&loadMore=true" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+					<a href="<%=request.getContextPath()%>/product/productList.jsp?rowPerPage=<%=rowPerPage+8%>&mainCategory=<%=mainCategory%>&subCategory=<%=subCategory%>&sort=<%=sort%>&loadMore=true" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
 						Load More
 					</a>
 			<%		
