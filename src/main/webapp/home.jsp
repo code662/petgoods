@@ -6,8 +6,11 @@
 
 // Dao 객체 생성
 ProductDao pDao = new ProductDao();
+
+String sort = "ORDER BY createdate DESC";
+
 // 상품 리스트
-ArrayList<Product> productList = pDao.selectProductList(0, 8, "전체", "전체");
+ArrayList<Product> productList = pDao.selectProductList(sort, 0, 8, "전체", "전체");
 %>
 <!DOCTYPE html>
 <html>
