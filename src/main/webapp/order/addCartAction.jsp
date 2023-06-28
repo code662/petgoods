@@ -52,8 +52,7 @@
 		} else { // 중복값 있을 경우 메시지와 함께 해당 상품 상세 페이지로 이동
 			System.out.println("중복 상품 존재(addCartAction)");
 			msg = URLEncoder.encode("이미 장바구니에 담았습니다.", "UTF-8");
-			response.sendRedirect(
-			request.getContextPath() + "/product/productOne.jsp?productNo=" + productNo + "&msg=" + msg);
+			response.sendRedirect(request.getContextPath() + "/product/productOne.jsp?productNo=" + productNo + "&msg=" + msg);
 			return;
 		}
 	
