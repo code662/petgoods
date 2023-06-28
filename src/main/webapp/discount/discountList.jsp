@@ -26,8 +26,13 @@
 	int rowPerPage = 5; // 한페이지에 출력할 게시물 수
 	int beginRow = (currentPage -1)*rowPerPage; // 한페이지에 출력될 첫번째 행 번호
 	
-	ReviewDao rd = new ReviewDao(); // Dao 객체 생성
-	int totalRow = dd.discountCnt(); // 전체 행 수
+	int totalRow = 0; // 전체 행 수
+	if(request.getParameter("searchProductNo") == null
+			|| request.getParameter("searchProductNo").equals("")){
+		totalRow = dd.discountCnt();
+	}else{ 
+		totalRow = dd.searchCnt(Integer.parseInt(request.getParameter("searchProductNo")));
+	}
 
 	int lastPage = totalRow / rowPerPage; // 마지막페이지
 	if(totalRow % rowPerPage != 0){
@@ -44,13 +49,13 @@
 		endPage = lastPage;
 	}
 
-	
+	int searchProductNo = 0;
 	ArrayList<Discount> list = new ArrayList<>();
 	if(request.getParameter("searchProductNo") == null
 			|| request.getParameter("searchProductNo").equals("")){ //검색값이 없을 경우 : 전체리스트
 		list = dd.selectDiscount(beginRow, rowPerPage);
 	}else{ // 검색값이 있을 경우 : product_no별로 리스트
-		int searchProductNo = Integer.parseInt(request.getParameter("searchProductNo"));
+		searchProductNo = Integer.parseInt(request.getParameter("searchProductNo"));
 		list = dd.searchProducNo(searchProductNo, beginRow, rowPerPage);
 	}
 	
@@ -168,11 +173,20 @@
 						<%
 							//이전 페이지 버튼
 							if(startPage >1){
+								if(request.getParameter("searchProductNo") == null
+						    			|| request.getParameter("searchProductNo").equals("")){
 						%>
 					 				<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=startPage-pagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
 					 					이전 
 					 				</a>
 					   	<%
+								}else{
+						%>
+					 				<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=startPage-pagePerPage %>&searchProductNo=<%=searchProductNo %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+					 					이전 
+					 				</a>
+					   	<%
+								}
 							}
 					        for(int i = startPage; i <= endPage; i++){
 					        	if(i==currentPage){
@@ -182,20 +196,40 @@
 					       			</a>
 					    <%
 					        	}else{
+					        		if(request.getParameter("searchProductNo") == null
+							    			|| request.getParameter("searchProductNo").equals("")){
 					   	%>
-					       			<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=i %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
-					       				<%=i %>
-					       			</a>
+						       			<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=i %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+						       				<%=i %>
+						       			</a>
 					    <%
-					       		}
+					        		}else{
+					    %>
+						       			<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=i %>&searchProductNo=<%=searchProductNo %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+						       				<%=i %>
+						       			</a>
+						<%
+					        		}
+					        	}
 					        }
+					        
 					    	//다음 페이지 버튼
 					    	if(endPage != lastPage){
+					    		if(request.getParameter("searchProductNo") == null
+						    			|| request.getParameter("searchProductNo").equals("")){
 					    %>
-								<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=startPage+pagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
-									다음
-								</a>
+										<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=startPage+pagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+											다음
+										</a>
 						<%
+						    	}else{
+						%>
+										<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=startPage+pagePerPage %>&searchProductNo=<%=searchProductNo %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+											다음
+										</a>
+						<%
+						    	}
+					  
 							}
 						%>
 						</div>

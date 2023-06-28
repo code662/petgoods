@@ -140,7 +140,27 @@ public class DiscountDao {
 		 
 		return cnt;
 	}
-		
+	
+	// product_no로 검색한 할인 품목 갯수 조회
+	public int searchCnt(int searchProductNo) throws Exception {
+		// 반환할 변수 생성
+		int cnt = 0;
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 저장
+		String sql = "SELECT COUNT(*) FROM discount d INNER JOIN product p ON d.product_no = p.product_no WHERE d.product_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, searchProductNo);
+	
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			cnt = rs.getInt(1);
+		}
+	
+		return cnt;
+	}	
+	
 	// 같은 제품 할인 기간 중복 체크
 	public int checkDiscountPeriod(Discount discount) throws Exception {
 		// 중복 체크 변수
@@ -256,4 +276,5 @@ public class DiscountDao {
 		
 		return rate;
 	}
+	
 }
