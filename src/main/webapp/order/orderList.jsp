@@ -75,7 +75,7 @@
 	int beginRow = (currentPage - 1) * rowPerPage;
 	
 	// 전체 행 수 
-	int totalRow = ordersDao.selectOrdersCnt();
+	int totalRow = ordersDao.selectOrdersByIdStatusCnt(intCkMonth, searchId, orderStatus);
 	
 	// 마지막 페이지 번호
 	int lastPage = totalRow / rowPerPage;
@@ -166,11 +166,11 @@
 							
 									<label class="m-tb-5 p-l-20 p-r-5">주문상태 : </label>
 									<select name="orderStatus">
-										<option value="" <%if(orderStatus.equals("")){ %>selected<%}%>>선택</option>
-										<option value="결제완료" <%if(orderStatus.equals("결제완료")){ %>selected<%}%>>결제완료</option>
-										<option value="주문취소" <%if(orderStatus.equals("주문취소")){ %>selected<%}%>>주문취소</option>
-										<option value="배송완료" <%if(orderStatus.equals("배송완료")){ %>selected<%}%>>배송완료</option>
-										<option value="구매확정" <%if(orderStatus.equals("구매확정")){ %>selected<%}%>>구매확정</option>
+										<option value="" <%if (orderStatus.equals("")){ %>selected<%}%>>선택</option>
+										<option value="결제완료" <%if (orderStatus.equals("결제완료")){ %>selected<%}%>>결제완료</option>
+										<option value="주문취소" <%if (orderStatus.equals("주문취소")){ %>selected<%}%>>주문취소</option>
+										<option value="배송완료" <%if (orderStatus.equals("배송완료")){ %>selected<%}%>>배송완료</option>
+										<option value="구매확정" <%if (orderStatus.equals("구매확정")){ %>selected<%}%>>구매확정</option>
 									</select>
 								</div>	
 								<br>
@@ -180,12 +180,12 @@
 										boolean[] checked = {false, false, false, false, false, false, false, false, false, false, false, false};
 										//for 문 보다는 foreach문을 활용
 										int[] months = {1,2,3,4,5,6,7,8,9,10,11,12};
-										for(int m : months) {
-											if(intCkMonth != null) {
+										for (int m : months) {
+											if (intCkMonth != null) {
 												// 체크한 월이면 true 대입
-												for(int i : intCkMonth) {
-													if(i == m) {
-														checked[i-1] = true;
+												for (int i : intCkMonth) {
+													if (i == m) {
+														checked[i - 1] = true;
 													}
 												}
 											}
