@@ -199,7 +199,7 @@
 								<input type="hidden" name="productNo" value="<%=product.getProductNo()%>">
 								<input type="hidden" name="productImg" value="<%=pDao.selectProductImg(product.getProductNo()).getProductSaveFilename()%>">
 								<input type="hidden" name="productName" value="<%=product.getProductName()%>">
-								<input type="hidden" name="productPrice" value="<%=product.getProductPrice()%>">
+								<input type="hidden" name="productPrice" value="<%=product.getProductDiscountPrice()%>">
 								<div class="flex-w flex-r-m p-b-10">
 									<%
 										// 사원이 로그인 중일 때 사원용 헤더 표시
