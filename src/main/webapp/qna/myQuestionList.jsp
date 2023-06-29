@@ -94,7 +94,7 @@
 									<th class="column-7-25">상품이름</th>
 									<th class="column-7-10">문의유형</th>
 									<th class="column-7-25">문의제목</th>
-									<th class="column-7-15">문의상태</th>
+									<th class="column-7-25-r">문의상태</th>
 								</tr>
 							<%
 								for(Question q : list) {
@@ -109,12 +109,27 @@
 												</a>
 											</span>
 										</td>
-										<td class="column-7-15"><%=q.getqStatus() %></td>
+										<td class="column-7-25-r"><%=q.getqStatus() %></td>
 									</tr>
 							<%		
 								}
 							%>
 							</table>
+							
+							<br>
+							<div class="flex-w flex-sb-m p-b-17">
+								<span class="mtext-107 cl2 p-r-20">
+									&nbsp;
+								</span>
+								<span class="fs-18 cl11 stext-102 flex-w m-r--5">
+									<a href="<%=request.getContextPath()%>/customer/myPage.jsp">
+										<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
+											취소
+										</span>
+									</a>
+								</span>
+							</div>
+							<br>
 							
 							<!-- Pagination -->
 							<div class="flex-l-m flex-w w-full p-t-10 m-lr--7" style="justify-content: center">

@@ -1984,6 +1984,12 @@ input.num-product::-webkit-inner-spin-button {
   text-align: center;
 }
 
+.table-shopping-cart .column-7-25-r {
+  width: 25%;
+  text-align: center;
+  padding-right: 40px;
+}
+
 .table-shopping-cart .column-7-20 {
   width: 20%;
   padding-left: 40px;
@@ -2701,6 +2707,9 @@ input.num-product::-webkit-inner-spin-button {
   height: 390px;
 }
 
+.size-304 {
+  height: 15px;
+}
 
 /*==================================================================
    BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND 

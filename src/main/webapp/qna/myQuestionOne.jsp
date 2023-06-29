@@ -27,40 +27,18 @@
 	ProductDao pDao = new ProductDao();
 	AnswerDao aDao = new AnswerDao();
 	
-	// 
 	Question question = qDao.selectQuestionOne(questionNo);
 	Answer answer = aDao.selectAnswerOne(questionNo);
-
-	
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상품 추가</title>
+<title>상품 문의 상세</title>
 <jsp:include page="/inc/link.jsp"></jsp:include>
-<script>
-	$(document).ready(function(){
-		$('#addAnswerBtn').click(function(){
-			if($('#AnswerContent').val() == ''){
-				alert('답변을 작성해주세요');
-			}else {
-				$('#addAnswer').submit();
-			}
-		});
-		
-		$('#modifyAnswerBtn').click(function(){
-			if($('#AnswerContent').val() == ''){
-				alert('답변을 작성해주세요');
-			}else {
-				$('#modifyAnswer').submit();
-			}
-		});
-	});
-</script>
 </head>
 <body>
-<jsp:include page="/inc/employeesHeader.jsp"></jsp:include>
+<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
 <jsp:include page="/inc/sidebar.jsp"></jsp:include>
 <jsp:include page="/inc/cart.jsp"></jsp:include>
 
@@ -72,8 +50,13 @@
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
 			
-			<a href="<%=request.getContextPath()%>/qna/questionList.jsp" class="stext-109 cl8 hov-cl1 trans-04">
-				QuestionList
+			<a href="<%=request.getContextPath()%>/customer/myPage.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				MyPage
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+			
+			<a href="<%=request.getContextPath()%>/qna/myQuestionList.jsp" class="stext-109 cl8 hov-cl1 trans-04">
+				MyQuestionList
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
 
@@ -86,74 +69,70 @@
 	<section class="bg0 p-t-65 p-b-60">
 			<div class="col-sm-10 col-lg-7 col-xl-7 m-lr-auto m-b-50">
 				<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
-					<h4 class="mtext-109 cl2 p-b-30">
-						상품 문의 상세
-					</h4>
-					
-					<div class="flex-w flex-t p-b-5">
-						<div class="size-208">
-							<span class="stext-110 cl2 p-l-10" style="font-weight: bold">
+					<div class="flex-w flex-sb-m p-b-50">
+						<h4 class="mtext-111 cl2  p-r-20">
+							상품 문의 상세
+						</h4>
+						
+						<div class="fs-18 cl11 stext-102 flex-w m-r--5">
+							<span class="stext-110 cl2 flex-c-m size-104 bor4 trans-04 m-tb-4 m-l-8 cen">
 								<%=question.getqStatus() %>
 							</span>
 						</div>
-		
-						<div class="size-209 p-r-18 p-r-0-sm w-full-ssm bg0">
-							<div class="stext-111 cl8 plh3 size-111 p-lr-15">
-							
-							</div>
-						</div>
 					</div>
 					
-					<div class="flex-w flex-t bor12 p-b-5">
-						<div class="size-208">
-							<span class="stext-110 cl2 p-l-10">
-								<%=question.getId() %>
-							</span>
+					<div class="flex-w flex-sb-m p-b-30 p-l-20">	
+						<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+							<img src="<%=request.getContextPath()%>/pimg/<%= pDao.productImgName(question.getProductNo()) %>" style="width:80px; height:80px;">
 						</div>
 		
-						<div class="size-209 p-r-18 p-r-0-sm w-full-ssm bg0">
-							<div class="stext-111 cl8 plh3 size-111">
+						<div class="size-207">
+							<div class="flex-w flex-sb-m p-b-17 cen">
 								<%=pDao.selectProductOne(question.getProductNo()).getProductName() %>
 							</div>
 						</div>
 					</div>
 					
 					<div class="flex-w flex-t p-t-15">
-						<div class="size-208">
-							<span class="stext-110 cl5 p-lr-10">
+							<span class="mtext-103 cl5 p-lr-10">
 								<%=question.getqTitle()%>
 							</span>
-						</div>
-						<div class="size-209p-r-18 p-r-0-sm w-full-ssm bg0">
-							<span class="stext-109 cl5">
+							<span class="stext-109 flex-c-m size-304 cl6 bor7 p-lr-10">
 								<%=question.getqCategory()%>
 							</span>
-						</div>
 					</div>
 					
 					<div class="flex-w flex-t bor12 p-tb-15">
-						<div class="stext-111 cl8 plh3 p-t-5 p-l-10">
+						<div class="stext-117 cl8 plh3 p-t-5 p-l-15">
 								<%=question.getqContent()%>
 						</div>
 					</div>
+					
 					<%
-						if(answer != null) {
+						if(question.getqStatus().equals("답변완료")) { // 답변이 완료상태일때만 출력
 					%>
-							<div class="flex-w flex-t bor12 p-t-15 p-b-30">
-								<div class="size-208 w-full-ssm">
-									<span class="stext-110 cl2 p-lr-10">
-										답변:
-									</span>
-								</div>
-				
-								<div class="size-209 p-r-0-sm w-full-ssm bg0">
-									<span class="stext-111 cl8 plh3 size-120 p-lr-15" id="AnswerContent" name="AnswerContent"><%=answer.getaContent() %></span>
-								</div>
+							<div class=" w-full-ssm p-t-15 p-b-20">
+								<span class="mtext-102 cl3 p-lr-10">
+									답변 펫프렌즈 담당자
+								</span>
+							</div>
+			
+							<div class=" ">
+								<span class="stext-117 cl8 plh3 size-120 p-lr-15" id="AnswerContent" name="AnswerContent"><%=answer.getaContent() %></span>
 							</div>
 					<%		
 						} 
 					%>
+					<br>
+					<div class="flex-w dis-inline-block cen">
+						<a href="<%=request.getContextPath()%>/qna/myQuestionList.jsp" class="cen">
+							<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointers">
+								취소
+							</span>
+						</a>
+					</div>
 				</div>
+				
 			</div>
 	</section>
 <jsp:include page="/inc/footer.jsp"></jsp:include>
