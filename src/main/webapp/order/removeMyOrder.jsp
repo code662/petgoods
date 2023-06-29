@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="vo.*"%>
 <%@ page import="dao.*"%>
+<%@ page import="java.util.*"%>
     
 <%
 	// 주문취소 폼 
@@ -31,6 +32,13 @@
 	
 	// 상품이름 조회
 	String productName = ordersDao.selectProductName(order.getProductNo());
+	
+	// 함께 주문한 상품들의 목록
+	ArrayList<Orders> list = new ArrayList<>();
+	list = ordersDao.selectStatusNew(order);
+	
+	// 함께 주문한 상품의 개수 (선택한 상품 포함)
+	int cnt = list.size();
 
 	System.out.println("==============removeMyOrder.jsp==============");
 %>
@@ -45,10 +53,7 @@
 		<jsp:include page="/inc/customerHeader.jsp"></jsp:include>
 		<jsp:include page="/inc/sidebar.jsp"></jsp:include>
 		<jsp:include page="/inc/cart.jsp"></jsp:include>
-		<!-- <div>
-			<h1>주문취소</h1>
-		</div> -->
-		
+
 		<form action="<%=request.getContextPath()%>/order/removeMyOrderAction.jsp" method="post" class="bg0 p-t-75 p-b-85">
 			<div class="container">
 				<div class="row">
@@ -74,7 +79,6 @@
 										</span>
 									</div>
 								</div>
-								
 								<div class="flex-w flex-t bor12 p-t-15 p-b-30">
 								<div class="size-208 w-full-ssm">
 									<span class="stext-110 cl2" style="font-size:17px">
@@ -83,11 +87,20 @@
 								</div>
 								<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
 									<p class="stext-112 cl8 p-t-2" style="font-size:17px">
+								<%
+									if (cnt == 1) {
+								%>
 										<%=productName%>
+								<%
+									} else {
+								%>
+										<%=productName%> 외 <%=cnt - 1%> 개 상품
+								<%
+									}
+								%>
 									</p>
 								</div>
 							</div>
-							
 							<div class="flex-w flex-t bor12 p-t-15 p-b-30">
 							<div class="size-208 w-full-ssm">
 								<span class="stext-110 cl2" style="font-size:17px">
@@ -100,7 +113,6 @@
 								</p>
 							</div>
 							</div>
-							
 							<div class="flex-w flex-t bor12  p-t-15 p-b-30">
 							<div class="size-208 w-full-ssm">
 								<span class="stext-110 cl2" style="font-size:17px">
@@ -113,7 +125,6 @@
 								</p>
 							</div>
 							</div>
-						
 							<div class="flex-w flex-t bor12 p-t-15 p-b-30">
 							<div class="size-208 w-full-ssm">
 								<span class="stext-110 cl2" style="font-size:17px">
@@ -126,7 +137,6 @@
 								</p>
 							</div>
 							</div>
-							
 							<br>
 							<div class="flex-w dis-inline-block">
 								<button type="submit" style="color: #333333">
