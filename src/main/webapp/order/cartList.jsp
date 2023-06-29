@@ -47,6 +47,7 @@
 	
 	// model 
 	CartDao cartDao = new CartDao();
+	ProductDao productDao = new ProductDao(); 
 	
 	// 로그인 상태이면 로그인된 사용자의 id값을 새 id 변수에 지정
  	String msg = "";
@@ -142,14 +143,17 @@
 							<%
 									int totalPrice = 0;
 									for (Cart c : list) {
-									// 상품 이름 조회
-									String productName = cartDao.selectProductName(c.getProductNo());
-									// 상품 가격 조회
-									int productPrice = cartDao.selectProductPrice(c.getProductNo());
-									// 상품 이미지 조회
-									String productImg = cartDao.selectImg(c.getProductNo());
-									// 총 금액
-									totalPrice += productPrice * c.getCartCnt();			
+										Product p = new Product();
+										p = productDao.selectProductOne(c.getProductNo()); // 할인여부에 따른 상품 가격 가져오기
+										
+										// 상품 이름 조회
+										String productName = cartDao.selectProductName(c.getProductNo());
+										// 상품 가격 조회
+										int productPrice = p.getProductDiscountPrice();
+										// 상품 이미지 조회
+										String productImg = cartDao.selectImg(c.getProductNo());
+										// 총 금액
+										totalPrice += productPrice * c.getCartCnt();			
 							%>
 										<tr class="table_head">
 											<td class="text-center">
@@ -165,7 +169,7 @@
 												</a>
 											</td>
 											<td class="text-center">
-												<input type="hidden" id="productPrice" name="productPrice" value="<%=productPrice%>">
+												<input type="hidden" id="productPrice" name="productPrice" value="<%=p.getProductDiscountPrice()%>">
 												<%=productPrice%>원
 											</td>
 											<td class="text-center">
@@ -247,10 +251,13 @@
 									<%
 										int totalPrice = 0;
 											for (Cart c : list) {
+												Product p = new Product();
+												p = productDao.selectProductOne(c.getProductNo()); // 할인여부에 따른 상품 가격 가져오기
+												
 												// 상품 이름 조회
 												String productName = cartDao.selectProductName(c.getProductNo());
 												// 상품 가격 조회
-												int productPrice = cartDao.selectProductPrice(c.getProductNo());
+												int productPrice = p.getProductDiscountPrice();
 												// 상품 이미지 조회
 												String productImg = cartDao.selectImg(c.getProductNo());
 												// 총 금액
