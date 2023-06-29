@@ -11,17 +11,19 @@
 	}
 
 	Customer c = (Customer)session.getAttribute("loginId");
-
+	String id = c.getId();
+	
 	// 현재페이지
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null) {
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	// 
+	
 	ProductDao pDao = new ProductDao();
 	QuestionDao qDao = new QuestionDao();
+	
 	// 전체 행의 수
-	int totalRow = qDao.selectQuestionCnt(0);
+	int totalRow = qDao.myQuestionCnt(id);
 	// 페이지 당 행의 수
 	int rowPerPage = 5;
 	// 시작 행 번호
@@ -32,8 +34,19 @@
 	if(totalRow % rowPerPage != 0) {
 		lastPage = lastPage + 1;
 	}
+	// 페이징 수
+	int pagePerPage = 5;
+	// 최소 페이지
+	int minPage = ((currentPage-1) / pagePerPage) * pagePerPage + 1;
+	// 최대 페이지
+	int maxPage = minPage + pagePerPage - 1;
+	// 최대 페이지가 마지막 페이지 보다 크면 최대 페이지 = 마지막 페이지
+	if(maxPage > lastPage) {
+		maxPage = lastPage;
+	}
+	
 	// 현재 페이지에 표시 할 리스트
-	ArrayList<Question> list = qDao.selectMyQuestion(c.getId(),beginRow, rowPerPage);
+	ArrayList<Question> list = qDao.selectMyQuestion(id,beginRow, rowPerPage);
 
 %>
 <!DOCTYPE html>
@@ -71,14 +84,13 @@
 				<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
 					<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
 						<div class="flex-w flex-sb-m p-b-17">
-							<h4 class="mtext-111 cl2  p-r-20">
+							<h4 class="mtext-111 cl2  p-r-20 p-b-30">
 								상품 문의 리스트
 							</h4>
 						</div>
 							<!-- 할인상품리스트 -->
 							<table class="table-shopping-cart">
 								<tr class="table_head" >
-									<th class="column-7-10">아이디</th>
 									<th class="column-7-25">상품이름</th>
 									<th class="column-7-10">문의유형</th>
 									<th class="column-7-25">문의제목</th>
@@ -87,14 +99,15 @@
 							<%
 								for(Question q : list) {
 							%>
-									<tr class="table_head" style="height: 100px;">
-										<td class="column-7-10"><%=q.getId() %></td>
+									<tr class="table_head" style="height: 80px;">
 										<td class="column-7-25"><%=pDao.selectProductOne(q.getProductNo()).getProductName() %></td>
 										<td class="column-7-10"><%=q.getqCategory() %></td>
 										<td class="column-7-25">
-											<a href="<%=request.getContextPath()%>/qna/myQuestionOne.jsp?questionNo=<%=q.getqNo()%>" class="cl5">
-												<%=q.getqTitle() %>
-											</a>	
+											<span class="fs-18 cl11 stext-102 flex-w m-r--5 flex-c">
+												<a href="<%=request.getContextPath()%>/qna/myQuestionOne.jsp?questionNo=<%=q.getqNo()%>" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+													<%=q.getqTitle() %>
+												</a>
+											</span>
 										</td>
 										<td class="column-7-15"><%=q.getqStatus() %></td>
 									</tr>
@@ -104,20 +117,8 @@
 							</table>
 							
 							<!-- Pagination -->
-							<div class="flex-l-m flex-w w-full p-t-10 m-lr--7 cen">
+							<div class="flex-l-m flex-w w-full p-t-10 m-lr--7" style="justify-content: center">
 							<%
-								// 페이징 수
-								int pagePerPage = 5;
-								// 최소 페이지
-								int minPage = ((currentPage-1) / pagePerPage) * pagePerPage + 1;
-								// 최대 페이지
-								int maxPage = minPage + pagePerPage - 1;
-								// 최대 페이지가 마지막 페이지 보다 크면 최대 페이지 = 마지막 페이지
-								if(maxPage > lastPage) {
-									maxPage = lastPage;
-								}
-								// 이전 페이지
-								// 최소 페이지가 1보타 클 경우 이전 페이지 표시
 								//이전 페이지 버튼
 								if(minPage >1){
 							%>
