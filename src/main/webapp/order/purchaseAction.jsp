@@ -65,6 +65,7 @@
 	order.setOrderPrice(orderPrice);
 	order.setOrderCnt(orderCnt);
 	
+	// 함께 주문한 상품들의 목록
 	ArrayList<Orders> list = new ArrayList<>();
 	list = ordersDao.selectStatusNew(order);
 	
