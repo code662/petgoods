@@ -3,6 +3,7 @@
 <%@ page import="dao.*" %>
 <%@ page import="vo.*" %>
 <%@ page import="java.net.*" %>
+<%@ page import="java.util.*"%>
 
 <%
 	// 주문 취소 액션 
@@ -53,7 +54,10 @@
 	// 주문 시 사용한 포인트 조회
 	int minusPoint = customerDao.usedPoint(orderNo);
 	System.out.println(minusPoint + " <-- minusPoint(removeMyOrderAction)");
-		
+	
+	// 함께 주문한 상품들의 목록
+	ArrayList<Orders> list = new ArrayList<>();
+	list = ordersDao.selectStatusNew(order);
 	
 	// 주문 상태 변경
 	int row = ordersDao.modifyOrdersStatus(order);
@@ -62,14 +66,28 @@
 	String msg = "";
 	if (row >= 1) { // 주문일자가 시/분/초까지 일치할 경우(함께 주문한 상품이면) 함께 주문취소
 		System.out.println("주문 취소 성공");
-		int row2 = customerDao.revertPlusPoint(order);
+		int count = 0;
+		int row2 = 0;
+		for (Orders o : list) {
+			if (count == 0) { // count가 0일 때 -> 함께 구매한 상품 중 포인트를 사용한 상품의 포인트 되돌리기
+				row2 = customerDao.revertPlusPoint(o);
+				count += 1;
+			}
+		}
+	
+		// int row2 = customerDao.revertPlusPoint(order);
 		System.out.println(row2 + " <-- row2(removeMyOrderAction)");
 		if (row2 == 1) {
 			System.out.println("포인트 되돌리기 성공");
+			
 			// 주문 수량만큼 재고량 되돌리기
-			int row3 = ordersDao.addProductStock(orderNo);
+			int row3 = 0;
+			for (Orders o : list) {
+				row3 += ordersDao.addProductStock(o.getOrderNo());
+			}
+			
 			System.out.println(row3 + " <-- row2(removeMyOrderAction)");
-			if (row3 == 1) {
+			if (row3 >= 1) {
 				System.out.println("재고량 되돌리기 성공");
 			} else {
 				System.out.println("재고량 되돌리기 실패");
