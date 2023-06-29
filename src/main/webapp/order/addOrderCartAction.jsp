@@ -107,50 +107,52 @@
 	
 	// 주문 처리
 	if (point == 0) { // 주문(포인트를 사용하지 않은 경우)
+		int row = 0;
 		for (Orders o : oList) {
-			int row = ordersDao.addOrders(o);
-			System.out.println(row + " <-- row(addOrderCartAction)");
-			if (row == 1) {
-				msg = URLEncoder.encode("주문이 완료되었습니다.", "UTF-8"); 
-				System.out.println("주문 처리 완료");
-				
-			} else {
-				msg = URLEncoder.encode("주문에 실패했습니다.", "UTF-8"); 
-				System.out.println("주문 처리 실패");
-			}
+			row += ordersDao.addOrders(o);
+		}
+		System.out.println(row + " <-- row(addOrderCartAction)");
+		if (row >= 1) {
+			msg = URLEncoder.encode("주문이 완료되었습니다.", "UTF-8"); 
+			System.out.println("주문 처리 완료(" + row + ")");
+			
+		} else {
+			msg = URLEncoder.encode("주문에 실패했습니다.", "UTF-8"); 
+			System.out.println("주문 처리 실패");
 		}
 	} else { // 주문 (포인트를 사용한 경우)
 		int count = 0;
+		int row = 0;
 		for (Orders o : oList) {
-			int row = 0;
 			if (count == 0) { // count가 0일 때 -> 장바구니 목록 첫 번째 상품에만 사용 포인트 적용
-				row = ordersDao.addOrders(o, point);
+				row += ordersDao.addOrders(o, point);
 				count += 1;
 			} else {
-				row = ordersDao.addOrders(o);	
+				row += ordersDao.addOrders(o);	
 			}
+		}
+		System.out.println(row + " <-- row(addOrderCartAction)");
+		if (row >= 1) {
+			msg = URLEncoder.encode("주문이 완료되었습니다.", "UTF-8"); 
+			System.out.println("주문 처리 완료");
 			
-			System.out.println(row + " <-- row(addOrderCartAction)");
-			if (row == 1) {
-				msg = URLEncoder.encode("주문이 완료되었습니다.", "UTF-8"); 
-				System.out.println("주문 처리 완료");
-				
-			} else {
-				msg = URLEncoder.encode("주문에 실패했습니다.", "UTF-8"); 
-				System.out.println("주문 처리 실패");
-			}
+		} else {
+			msg = URLEncoder.encode("주문에 실패했습니다.", "UTF-8"); 
+			System.out.println("주문 처리 실패");
 		}
 	}
 	
 	// 주문 완료 시 카트에 해당 목록 비우기 
+	int removeCart = 0;
 	for (int i = 0; i < cartNo.length; i += 1) {
-		int removeCart = cartDao.removeMyCart(Integer.parseInt(cartNo[i]));
-		System.out.println(removeCart + " <-- removeCart(addOrderCartAction)");
-		if (removeCart == 1) {
-			System.out.println("주문 완료건 카트에서 삭제 성공");
-		} else {
-			System.out.println("주문 완료건 카트에서 삭제 실패");
-		}
+		// int removeCart = cartDao.removeMyCart(Integer.parseInt(cartNo[i]));
+		removeCart += cartDao.removeMyCart(Integer.parseInt(cartNo[i]));
+	}
+	System.out.println(removeCart + " <-- removeCart(addOrderCartAction)");
+	if (removeCart >= 1) {
+		System.out.println("주문 완료건 카트에서 삭제 성공(" + removeCart + ")");
+	} else {
+		System.out.println("주문 완료건 카트에서 삭제 실패");
 	}
 	
 	// 주문 처리 성공 여부 관계없이 메시지와 함께 completeOrder.jsp로 이동
