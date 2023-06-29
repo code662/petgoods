@@ -4,7 +4,7 @@
 <%@ page import="vo.*" %>
 <%
 	// 시작 번호
-	int beginRow = 1;
+	int beginRow = 0;
 	// 페이지 당 상품 개수
 	int rowPerPage = 16;
 	// 카테고리 변수
@@ -212,8 +212,8 @@
 							</div>
 							<ul>
 								<li class="p-b-6">
-									<a href="" class="filter-link stext-106 trans-04">
-										
+									<a href="<%=request.getContextPath()%>/product/productList.jsp?mainCategory=<%=mainCategory%>&subCategory=<%=subCategory%>&sort=ORDER BY orderCnt DESC" class="filter-link stext-106 trans-04">
+										판매량순
 									</a>
 								</li>
 							</ul>
