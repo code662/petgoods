@@ -168,7 +168,7 @@
 									<td class="text-center"><%=o.getOrderCnt()%></td> <!-- p-l-10 -->
 									<td class="text-center"><%=point%></td>
 									<td class="text-center"><%=plusPoint%></td>
-									<td class="text-center"><%=o.getCreatedate()%></td>
+									<td class="text-center"><%=o.getCreatedate().substring(0, 16)%></td>
 									<td class="text-center"><img src="<%=request.getContextPath()%>/pimg/<%=productImg%>" width="100" height="100"></td>
 									
 								<%

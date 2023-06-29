@@ -133,7 +133,7 @@
 							</div>
 							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
 								<p class="stext-112 cl8 p-t-2" style="font-size:17px">
-									<%=order.getCreatedate()%>
+									<%=order.getCreatedate().substring(0, 16)%>
 								</p>
 							</div>
 							</div>

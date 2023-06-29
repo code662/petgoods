@@ -255,8 +255,8 @@
 										<td class="stext-112 cl8 p-l-15" style="font-size:17px;"><%=o.getOrderCnt()%></td>
 										<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderPrice()%>원</td>
 										<td class="stext-112 cl8" style="font-size:17px;"><%=o.getOrderPrice() * o.getOrderCnt()%>원</td>
-										<td class="stext-112 cl8" style="font-size:17px;"><%=o.getCreatedate()%></td>
-										<td class="stext-112 cl8" style="font-size:17px;"><%=o.getUpdatedate()%></td>
+										<td class="stext-112 cl8" style="font-size:17px;"><%=o.getCreatedate().substring(0, 16)%></td>
+										<td class="stext-112 cl8" style="font-size:17px;"><%=o.getUpdatedate().substring(0, 16)%></td>
 									</tr>
 								<%
 									}
