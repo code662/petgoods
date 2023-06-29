@@ -213,7 +213,7 @@
 							<div class="flex-w dis-inline-block">
 								<a href="<%=request.getContextPath()%>/customer/myPage.jsp" style="color: #333333">
 									<span class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-										뒤로가기
+										취소
 									</span>
 								</a>
 							</div>
