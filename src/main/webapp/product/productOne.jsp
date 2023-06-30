@@ -422,7 +422,7 @@
 															<select class="js-select2" id="questionCategory" name="questionCategory">
 																<option value="">===문의 카테고리===</option>
 																<option value="상품">상품</option>
-																<option value="'교환/환불">교환/환불</option>
+																<option value="교환/환불">교환/환불</option>
 																<option value="배송">배송</option>
 																<option value="기타">기타</option>
 															</select>
