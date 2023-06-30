@@ -411,4 +411,23 @@ public class CustomerDao {
 		}
 		return dormantRow;
 	}
+	
+	// 리뷰등록한 주문인지 확인 
+	public int orderChkReview(int orderNo) throws Exception {
+		// 반환할 변수 선언
+		int chk = 0;
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		//sql 전송 후 결과값 저장
+		String sql = "select count(*) from orders o inner join review r on o.order_no = r.order_no where o.order_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, orderNo);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			chk = rs.getInt(1);
+		}
+		
+		return chk;
+	}
 }
