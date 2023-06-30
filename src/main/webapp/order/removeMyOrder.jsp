@@ -59,10 +59,10 @@
 				<div class="row">
 					<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
 						<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">	 	
-							<h4 class="mtext-111 cl2 p-b-30">
-								주문취소
+							<h4 class="mtext-111 cl2 p-b-30" style="color: #F24182; font-weight:bolder;">
+								주문을 취소하시겠습니까?
 							</h4>
-								<h6 style="color: #F24182; font-weight:bolder;">주문을 취소하시겠습니까?</h6>
+								<!-- <h6 style="color: #F24182; font-weight:bolder;">주문을 취소하시겠습니까?</h6> -->
 								<br>
 								<input type="hidden" name="orderNo" value="<%=order.getOrderNo()%>">
 								<input type="hidden" name="orderId" value="<%=order.getId()%>">
