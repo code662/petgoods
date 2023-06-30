@@ -86,7 +86,7 @@
 				row3 += ordersDao.addProductStock(o.getOrderNo());
 			}
 			
-			System.out.println(row3 + " <-- row2(removeMyOrderAction)");
+			System.out.println(row3 + " <-- row3(removeMyOrderAction)");
 			if (row3 >= 1) {
 				System.out.println("재고량 되돌리기 성공");
 			} else {
