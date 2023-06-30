@@ -20,6 +20,9 @@
 	QuestionDao qDao = new QuestionDao();
 	// 전체 행의 수
 	int totalRow = qDao.selectQuestionCnt(0);
+	if(request.getParameter("searchQstaus") != null){
+		totalRow = qDao.searchQuestionCnt(request.getParameter("searchQstaus"));
+	}
 	// 페이지 당 행의 수
 	int rowPerPage = 5;
 	// 시작 행 번호
@@ -30,9 +33,27 @@
 	if(totalRow % rowPerPage != 0) {
 		lastPage = lastPage + 1;
 	}
-	// 현재 페이지에 표시 할 리스트
-	ArrayList<Question> list = qDao.selectQuestion(beginRow, rowPerPage);
+	// 페이징 수
+	int pagePerPage = 5;
+	// 최소 페이지
+	int minPage = ((currentPage-1) / pagePerPage) * pagePerPage + 1;
+	// 최대 페이지
+	int maxPage = minPage + pagePerPage - 1;
+	// 최대 페이지가 마지막 페이지 보다 크면 최대 페이지 = 마지막 페이지
+	if(maxPage > lastPage) {
+		maxPage = lastPage;
+	}
 
+	// 현재 페이지에 표시 할 리스트
+	String searchQstaus = null;
+	ArrayList<Question> list = new ArrayList<>();
+	if(request.getParameter("searchQstaus") == null
+			|| request.getParameter("searchQstaus").equals("")){ //검색값이 없을 경우 : 전체리스트
+		list = qDao.selectQuestion(beginRow, rowPerPage);
+	}else{ // 검색값이 있을 경우
+		searchQstaus = request.getParameter("searchQstaus");
+		list = qDao.searchQstaus(searchQstaus, beginRow, rowPerPage);
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -65,96 +86,152 @@
 				<div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto m-b-50">
 					<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
 						<div class="flex-w flex-sb-m p-b-17">
-							<h4 class="mtext-111 cl2  p-r-20">
+							<h4 class="mtext-111 cl2  p-r-20 p-b-30">
 								상품 문의 리스트
 							</h4>
-							<div class="fs-18 cl11 stext-102 flex-w m-r--5">
-								<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
-									<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
-									<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-									Search
+							<div class="fs-18 cl11 stext-102 flex-w m-r--5 p-b-30">
+								<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+									<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+									<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+									Filter
 								</div>
-								<a href="<%=request.getContextPath()%>/discount/addDiscount.jsp" class="flex-c-m stext-106 cl6 size-102 bor4 pointer hov-btn3 trans-04 m-tb-4 m-l-8">
-									<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-plus"></i>
-										버튼
-								</a>
 							</div>
-						</div>
-							<!-- 할인상품리스트 -->
-							<table class="table-shopping-cart">
-								<tr class="table_head" >
-									<th class="column-1" style="width: 10%">아이디</th>
-									<th class="column-1" style="width: 25%">상품이름</th>
-									<th class="column-1" style="width: 10%">문의유형</th>
-									<th class="column-1" style="width: 25%">문의제목</th>
-									<th class="column-1" style="width: 15%">문의상태</th>
-								</tr>
-							<%
-								for(Question q : list) {
-							%>
-									<tr class="table_head" style="height: 100px;">
-										<td class="column-1" style="width: 10%"><%=q.getId() %></td>
-										<td class="column-1" style="width: 25%" ><%=pDao.selectProductOne(q.getProductNo()).getProductName() %></td>
-										<td class="column-1" style="width: 10%"><%=q.getqCategory() %></td>
-										<td class="column-1" style="width: 25%">
-											<a href="<%=request.getContextPath()%>/qna/questionOne.jsp?questionNo=<%=q.getqNo()%>" class="cl5">
+							<!-- Filter -->
+							<div class="dis-none panel-filter w-full p-t-10 p-b-30">
+								<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
+									<div class="filter-col4  p-b-20">
+										<div class="mtext-102 cl2 p-b-15">
+											문의 상태
+										</div>
+										<ul>
+											<li class="p-b-3 p-l-20">
+												<a href="<%=request.getContextPath()%>/qna/questionList.jsp" class="filter-link stext-106 trans-04">
+													전체
+												</a>
+											</li>
+										</ul>
+									</div>
+									
+									<div class="filter-col4  p-b-20">
+										<div class="mtext-102 cl2 p-b-15">
+											&nbsp;
+										</div>
+										<ul>
+											<li class="p-b-3">
+												<a href="<%=request.getContextPath()%>/qna/questionList.jsp?searchQstaus=답변대기" class="filter-link stext-106 trans-04">
+													답변대기
+												</a>
+											</li>
+										</ul>
+									</div>
+			
+									<div class="filter-col4  p-b-20">
+										<div class="mtext-102 cl2 p-b-15">
+											&nbsp;
+										</div>
+										<ul>
+											<li class="p-b-3">
+												<a href="<%=request.getContextPath()%>/qna/questionList.jsp?searchQstaus=답변완료" class="filter-link stext-106 trans-04">
+													답변완료
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>				
+						<!-- 할인상품리스트 -->
+						<table class="table-shopping-cart">
+							<tr class="table_head" >
+								<th class="column-7-10">아이디</th>
+								<th class="column-7-25">상품이름</th>
+								<th class="column-7-10">문의유형</th>
+								<th class="column-7-25">문의제목</th>
+								<th class="column-7-15">문의상태</th>
+							</tr>
+						<%
+							for(Question q : list) {
+						%>
+								<tr class="table_head" style="height: 90px;">
+									<td class="column-7-10"><%=q.getId() %></td>
+									<td class="column-7-25"><%=pDao.selectProductOne(q.getProductNo()).getProductName() %></td>
+									<td class="column-7-10"><%=q.getqCategory() %></td>
+									<td class="column-7-25">
+										<span class="fs-18 cl11 stext-102 flex-w m-r--5 flex-c">
+											<a href="<%=request.getContextPath()%>/qna/questionOne.jsp?questionNo=<%=q.getqNo()%>" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 												<%=q.getqTitle() %>
-											</a>	
-										</td>
-										<td class="column-1" style="width: 15%"><%=q.getqStatus() %></td>
-									</tr>
-							<%		
+											</a>
+										</span>	
+									</td>
+									<td class="column-7-15"><%=q.getqStatus() %></td>
+								</tr>
+						<%		
+							}
+						%>
+						</table>
+						
+						<!-- Pagination -->
+						<div class="flex-l-m flex-w w-full p-t-10 m-lr--7" style="justify-content: center">
+						<%
+							//이전 페이지 버튼
+							if(minPage >1){
+								if(request.getParameter("searchQstaus") == null
+										|| request.getParameter("searchQstaus").equals("")){ 
+						%>
+					 				<a href="<%=request.getContextPath()%>/qna/questionList.jsp?currentPage=<%=minPage-pagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+					 					이전 
+					 				</a>
+					   	<%
+								}else{
+						%>
+					 				<a href="<%=request.getContextPath()%>/qna/questionList.jsp?currentPage=<%=minPage-pagePerPage %>&searchQstaus=<%=searchQstaus %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+					 					이전 
+					 				</a>
+					   	<%
 								}
-							%>
-							</table>
-							
-							<!-- Pagination -->
-							<div class="flex-l-m flex-w w-full p-t-10 m-lr--7" style="justify-content: center">
-							<%
-								// 페이징 수
-								int pagePerPage = 5;
-								// 최소 페이지
-								int minPage = ((currentPage-1) / pagePerPage) * pagePerPage + 1;
-								// 최대 페이지
-								int maxPage = minPage + pagePerPage - 1;
-								// 최대 페이지가 마지막 페이지 보다 크면 최대 페이지 = 마지막 페이지
-								if(maxPage > lastPage) {
-									maxPage = lastPage;
-								}
-								// 이전 페이지
-								// 최소 페이지가 1보타 클 경우 이전 페이지 표시
-								//이전 페이지 버튼
-								if(minPage >1){
-							%>
-						 				<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=minPage-pagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
-						 					이전 
-						 				</a>
-						   	<%
-								}
-						        for(int i = minPage; i <= maxPage; i++){
-						        	if(i==currentPage){
-						    %>
-						    			<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+							}
+					        for(int i = minPage; i <= maxPage; i++){
+					        	if(i==currentPage){
+					    %>
+					    			<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+					       				<%=i %>
+					       			</a>
+					    <%
+					        	}else{
+					        		if(request.getParameter("searchQstaus") == null
+											|| request.getParameter("searchQstaus").equals("")){ 
+					   	%>
+						       			<a href="<%=request.getContextPath()%>/qna/questionList.jsp?currentPage=<%=i %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
 						       				<%=i %>
 						       			</a>
-						    <%
-						        	}else{
-						   	%>
-						       			<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=i %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+					    <%
+					        		}else{
+					    %>
+						       			<a href="<%=request.getContextPath()%>/qna/questionList.jsp?currentPage=<%=i %>&searchQstaus=<%=searchQstaus %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
 						       				<%=i %>
 						       			</a>
-						    <%
-						       		}
-						        }
-						    	//다음 페이지 버튼
-						    	if(maxPage != lastPage){
-						    %>
-									<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=minPage+pagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+						<%
+					        		}
+					       		}
+					        }
+					    	//다음 페이지 버튼
+					    	if(maxPage != lastPage){
+					    		if(request.getParameter("searchQstaus") == null
+										|| request.getParameter("searchQstaus").equals("")){ 
+					    %>
+									<a href="<%=request.getContextPath()%>/qna/questionList.jsp?currentPage=<%=minPage+pagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
 										다음
 									</a>
-							<%
-								}
-							%>
+						<%
+					    		}else{
+					    %>
+									<a href="<%=request.getContextPath()%>/qna/questionList.jsp?currentPage=<%=minPage+pagePerPage %>&searchQstaus=<%=searchQstaus %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+										다음
+									</a>
+						<%
+					    		}
+							}
+						%>
 						</div>
 					</div>
 				</div>

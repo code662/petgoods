@@ -174,6 +174,26 @@ public class QuestionDao {
 		return cnt;
 	}
 	
+	// 문의상태별 문의 갯수 조회
+	public int searchQuestionCnt(String searchQstaus) throws Exception {
+		int cnt = 0;
+		
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		String sql = "SELECT COUNT(*) FROM question WHERE q_status = ?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,searchQstaus);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			cnt = rs.getInt(1);
+		}
+		
+		return cnt;
+	}
+
 	// 관리자 문의 조회
 	public ArrayList<Question> selectQuestion(int beginRow, int rowPerPage) throws Exception {
 		ArrayList<Question> list = new ArrayList<>();
@@ -205,6 +225,38 @@ public class QuestionDao {
 		return list;
 	}
 	
+	// q_status로 검색한 문의 조회
+	public ArrayList<Question> searchQstaus(String searchQstaus, int beginRow, int rowPerPage) throws Exception {
+		// 반환할 ArrayList<Discount> 생성
+		ArrayList<Question> list = new ArrayList<>();
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		String sql = "SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_title qTitle, q_content qContent, q_status qStatus, createdate, updatedate FROM question WHERE q_status = ? ORDER BY createdate DESC LIMIT ? ,?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, searchQstaus);
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
+		
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			Question question = new Question();
+			question.setqNo(rs.getInt("qNo"));
+			question.setProductNo(rs.getInt("productNo"));
+			question.setId(rs.getString("id"));
+			question.setqCategory(rs.getString("qCategory"));
+			question.setqTitle(rs.getString("qTitle"));
+			question.setqContent(rs.getString("qContent"));
+			question.setqStatus(rs.getString("qStatus"));
+			question.setCreatedate(rs.getString("createdate"));
+			question.setUpdatedate(rs.getString("updatedate"));
+			list.add(question);	
+		}
+		
+		return list;
+	}
+
 	// 상품 상세 밑에 표시할 문의
 	public ArrayList<Question> selectQuestion(int productNo, int beginRow, int rowPerPage) throws Exception {
 		ArrayList<Question> list = new ArrayList<>();
