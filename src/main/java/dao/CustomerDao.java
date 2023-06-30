@@ -201,21 +201,7 @@ public class CustomerDao {
 		}
 		
 		return row;
-	}
-	
-	// 포인트 되돌리기 (주문취소 시)
-	public int revertPoint(int pointNo) throws Exception {
-		int row = 0;
-		// DB 연결
-		DBUtil dbUtil = new DBUtil();
-		Connection conn = dbUtil.getConnection();
-		String sql = "INSERT INTO point_history(order_no, point_pm, point, , ) VALUES() point_pm = '+' WHERE point_no= ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		row = stmt.executeUpdate();
-		
-		return row;
-	}
-	
+	}	
 	
 	// 내 포인트 설정
 	public int modifyMyPoint(String id) throws Exception {
