@@ -5,6 +5,12 @@
 <%@ page import="dao.*" %> 
 
 <%
+	//세션 유효성 검사: 로그인이 되어있지 않으면 home으로 리다이렉션
+	if(session.getAttribute("loginId") == null){
+		response.sendRedirect(request.getContextPath()+"/home.jsp");
+		return;
+	}
+	
 	// 나의 주문 리스트 (주문날짜 최신순) 
 	// 결제완료일 때 주문취소 버튼 노출 
 	// 구매확정일 때 리뷰작성 버튼 노출 
@@ -182,13 +188,15 @@
 										</td>
 								<%		
 									} else if (o.getOrderStatus().equals("구매확정")) { // 구매확정일 때 리뷰작성 버튼 노출
+										if(customerDao.orderChkReview(orderNo) == 0){
 								%>
-										<td class="p-l-20">
-											<a href="<%=request.getContextPath()%>/customer/addReview.jsp?orderNo=<%=orderNo%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-												리뷰작성
-											</a>
-										</td>
-								<% 	
+											<td class="p-l-20">
+												<a href="<%=request.getContextPath()%>/customer/addReview.jsp?orderNo=<%=orderNo%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+													리뷰작성
+												</a>
+											</td>
+								<% 
+										}
 									} else if (o.getOrderStatus().equals("배송완료")) { // 배송완료일때 구매확정 버튼 노출	
 								%>
 										<td class="p-l-20">
