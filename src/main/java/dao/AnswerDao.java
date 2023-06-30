@@ -80,7 +80,7 @@ public class AnswerDao {
 	
 	// 문의 답변 조회
 	public Answer selectAnswerOne(int qNo) throws Exception {
-		Answer answer = new Answer();
+		Answer answer = null;
 		
 		// DB 접속
 		DBUtil dbUtil = new DBUtil();
@@ -88,10 +88,11 @@ public class AnswerDao {
 		// sql 전송 후 결과셋 반환받아 리스트에 저장
 		String sql = "SELECT a_no aNo, q_no qNo, id, a_content aContent, createdate, updatedate FROM answer WHERE q_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, answer.getqNo());
+		stmt.setInt(1, qNo);
 
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {
+			answer = new Answer();
 			answer.setaNo(rs.getInt("aNo"));
 			answer.setqNo(rs.getInt("qNo"));
 			answer.setId(rs.getString("id"));
