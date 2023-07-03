@@ -7,10 +7,16 @@
 // Dao 객체 생성
 ProductDao pDao = new ProductDao();
 
+String sortOrderCnt = "ORDER BY orderCnt DESC";
 String sort = "ORDER BY createdate DESC";
+String sortTopRate = "ORDER BY product_price DESC";
+String sortSale = "ORDER BY d.discount_rate DESC";
 
 // 상품 리스트
+ArrayList<Product> productListOrderCnt = pDao.selectProductList(sortOrderCnt, 0, 8, "전체", "전체");
 ArrayList<Product> productList = pDao.selectProductList(sort, 0, 8, "전체", "전체");
+ArrayList<Product> productListTopRate = pDao.selectProductList(sortTopRate, 0, 8, "전체", "전체");
+ArrayList<Product> productListSale = pDao.selectProductList(sortSale, 0, 8, "전체", "전체");
 %>
 <!DOCTYPE html>
 <html>
@@ -237,7 +243,7 @@ ArrayList<Product> productList = pDao.selectProductList(sort, 0, 8, "전체", "�
 						<div class="wrap-slick2">
 							<div class="slick2">
 							<%
-								for(Product p : productList) {
+								for(Product p : productListOrderCnt) {
 							%>
 									<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 										<!-- Block2 -->
@@ -311,7 +317,7 @@ ArrayList<Product> productList = pDao.selectProductList(sort, 0, 8, "전체", "�
 						<div class="wrap-slick2">
 							<div class="slick2">
 								<%
-									for(Product p : productList) {
+									for(Product p : productListSale) {
 								%>
 										<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 											<!-- Block2 -->
@@ -327,10 +333,14 @@ ArrayList<Product> productList = pDao.selectProductList(sort, 0, 8, "전체", "�
 														<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 															<%=p.getProductName()%>
 														</a>
-		
+														
 														<span class="stext-105 cl3">
-															<%=p.getProductPrice()%>원
-														</span>
+															<span style="font-size: 15px; color: red;">
+																<%=(int)(p.getDiscountRate() * 100)%>%
+															</span>
+														<span class="stext-109 cl7" style="text-decoration:line-through"><%=p.getProductPrice()%>원</span>	
+															&nbsp;&nbsp;<%=p.getProductDiscountPrice()%>원
+														</span>	
 													</div>
 												</div>
 											</div>
@@ -347,7 +357,7 @@ ArrayList<Product> productList = pDao.selectProductList(sort, 0, 8, "전체", "�
 						<div class="wrap-slick2">
 							<div class="slick2">
 								<%
-									for(Product p : productList) {
+									for(Product p : productListTopRate) {
 								%>
 										<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 											<!-- Block2 -->
