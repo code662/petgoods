@@ -137,7 +137,7 @@
 								//이전 페이지 버튼
 								if(minPage >1){
 							%>
-						 				<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=minPage-pagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+						 				<a href="<%=request.getContextPath()%>/qna/myQuestionList.jsp?currentPage=<%=minPage-pagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
 						 					이전 
 						 				</a>
 						   	<%
@@ -151,7 +151,7 @@
 						    <%
 						        	}else{
 						   	%>
-						       			<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=i %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+						       			<a href="<%=request.getContextPath()%>/qna/myQuestionList.jsp?currentPage=<%=i %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
 						       				<%=i %>
 						       			</a>
 						    <%
@@ -160,7 +160,7 @@
 						    	//다음 페이지 버튼
 						    	if(maxPage != lastPage){
 						    %>
-									<a href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=minPage+pagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									<a href="<%=request.getContextPath()%>/qna/myQuestionList.jsp?currentPage=<%=minPage+pagePerPage %>" class="flex-c-m how-pagination1 trans-04 m-all-7">
 										다음
 									</a>
 							<%
