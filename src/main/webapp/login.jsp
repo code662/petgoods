@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/inc/loginAddCustomer.css">
 <script>
 $(document).ready(function(){
+				  
 	// 휴면계정 alert띄우기
 	$('#loginBtn').click(function(){
 		$.ajax({
@@ -64,6 +65,13 @@ $(document).ready(function(){
 			$('#agree_all').prop('checked',true);
 		}
 	});
+	
+	// 회원가입 - 중복된 ID가 존재하는 경우 alert띄우기
+	const urlParams = new URL(location.href).searchParams;
+	const msgAdd= urlParams.get('msgAdd');
+	if (msgAdd != null) {
+	  alert(msgAdd);
+	};
 });
 </script>
 </head>
@@ -83,7 +91,7 @@ $(document).ready(function(){
 				<!-- 회원가입 입력 폼 --> 
 				<table class="cen">
 					<tr>
-						<td colspan="2"><input type ="text" placeholder="Enter id" name="id" style="width: 230px;"></td>
+						<td colspan="2"><input type ="text" placeholder="Enter id" name="id" id="addId" style="width: 230px;"></td>
 					</tr>
 					<tr>
 						<td colspan="2"><input type="password" placeholder="Enter Password" name="pw" style="width: 230px;"></td>
@@ -122,7 +130,7 @@ $(document).ready(function(){
 					<span style="width: 95%; padding-top: 7px; text-align:left;"> 개인정보 수집 및 이용 동의<strong>(필수)</strong></span>
 				</label>
 				<br>
-				<a href="<%=request.getContextPath()%>/customer/addCustomerAction.jsp"><button>회원가입</button></a>
+				<a href="<%=request.getContextPath()%>/customer/addCustomerAction.jsp"><button id="addCstmBtn">회원가입</button></a>
 			</div>
 		</form>
 	</div>

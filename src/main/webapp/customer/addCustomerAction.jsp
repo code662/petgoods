@@ -61,10 +61,20 @@
 	
 	int row = cd.addCustomer(customer);
 	String msg = null;
+	String msgAdd = null;
 	if(row == 1){
 		msg = URLEncoder.encode("회원가입이 완료되었습니다","utf-8");
 		response.sendRedirect(request.getContextPath()+"/login.jsp?msg="+msg);
 		return;
+	}else{
+		// id가 중복된 경우 alert에 띄울 메시지 리다이렉션
+		IdDao idDao = new IdDao();
+		int chk = idDao.checkId(id);
+		if(chk == 1){
+			msgAdd = URLEncoder.encode("중복된 아이디가 존재합니다","utf-8");
+			response.sendRedirect(request.getContextPath()+"/login.jsp?msgAdd="+msgAdd);
+			return;
+		}
 	}
 	response.sendRedirect(request.getContextPath()+"/login.jsp");
 %>
