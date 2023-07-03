@@ -43,7 +43,44 @@ public class ProductDao {
 		}		
 		
 		return row;
-	}	
+	}
+	
+	// 상품 갯수 조회
+	public int productCnt(String word, String main, String sub) throws Exception{
+		//반환할 전체 행의 수 설정
+		int row = 0;
+		//db접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		//sql 전송 후 결과 셋 반환받아 값 저장
+		String sql="SELECT COUNT(*) FROM product p INNER JOIN category c ON p.category_no = c.category_no AND c.category_main_name = ? AND c.category_sub_name = ? LEFT OUTER JOIN discount d ON p.product_no = d.product_no LEFT OUTER JOIN (SELECT o.product_no, COUNT(o.product_no) orderCnt FROM orders o GROUP BY o.product_no) oc ON p.product_no = oc.product_no "+word;
+		if(main.equals("전체") && sub.equals("전체")) {
+			sql="SELECT COUNT(*) FROM product p INNER JOIN category c ON p.category_no = c.category_no LEFT OUTER JOIN discount d ON p.product_no = d.product_no LEFT OUTER JOIN (SELECT o.product_no, COUNT(o.product_no) orderCnt FROM orders o GROUP BY o.product_no) oc ON p.product_no = oc.product_no "+word;
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				row = rs.getInt(1);
+			}
+		} else if(!main.equals("전체") && sub.equals("전체")){
+			sql="SELECT COUNT(*) FROM product p INNER JOIN category c ON c.category_main_name = ? AND p.category_no = c.category_no LEFT OUTER JOIN discount d ON p.product_no = d.product_no LEFT OUTER JOIN (SELECT o.product_no, COUNT(o.product_no) orderCnt FROM orders o GROUP BY o.product_no) oc ON p.product_no = oc.product_no "+word;
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, main);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				row = rs.getInt(1);
+			}
+		} else {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, main);
+			stmt.setString(2, sub);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				row = rs.getInt(1);
+			}
+		}		
+		
+		return row;
+	}
 	
 	// 상품 전체 조회
 	public ArrayList<Product> selectProductList(String sort, int beginRow, int rowPerPage, String main, String sub) throws Exception{
@@ -132,6 +169,95 @@ public class ProductDao {
 		 
 		 return list;
 	} 
+	
+	// 상품 전체 조회
+	public ArrayList<Product> selectProductList(String word, String sort, int beginRow, int rowPerPage, String main, String sub) throws Exception{
+		 //반환할 리스트
+		 ArrayList<Product> list = new ArrayList<>();
+		 //db접속
+		 DBUtil dbUtil = new DBUtil();
+		 Connection conn = dbUtil.getConnection();
+		 //sql 전송 후 결과 셋 반환받아 리스트에 저장
+		 String sql="SELECT p.product_no productNo, p.category_no categoryNo, c.category_main_name categoryMainname, c.category_sub_name categorySubname, p.product_name productName, p.product_stock productStock, p.product_price productPrice, nvl((p.product_price*(1-d.discount_rate)),p.product_price) productDiscountPrice, nvl(d.discount_rate,0) discountRate, p.product_status productStatus, p.product_info productInfo, nvl(orderCnt,0) orderCnt, p.updatedate, p.createdate FROM product p INNER JOIN category c ON p.category_no = c.category_no AND c.category_main_name = ? AND c.category_sub_name = ? LEFT OUTER JOIN discount d ON p.product_no = d.product_no LEFT OUTER JOIN (SELECT o.product_no, COUNT(o.product_no) orderCnt FROM orders o GROUP BY o.product_no) oc ON p.product_no = oc.product_no "+word+sort+" LIMIT ?, ?";
+		 if(main.equals("전체") && sub.equals("전체")) {
+				sql="SELECT p.product_no productNo, p.category_no categoryNo, c.category_main_name categoryMainname, c.category_sub_name categorySubname, p.product_name productName, p.product_stock productStock, p.product_price productPrice, nvl((p.product_price*(1-d.discount_rate)),p.product_price) productDiscountPrice, nvl(d.discount_rate,0) discountRate, p.product_status productStatus, p.product_info productInfo, nvl(orderCnt,0) orderCnt, p.updatedate, p.createdate FROM product p INNER JOIN category c ON p.category_no = c.category_no LEFT OUTER JOIN discount d ON p.product_no = d.product_no LEFT OUTER JOIN (SELECT o.product_no, COUNT(o.product_no) orderCnt FROM orders o GROUP BY o.product_no) oc ON p.product_no = oc.product_no "+word+sort+" LIMIT ?, ?";
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				 stmt.setInt(1, beginRow);
+				 stmt.setInt(2, rowPerPage);
+				 System.out.println(stmt);
+				 ResultSet rs = stmt.executeQuery();
+				 System.out.println(stmt);
+				 while(rs.next()) {
+					 Product product = new Product();
+					 product.setProductNo(rs.getInt("productNo"));
+					 product.setCategoryNo(rs.getInt("categoryNo"));
+					 product.setCategoryMainname(rs.getString("categoryMainname"));
+					 product.setCategorySubname(rs.getString("categorySubname"));
+					 product.setProductName(rs.getString("productName"));
+					 product.setProductStock(rs.getInt("productStock"));
+					 product.setProductPrice(rs.getInt("productPrice"));
+					 product.setProductDiscountPrice(rs.getInt("productDiscountPrice"));
+					 product.setDiscountRate(rs.getDouble("discountRate"));
+					 product.setProductStatus(rs.getString("productStatus"));
+					 product.setProductInfo(rs.getString("productInfo"));
+					 product.setUpdatedate(rs.getString("updatedate"));
+					 product.setCreatedate(rs.getString("createdate"));
+					 list.add(product);
+				 }
+			} else if(!main.equals("전체") && sub.equals("전체")){
+				sql="SELECT p.product_no productNo, p.category_no categoryNo, c.category_main_name categoryMainname, c.category_sub_name categorySubname, p.product_name productName, p.product_stock productStock, p.product_price productPrice, nvl((p.product_price*(1-d.discount_rate)),p.product_price) productDiscountPrice, nvl(d.discount_rate,0) discountRate, p.product_status productStatus, p.product_info productInfo, nvl(orderCnt,0) orderCnt, p.updatedate, p.createdate FROM product p INNER JOIN category c ON c.category_main_name = ? AND p.category_no = c.category_no LEFT OUTER JOIN discount d ON p.product_no = d.product_no LEFT OUTER JOIN (SELECT o.product_no, COUNT(o.product_no) orderCnt FROM orders o GROUP BY o.product_no) oc ON p.product_no = oc.product_no "+word+sort+" LIMIT ?, ? ";
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				stmt.setString(1, main);
+				stmt.setInt(2, beginRow);
+				stmt.setInt(3, rowPerPage);
+				ResultSet rs = stmt.executeQuery();
+				System.out.println(stmt);
+				while(rs.next()) {
+					Product product = new Product();
+					product.setProductNo(rs.getInt("productNo"));
+					product.setCategoryNo(rs.getInt("categoryNo"));
+					product.setCategoryMainname(rs.getString("categoryMainname"));
+					product.setCategorySubname(rs.getString("categorySubname"));
+					product.setProductName(rs.getString("productName"));
+					product.setProductStock(rs.getInt("productStock"));
+					product.setProductPrice(rs.getInt("productPrice"));
+					product.setProductDiscountPrice(rs.getInt("productDiscountPrice"));
+					product.setDiscountRate(rs.getDouble("discountRate"));
+					product.setProductStatus(rs.getString("productStatus"));
+					product.setProductInfo(rs.getString("productInfo"));
+					product.setUpdatedate(rs.getString("updatedate"));
+					product.setCreatedate(rs.getString("createdate"));
+					list.add(product);
+				}
+			} else {
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				stmt.setString(1, main);
+				stmt.setString(2, sub);
+				stmt.setInt(3, beginRow);
+				stmt.setInt(4, rowPerPage);
+				ResultSet rs = stmt.executeQuery();
+				System.out.println(stmt);
+				while(rs.next()) {
+					Product product = new Product();
+					product.setProductNo(rs.getInt("productNo"));
+					product.setCategoryNo(rs.getInt("categoryNo"));
+					product.setCategoryMainname(rs.getString("categoryMainname"));
+					product.setCategorySubname(rs.getString("categorySubname"));
+					product.setProductName(rs.getString("productName"));
+					product.setProductStock(rs.getInt("productStock"));
+					product.setProductPrice(rs.getInt("productPrice"));
+					product.setProductDiscountPrice(rs.getInt("productDiscountPrice"));
+					product.setDiscountRate(rs.getDouble("discountRate"));
+					product.setProductStatus(rs.getString("productStatus"));
+					product.setProductInfo(rs.getString("productInfo"));
+					product.setUpdatedate(rs.getString("updatedate"));
+					product.setCreatedate(rs.getString("createdate"));
+					list.add(product);
+				}
+			}
+		 
+		 return list;
+	}
 	
 	// 상품 상세페이지 조회 
 	public Product selectProductOne(int productNo) throws Exception{

@@ -3,6 +3,7 @@
 <%@ page import="dao.*" %>
 <%@ page import="vo.*" %>
 <%
+	request.setCharacterEncoding("utf-8");
 	// 시작 번호
 	int beginRow = 0;
 	// 페이지 당 상품 개수
@@ -13,7 +14,7 @@
 	
 	// 필터 변수
 	String sort = "ORDER BY createdate DESC";
-	String word = "WHERE product_name LIKE %?%";
+	String word = "";
 	
 	// 유효성 검사 
 	if(request.getParameter("rowPerPage") != null) {
@@ -33,18 +34,18 @@
 	}
 	
 	if(request.getParameter("word") != null) {
-		word = request.getParameter("word");
+		word =" WHERE product_name LIKE '%" + request.getParameter("word") + "%' ";
 	}
 	
 	// Dao 객체 생성
 	CategoryDao cDao = new CategoryDao();
 	ProductDao pDao = new ProductDao();
 	// 상품 개수
-	int productCnt = pDao.productCnt(mainCategory, subCategory);
+	int productCnt = pDao.productCnt(word, mainCategory, subCategory);
 	// 카테고리 리스트
 	ArrayList<Category> categoryMainList = cDao.selectMainCategory();
 	// 상품 리스트
-	ArrayList<Product> productList = pDao.selectProductList(sort, beginRow, rowPerPage, mainCategory, subCategory);
+	ArrayList<Product> productList = pDao.selectProductList(word, sort, beginRow, rowPerPage, mainCategory, subCategory);
 	
 		
 %>
@@ -158,8 +159,9 @@
 						<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
 							<i class="zmdi zmdi-search"></i>
 						</button>
-
-						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search">
+						<form action="<%=request.getContextPath()%>/product/productList.jsp?mainCategory=<%=mainCategory%>&subCategory=<%=subCategory%>&sort=<%=sort%>" method="post">
+							<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="word" placeholder="Search">
+						</form>
 					</div>	
 				</div>
 
@@ -346,7 +348,7 @@
 			<%
 				if (rowPerPage < productCnt) {
 			%>
-					<a href="<%=request.getContextPath()%>/product/productList.jsp?rowPerPage=<%=rowPerPage+8%>&mainCategory=<%=mainCategory%>&subCategory=<%=subCategory%>&sort=<%=sort%>&loadMore=true" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+					<a href="<%=request.getContextPath()%>/product/productList.jsp?rowPerPage=<%=rowPerPage+8%>&mainCategory=<%=mainCategory%>&subCategory=<%=subCategory%>&sort=<%=sort%>&word=<%=word%>&loadMore=true" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
 						Load More
 					</a>
 			<%		
