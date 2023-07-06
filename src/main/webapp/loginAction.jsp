@@ -48,7 +48,7 @@
 			c = (Customer)map.get("login");
 			session.setAttribute("loginId", c); 
 			customerDao.modifyLastLogin(id);
-			// 세션에 장바구니에 저장된 값 있으면 addCartAction 처리 -> 추후 테스트
+			// 세션에 장바구니에 저장된 값 있으면 addCartAction 처리
 			// 세션에서 장바구니 데이터 가져오기
 			ArrayList<Cart> sessionCart = (ArrayList<Cart>) session.getAttribute("sessionCart");
 			if (sessionCart != null && !sessionCart.isEmpty()) { // 세션 장바구니에 값이 있으면
