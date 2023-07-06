@@ -41,6 +41,11 @@
 	if(totalRow < currentPage){
 		currentPage = lastPage;
 	}
+	String word = "";
+	if(request.getParameter("word") != null){
+		word = "WHERE p.product_name LIKE '%"+request.getParameter("word")+"%'";
+		totalRow = dd.selectDiscountByNameCnt(word);
+	}
 	
 	int pagePerPage = 5; // 한번에 출력될 페이징 버튼 수
 	int startPage = ((currentPage - 1) / pagePerPage) * pagePerPage + 1; // 페이징 버튼 시작 값
@@ -48,7 +53,7 @@
 	if(endPage > lastPage){
 		endPage = lastPage;
 	}
-
+	
 	int searchProductNo = 0;
 	ArrayList<Discount> list = new ArrayList<>();
 	if(request.getParameter("searchProductNo") == null
@@ -57,6 +62,10 @@
 	}else{ // 검색값이 있을 경우 : product_no별로 리스트
 		searchProductNo = Integer.parseInt(request.getParameter("searchProductNo"));
 		list = dd.searchProducNo(searchProductNo, beginRow, rowPerPage);
+	}
+	
+	if(request.getParameter("word") != null){
+		list = dd.selectDiscountByName(word, beginRow, rowPerPage);
 	}
 	
 %>
@@ -115,7 +124,7 @@
 									<i class="zmdi zmdi-search"></i>
 								</button>
 		
-								<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="searchProductNo" placeholder="상품 번호 입력">
+								<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="word" placeholder="상품 명 입력">
 							</div>	
 						</div>
 						
