@@ -38,6 +38,54 @@ public class DiscountDao {
 		return list;
 	}
 	
+	// 상품이름으로 검색한 할인 품목 조회
+	public ArrayList<Discount> selectDiscountByName(String word, int beginRow, int rowPerPage) throws Exception {
+		// 반환할 ArrayList<Discount> 생성
+		ArrayList<Discount> list = new ArrayList<>();
+		// DB 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// sql 전송 후 결과셋 반환받아 리스트에 저장
+		String sql = "SELECT p.product_name productName, d.discount_no discountNo, d.product_no productNo, d.discount_start discountStart, d.discount_end discountEnd, d.discount_rate discountRate, d.createdate createdate, d.updatedate updatedate FROM discount d INNER JOIN product p ON d.product_no = p.product_no "+word+" ORDER BY d.createdate DESC LIMIT ? ,?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, beginRow);
+		stmt.setInt(2, rowPerPage);
+		
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			Discount discount = new Discount();
+			discount.setProductName(rs.getString("productName"));
+			discount.setDiscountNo(rs.getInt("discountNo"));
+			discount.setProductNo(rs.getInt("productNo"));
+			discount.setDiscountStart(rs.getString("discountStart"));
+			discount.setDiscountEnd(rs.getString("discountEnd"));
+			discount.setDiscountRate(rs.getDouble("discountRate"));
+			discount.setCreatedate(rs.getString("createdate"));
+			discount.setUpdatedate(rs.getString("updatedate"));
+			list.add(discount);	
+		}
+		
+		return list;
+	}
+	
+	// 싱품 이름으로 검색한 할인 품목 갯수
+	public int selectDiscountByNameCnt(String word) throws Exception {
+		int cnt = 0;
+		
+		//db접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		//sql 전송 후 결과 셋 반환받아 리스트에 저장
+		String sql = "SELECT COUNT(*) FROM discount d INNER JOIN product p ON d.product_no = p.product_no "+word;
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			cnt = rs.getInt(1);
+		}
+		 
+		return cnt;
+	}
+	
 	// product_no로 검색한 할인 품목 조회
 	public ArrayList<Discount> searchProducNo(int searchProductNo, int beginRow, int rowPerPage) throws Exception {
 		// 반환할 ArrayList<Discount> 생성
