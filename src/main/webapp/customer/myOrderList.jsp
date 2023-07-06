@@ -5,9 +5,10 @@
 <%@ page import="dao.*" %> 
 
 <%
-	//세션 유효성 검사: 로그인이 되어있지 않으면 home으로 리다이렉션
-	if(session.getAttribute("loginId") == null){
-		response.sendRedirect(request.getContextPath()+"/home.jsp");
+	// 세션 유효성 검사: 로그인 상태가 아니거나 관리자 계정으로 로그인된 경우 home으로 리다이렉션
+	if (session.getAttribute("loginId") == null
+	|| session.getAttribute("loginId") instanceof Employees) {
+		response.sendRedirect(request.getContextPath() + "/home.jsp");
 		return;
 	}
 	
@@ -49,7 +50,7 @@
 	int beginRow = (currentPage - 1) * rowPerPage;
 	
 	// 전체 행 수 
-	int totalRow = ordersDao.selectMyOrdersCnt(id); // id값 추후 수정
+	int totalRow = ordersDao.selectMyOrdersCnt(id); 
 	
 	// 마지막 페이지 번호
 	int lastPage = totalRow / rowPerPage;
@@ -188,7 +189,7 @@
 										</td>
 								<%		
 									} else if (o.getOrderStatus().equals("구매확정")) { // 구매확정일 때 리뷰작성 버튼 노출
-										if(customerDao.orderChkReview(orderNo) == 0){
+										if (customerDao.orderChkReview(orderNo) == 0) { // 작성한 리뷰가 없을 경우에만 리뷰작성 버튼 노출
 								%>
 											<td class="p-l-20">
 												<a href="<%=request.getContextPath()%>/customer/addReview.jsp?orderNo=<%=orderNo%>" style="color: #747474; width:100px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">

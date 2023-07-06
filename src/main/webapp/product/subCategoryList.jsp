@@ -17,15 +17,16 @@
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 
-	//	세션 유효성 검사 - 로그인 상태가 아니면 home.jsp로 리다이렉션
+	//	세션 유효성 검사 - 로그인 상태가 아니거나 고객 계정으로 로그인된 경우 home.jsp로 리다이렉션
 	String id = "";
-	if (session.getAttribute("loginId") == null) {
+	if (session.getAttribute("loginId") == null
+	|| session.getAttribute("loginId") instanceof Customer) {
 		response.sendRedirect(request.getContextPath()+ "/home.jsp");
 		return;
 	} else { // 관리자 로그인 시 로그인된 사용자의 id값을 새 id 변수에 지정
 		Employees employee = (Employees) session.getAttribute("loginId");
 		id = employee.getId();
-		System.out.println(id + " <-- id(orderList)");
+		System.out.println(id + " <-- id(subCategoryList)");
 	}	
 
 	// 유효성 검사 
@@ -35,6 +36,7 @@
 		response.sendRedirect(request.getContextPath() + "/product/mainCategoryList.jsp");
 		return;
 	}
+	
 	String categoryMainName  = request.getParameter("categoryMainName");
 	System.out.println(categoryMainName + " <-- categoryMainName(subCategoryList)");
 

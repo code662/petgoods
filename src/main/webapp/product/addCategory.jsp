@@ -1,11 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.net.*" %> 
+<%@ page import="vo.*" %>
 <%
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 
-	System.out.println("==============addCategory.jsp==============");
+	// 세션 유효성 검사: 로그인 상태가 아니거나 고객 계정으로 로그인된 경우 home으로 리다이렉션
+	if (session.getAttribute("loginId") == null
+	|| session.getAttribute("loginId") instanceof Customer) {
+		response.sendRedirect(request.getContextPath() + "/home.jsp");
+		return;
+	}
+	
+	// 나의 주문 리스트 (주문날짜 최신순) 
+	// 결제완료일 때 주문취소 버튼 노출 
+	// 구매확정일 때 리뷰작성 버튼 노출 
+	
+	// post 방식 인코딩 설정
+	request.setCharacterEncoding("UTF-8");
+	
+	// 세션 유효성 검사 추가
+	// 로그인 상태이면 로그인된 사용자의 id값을 새 id 변수에 지정
+ 	String msg = "";
+	String id = "";
+ 	if (session.getAttribute("loginId") != null) {
+ 		Employees employee = (Employees) session.getAttribute("loginId");
+ 		id = employee.getId();
+ 		System.out.println(id + " <-- id(addCategory)");
+
+ 		
+ 	}
+ 	
+ 	System.out.println("==============addCategory.jsp==============");
 %>
     
 <!DOCTYPE html>
@@ -70,11 +97,11 @@
 							서브 카테고리명
 						</span>
 					</div>
-						<div class="size-209">
-							<span class="stext-112 cl8" style="font-size:17px">
-								<input type="text" name="categorySubName" placeholder="서브 카테고리명 입력">
-							</span>
-						</div>
+					<div class="size-209">
+						<span class="stext-112 cl8" style="font-size:17px">
+							<input type="text" name="categorySubName" placeholder="서브 카테고리명 입력">
+						</span>
+					</div>
 				</div>
 				
 				<br>

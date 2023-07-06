@@ -9,23 +9,21 @@
 <%
 	// 메인 카테고리
 	// 메인 카테고리에서 타이틀 클릭 시 서브 카테고리로 이동
-	
-	// 카테고리 추가 - 리스트 위에 버튼 노출(메인, 서브)
-	// 타이틀 옆에 수정, 삭제 버튼 노출 (메인, 서브)
 	// 카테고리 안에 상품이 있을 경우 수정, 삭제 불가
 	
 	// post 방식 인코딩 설정
 	request.setCharacterEncoding("UTF-8");
 		
-	// 세션 유효성 검사 - 로그인 상태가 아니면 home.jsp로 리다이렉션
+	// 세션 유효성 검사 - 로그인 상태가 아니거나 고객 계정으로 로그인된 경우 home.jsp로 리다이렉션
 	String id = "";
-	if (session.getAttribute("loginId") == null) {
+	if (session.getAttribute("loginId") == null
+	|| session.getAttribute("loginId") instanceof Customer) {
 		response.sendRedirect(request.getContextPath()+ "/home.jsp");
 		return;
 	} else { // 관리자 로그인 시 로그인된 사용자의 id값을 새 id 변수에 지정
 		Employees employee = (Employees) session.getAttribute("loginId");
 		id = employee.getId();
-		System.out.println(id + " <-- id(orderList)");
+		System.out.println(id + " <-- id(mainCategoryList)");
 	}
 
 	// CategoryDao 클래스 객체 생성 -> SQL 메소드 이용
@@ -71,8 +69,6 @@
 									메인 카테고리 리스트
 								</h4>
 								<br>
-							
-						
 		<%
 			if (request.getParameter("msg") != null) {
 		%>
@@ -90,11 +86,8 @@
    		 	<tr class="bor12" height="40">
 				<th class="p-l-30">NO.</th>
 				<th class="p-l-50">메인 카테고리</th>
-				<!-- <th>서브 카테고리</th> -->
 				<th class="p-l-150">생성일자</th>
 				<th class="p-l-150">수정일자</th>
-			<!-- 	<th></th>
-				<th></th> -->
 			</tr>
 		<%
 			for (Category c : list) {
@@ -111,19 +104,8 @@
 								<%=c.getCategoryMainName()%>
 							</a>
 						</td>
-					<%-- 	<td class="stext-112 cl8" style="font-size:17px;"><%=c.getCategorySubName()%></td> --%>
 						<td class="stext-112 cl8 p-l-100" style="font-size:17px;"><%=c.getCreatedate()%></td>
 						<td class="stext-112 cl8 p-l-100" style="font-size:17px;"><%=c.getUpdatedate()%></td>
-					<%-- 	<td class="stext-112 cl8" style="font-size:17px;">
-							<a href="<%=request.getContextPath()%>/product/modifyCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474; width:80px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-								수정
-							</a>
-						</td>
-						<td class="stext-112 cl8" style="font-size:17px;">
-							<a href="<%=request.getContextPath()%>/product/removeCategory.jsp?categoryNo=<%=c.getCategoryNo()%>" style="color: #747474; width:80px;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-								삭제
-							</a>
-						</td> --%>
 					</tr>
 		<%
 			}
