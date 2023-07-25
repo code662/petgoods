@@ -273,7 +273,7 @@
 
 					<!-- Tab panes -->
 					<div class="tab-content p-t-43">
-						<!-- - -->
+						<!-- 상품정보 -->
 						<div class="tab-pane fade show active" id="information" role="tabpanel">
 							<div class="row">
 								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
@@ -302,24 +302,21 @@
 								</div>
 							</div>
 						</div>
-
-						<!-- - -->
+						<!-- Review -->
 						<div class="tab-pane fade" id="reviews" role="tabpanel">
 							<div class="row">
 								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
 									<div class="p-b-30 m-lr-15-sm">
-										<!-- Review -->
 										<%
 											for(HashMap<String, Object> r : reviewList) {
 												int reviewNo = (Integer) r.get("reviewNo");
 										%>
 												<div class="flex-w flex-t p-b-10 bor12">
-													<div class="wrap-pic-s size-208">
+													<div class="wrap-pic-s size-203 bor0 of-hidden m-r-18 m-t-6">
 														<img src="<%=request.getContextPath()%>/rimg/<%=rDao.selectReviewImgSaveFilename(reviewNo) %>" alt="AVATAR">
 													</div>
-		
 													<div class="size-209">
-														<div class="flex-w flex-sb-m p-b-17">
+														<div class="flex-w flex-sb-m p-b-17 p-l-10">
 															<span class="mtext-107 cl2 p-r-20">
 																<%=r.get("id") %>
 															</span>
@@ -329,13 +326,13 @@
 															</span>
 														</div>
 														
-														<div class="flex-w flex-sb-m p-b-17">
+														<div class="flex-w flex-sb-m p-b-17 p-l-10">
 															<span class="mtext-107 cl2 p-r-20">
 																<%=r.get("reviewTitle") %>
 															</span>					
 														</div>
 		
-														<p class="stext-102 cl6">
+														<p class="stext-102 cl6 p-l-10">
 															<%=r.get("reviewContent") %>
 														</p>
 													</div>
@@ -398,7 +395,7 @@
 							</div>
 						</div>
 						
-						<!-- - -->
+						<!-- 상품문의 -->
 						<div class="tab-pane fade" id="questions" role="tabpanel">
 							<div class="row">
 								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
