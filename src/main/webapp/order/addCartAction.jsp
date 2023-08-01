@@ -99,11 +99,11 @@
 			}
 			session.setAttribute("sessionCart", sessionCart);
 		} else { // 세션 장바구니가 비어있는 경우 바로 값 저장
-			Cart cart = new Cart();
+			Cart cart = new Cart(); // cart 객체 생성
 			cart.setProductNo(productNo);
 			cart.setCartCnt(cartCnt);
-			sessionCart.add(cart);
-			session.setAttribute("sessionCart", sessionCart);
+			sessionCart.add(cart); // sessionCart(ArrayList)에 cart 객체 값 저장 
+			session.setAttribute("sessionCart", sessionCart); // "sessionCart"라는 세션에 cart 객체 값이 저장된 sessionCart(ArrayList) 정보 저장
 		}	
 	}
 		
@@ -112,39 +112,4 @@
 		// 장바구니 추가 성공 메시지와 함께 상품 상세 페이지로 이동
 		response.sendRedirect(request.getContextPath() + "/product/productOne.jsp?productNo=" + productNo + "&msg=" + msg);
 		return;
-	
-		/*
-		// session.setAttribute("y1", "session: gdj66");
-		// System.out.println(session.getAttribute("y1"));
-		// cart vo 사용 cart ArrayList 생성
-		// addcart -> 로그인 아닐 때 상품 정보를 arrayList,, -> session에 저장,,
-		
-		String productName = cartDao.selectImg(productNo); // 상품 이름
-		// int productNo // 상품 번호
-		// int cartCnt = 1; // 수량 
-		int productPrice = cartDao.selectProductPrice(productNo); // 상품 가격
-		
-		// 세션에서 장바구니 맵 객체 가져오기
-		HashMap<String, Integer> cart = (HashMap<String, Integer>) cartSession.getAttribute("cart");
-		
-		// 장바구니 맵 객체가 없는 경우 새로 생성하기
-		if (cart == null) {
-			cart = new HashMap<>();
-		}
-		
-		// 상품을 맵에 추가 또는 업데이트
-		if (cart.containsKey(productNo)) {
-			// 이미 상품이 장바구니에 있을 경우, 수량을 증가시킴
-			int quantity = cart.get(productNo);
-			quantity++;
-			cart.put(productNo, quantity);
-		} else {
-			// 장바구니에 상품을 추가할 경우, 수량은 1로 설정
-			cart.put(productNo, 1);
-		}
-		
-		// 세션에 장바구니 맵 객체 저장
-		cartSession.setAttribute("cart", cart); */
-
-	// System.out.println("==============addCartAction.jsp==============");
 %>
