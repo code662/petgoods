@@ -164,6 +164,7 @@
 						<h4 class="mtext-105 cl2 js-name-detail p-b-14">
 							<%=product.getProductName()%>
 						</h4>
+						
 <%
 						if(product.getDiscountRate() == 0) {
 %>
@@ -189,6 +190,10 @@
 						
 						<p class="stext-102 cl3 p-t-23">
 							<%=product.getProductName()%>
+						</p>
+						
+						<p>
+							남은 수량: <%=product.getProductStock()%>
 						</p>
 						
 						<!--  -->
