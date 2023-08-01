@@ -333,14 +333,25 @@ ArrayList<Product> productListSale = pDao.selectProductList(sortSale, 0, 8, "전
 														<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=p.getProductNo()%>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 															<%=p.getProductName()%>
 														</a>
-														
-														<span class="stext-105 cl3">
+														<%
+															if(p.getDiscountRate() == 0){
+														%>
+															<span class="stext-105 cl3">
+															<%=p.getProductPrice()%>원
+															</span>
+														<%		
+															} else {
+														%>
+															<span class="stext-105 cl3">
 															<span style="font-size: 15px; color: red;">
 																<%=(int)(p.getDiscountRate() * 100)%>%
 															</span>
-														<span class="stext-109 cl7" style="text-decoration:line-through"><%=p.getProductPrice()%>원</span>	
-															&nbsp;&nbsp;<%=p.getProductDiscountPrice()%>원
-														</span>	
+															<span class="stext-109 cl7" style="text-decoration:line-through"><%=p.getProductPrice()%>원</span>	
+																&nbsp;&nbsp;<%=p.getProductDiscountPrice()%>원
+															</span>	
+														<%			
+															}
+														%>
 													</div>
 												</div>
 											</div>
