@@ -88,6 +88,19 @@
 								상품 문의 리스트
 							</h4>
 						</div>
+						
+											<!-- 리다이렉션 메시지 --> 
+						<div>
+						<%
+						   if(request.getParameter("msg") != null){
+						%>
+								<p style="color: #F24182; font-weight:bolder;"><%=request.getParameter("msg") %></p>
+						<%
+						   }
+						%>
+						<br>
+						</div>
+						
 							<!-- 할인상품리스트 -->
 							<table class="table-shopping-cart">
 								<tr class="table_head" >
