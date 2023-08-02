@@ -191,10 +191,17 @@
 						<p class="stext-102 cl3 p-t-23">
 							<%=product.getProductName()%>
 						</p>
+						<%
+							// 사원이 로그인 중일 때 사원용 헤더 표시
+							if(session.getAttribute("loginId") instanceof Employees) {
+						%>
+							<p>
+								남은 수량: <%=product.getProductStock()%>
+							</p>
+						<%	
+							}
+						%>
 						
-						<p>
-							남은 수량: <%=product.getProductStock()%>
-						</p>
 						
 						<!--  -->
 						<div class="p-t-33">
