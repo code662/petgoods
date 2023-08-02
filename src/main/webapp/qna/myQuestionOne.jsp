@@ -80,7 +80,25 @@
 						</span>
 					</div>
 				</div>
-				
+				<%
+					if(question.getqStatus().equals("답변대기")){
+				%>
+					<div class="flex-w flex-sb-m p-b-17">
+						<span class="mtext-107 cl2 p-r-20">
+							&nbsp;
+						</span>
+						<span class="fs-18 cl11 stext-102 flex-w m-r--5">
+							<a href="<%=request.getContextPath()%>/qna/modifyQuestion.jsp?questionNo=<%=question.getqNo() %>" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+								수정
+							</a>
+							<a href="<%=request.getContextPath()%>/qna/removeQuestionAction.jsp?questionNo=<%=question.getqNo() %>" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+								삭제
+							</a>
+						</span>
+					</div>
+				<%		
+					}
+				%>
 				<div class="flex-w flex-sb-m p-b-30 p-l-20">	
 					<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
 						<img src="<%=request.getContextPath()%>/pimg/<%= pDao.productImgName(question.getProductNo()) %>" style="width:80px; height:80px;">
