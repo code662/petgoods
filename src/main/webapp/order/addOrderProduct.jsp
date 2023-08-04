@@ -140,14 +140,10 @@
 					Home
 					<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 				</a>
-				<span class="stext-109 cl4">
-					productList
-					<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
-				</span>
-				<span class="stext-109 cl4">
+				<a href="<%=request.getContextPath()%>/product/productOne.jsp?productNo=<%=productNo%>" class="stext-109 cl8 hov-cl1 trans-04">
 					productOne
 					<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
-				</span>
+				</a>
 				<span class="stext-109 cl4">
 					addOrderProduct
 				</span>
