@@ -147,9 +147,11 @@ $(document).ready(function(){
 	     	<%
 	        	}
 	     	%>
-			<input type="text" placeholder="id" name="id" id="id" />
-			<input type="password" placeholder="Password" name="pw"/>
-			<a href="#">비밀번호를 잊으셨나요?</a>
+			<input type="text" placeholder="id" name="id" id="id" value="user1"/>
+			<input type="password" placeholder="Password" name="pw" value="1234"/>
+			<span>관리자ID : admin1</span>
+			<span>관리자PW : 1234</span>
+			<br>
 			<button id="loginBtn">로그인</button>
 		</form>
 	</div>
