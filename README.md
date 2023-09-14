@@ -11,7 +11,7 @@
 - Database (데이터베이스) : `MariaDB`
 - WAS (Web Application Server) : `Apache Tomcat9`
 - OS(운영체제): `MAC`, `window10`
-- TOOL : `Eclipse IDE`, 'sequealAce', 'HeidiSQL'
+- TOOL : `Eclipse IDE`, `sequealAce`, `HeidiSQL`
 
 # 📌 주요 기능
 [ 구은혜 ]
